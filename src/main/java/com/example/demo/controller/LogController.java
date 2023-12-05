@@ -9,8 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.model.log.ReadLogEntity;
-import com.example.demo.repository.log.ReadLogMapper;
+import com.example.demo.model.log.ReadLogsEntity;
+import com.example.demo.repository.log.ReadLogsMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,40 +18,44 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LogController {
 	
-	private final ReadLogMapper readLogMapper;
+	private final ReadLogsMapper readLogMapper;
 	
 	@GetMapping("/admin/menu/readLogs")
 	public String showLogListForm(
 			Model model,
 			@RequestParam(name = "ip", required = false) String ip,
-			@RequestParam(name = "port", required = false) Integer port,
-			@RequestParam(name = "levelApply", required = false) Boolean levelApply,
-			@RequestParam(name = "level", required = false) Integer level,
-			@RequestParam(name = "actionApply", required = false) Boolean actionApply,
-			@RequestParam(name = "action", required = false) Integer action,
-			@RequestParam(name = "startDate", required = false) String startDateStr,
-			@RequestParam(name = "endDate", required = false) String endDateStr) {
-		
-		if (ip != null && ip.isEmpty()) ip = null;
-		if (levelApply != null && !levelApply) level = null;
-		if (actionApply != null && !actionApply) action = null;
-		
-		LocalDateTime startDate = null;
-		if (startDateStr != null && !startDateStr.isEmpty()) {
-			startDate = LocalDateTime.parse(startDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-		}
-		LocalDateTime endDate = null;
-		if (endDateStr != null && !endDateStr.isEmpty()) {
-			endDate = LocalDateTime.parse(endDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-		}
-		
-		List<ReadLogEntity> readLogs = readLogMapper.findFilteredLogs(ip, port, level, action, startDate, endDate);
-		
-		readLogs.forEach(
-				log -> log.setTimeFormatted(
-						log.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
-		
-		model.addAttribute("readLogs", readLogs);
-		return "readLogs";
+	        @RequestParam(name = "port", required = false) Integer port,
+	        @RequestParam(name = "level", required = false, defaultValue = "-1") Integer level,
+	        @RequestParam(name = "action", required = false, defaultValue = "-1") Integer action,
+	        @RequestParam(name = "startDate", required = false) String startDateStr,
+	        @RequestParam(name = "startTime", required = false) String startTimeStr,
+	        @RequestParam(name = "endDate", required = false) String endDateStr,
+	        @RequestParam(name = "endTime", required = false) String endTimeStr) {
+
+	    if (ip != null && ip.isEmpty()) ip = null;
+	    if (level == -1) level = null;
+	    if (action == -1) action = null;
+
+	    LocalDateTime startDate = null;
+	    if (startDateStr != null && !startDateStr.isEmpty() && startTimeStr != null && !startTimeStr.isEmpty()) {
+	        startDate = LocalDateTime.parse(startDateStr + " " + startTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	    }
+	    LocalDateTime endDate = null;
+	    if (endDateStr != null && !endDateStr.isEmpty() && endTimeStr != null && !endTimeStr.isEmpty()) {
+	        endDate = LocalDateTime.parse(endDateStr + " " + endTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	    }
+
+	    List<ReadLogsEntity> readLogs = readLogMapper.findAll();
+
+	    if (ip != null || port != null || level != null || action != null || startDate != null || endDate != null) {
+	        readLogs = readLogMapper.findFilteredLogs(ip, port, level, action, startDate, endDate);
+	    }
+	    
+	    readLogs.forEach(
+	            log -> log.setTimeFormatted(
+	                    log.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+
+	    model.addAttribute("readLogs", readLogs);
+	    return "readLogs";
 	}
 }
