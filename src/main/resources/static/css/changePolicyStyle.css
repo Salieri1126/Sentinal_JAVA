@@ -4,20 +4,26 @@
       padding: 0;
     }
 
-	/* 글자앞 |  */
+/* 글자앞 |  */
 .hline{
 	margin-left: 10px;
 	border-left: 5px solid #447294;
 }
-h3{
-	margin-left : 10px;
+	h3{
+		margin-left : 10px;
+	}
+
+/* 필수입력란 고정으로 색지정 */
+.de_red{
+	border: 2px solid #ff0000;
 }
 
  .container {
   	width: 80%;
    	margin: 80px auto;
-  	border: 1px solid black;
-  	padding: 10px;
+  	border: 1px solid #5e5e5e;
+  	border-radius: 5px;
+  	padding: 20px;
 }
 
     .section {
@@ -66,21 +72,12 @@ h3{
       clear: both;
     }
 
-    .bar {
-      width: 10px;
-      height: 100%;
-      background-color: blue;
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
-
     .label {
       	display: inline-block;
  		width: 100%;
      
     }
-
+/* 각 세션 세부설정 */
     .left .section .label,
     .right .section .label {
       display: inline-block;
@@ -98,14 +95,16 @@ h3{
     .left .section .checkbox,
     .right .section .checkbox {
       display: inline-block;
-      width: 55%;
-      height: 25px;
+      width: 60%;
+      height: 40px;
+      border-radius: 5px;
       text-align: right;
+      margin: 15px 0;
     }
-
-	.section[name="r_section"] {
-		height: 230px;
+	.left .section{
+		height: 300px;
 	}
+
 	.section[name="r_section"] .label{
 		margin: 20px 0;
 	}
@@ -116,10 +115,7 @@ h3{
 	.section[name="b_section"] {
 		text-align : left;
 	}
-	.section[name="b_section"] .label {
-	
-	
-	}
+
 
 /* 패턴정의부분 */
 	.section3 {
@@ -146,11 +142,12 @@ h3{
 .label3 input[type="checkbox"] {
     width: auto;
 }
-.secT {
-	width: 15px;
-}
-.numT {
-	width: 15px;
+.secT , .numT{
+	width: 30px;
+	height:30px;
+	border-radius:5px;
+	text-align: center;
+	margin: 0px 10px;
 }
 section3 .label input[type="text"] {
     flex-grow: 1;
@@ -162,6 +159,11 @@ section3 .b_se {
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
+}
+
+section3 .label h3 p{
+	border-bottom:1px solid #5e5e5e;
+	width: ;
 }
 
 .label3,

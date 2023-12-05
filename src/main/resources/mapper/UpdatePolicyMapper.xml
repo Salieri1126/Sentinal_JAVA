@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "C:/Users/chlru/Desktop/Study/Java/Library/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "C:\Users\Administrator\Documents\workspace-spring-tool-suite-4-4.20.1.RELEASE/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repository.policy.UpdatePolicyMapper">
     <select id="getPolicyDetailsById" resultType="com.example.demo.model.policy.UpdatePolicyEntity">
         SELECT * FROM ips_policy WHERE detected_no = #{detected_no}
