@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/changePolicyStyle.css">
+	<title>Sentinel</title>
+</head>
+
+<body>
+	<form class="container" id="policyForm" action="/admin/menu/readPolicy/insertPolicy" method="post" onsubmit="return validateForm()">
+    <div class="left">
+		<div class="hline">
+   			<h3>탐지 정책 기본 정보</h3>
+		</div>
+			
+      <div class="section">
+        <span class="label">탐지명:</span>
+        <input type="text" id="detected_name" name="detected_name">
+        
+        <span class="label">유효기간:</span>
+        <input type="text" placeholder="유효기간을 입력하세요.">
+        
+        <span class="label">위험등급:</span>
+        <select id="level" name="level">
+          	<option value=0>하</option>
+			<option value=1>중</option>
+			<option value=2>상</option>
+			<option value=3>최상</option>
+        </select>
+      </div>
+      
+	  		<div class="hline">
+    			<h3>정책 동작</h3>
+			</div>  
+      <div class="section">   
+        <span class="label">동작설정:</span>
+        <select id="action" name="action">
+          	<option value=0>탐지</option>
+			<option value=1>탐지+경고</option>
+			<option value=2>탐지+차단</option>
+			<option value=3>탐지+차단+경고</option>
+        </select>
+      </div>
+    </div>
+	
+    <div class="right">
+			<div class="hline">
+    			<h3>세션 정보</h3>
+			</div>      
+      <div class="section" name="r_section">
+        <span class="label">출발지 IP:</span>
+        <input type="text" id="src_ip" name="src_ip" value="any">
+        <span class="label">출발지 Port:</span>
+        <input type="text" id="src_port" name="src_port" value="any">
+        <span class="label">서비스명:</span>
+        <input type="text" id="content1" name="content1">
+      </div>
+    </div>
+	
+    <div class="clear"></div>
+		<div class="hline">
+    			<h3>탐지 패턴</h3>
+		</div>      
+	
+    <div class="section3" name="b_section">
+      <div class="b_top">
+      <div class="label1">기준횟수:
+        <input type="text" id="base_time" name="base_time" placeholder="0" class="secT">
+        초 동안
+        <input type="text" id="base_limit" name="base_limit" placeholder="0" class="numT">
+        회 발생
+    </div>
+    
+	 <div class="label2">패킷길이:
+        <input type="text" placeholder="패턴정의를 입력하세요.">
+    </div>
+    </div>
+		  <div class="label">
+			  <h8>패턴정의<h8>
+				<div class ="pattenbox">
+			      <div class="label3">
+			        <input type="checkbox" class="checkbox" name="포함여부">포함여부
+					</div>
+			    
+			      <div class="label4">내용:
+			        <input type="text" placeholder="패킷길이를 입력하세요.">
+			    </div>
+				</div>
+			      <textarea class="textarea" name="내용"></textarea>
+		</div>
+      </div>
+    <div class="b_se">
+      <button class="button1" type="submit">확인</button>
+      <button class="button2" type="button" onclick="cancel()">취소</button>
+    </div>
+  </form>
+  
+  <script>
+	  function isValidIp(ip) {
+			var pattern = new RegExp(/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/);
+			return pattern.test(ip) || ip === "0" || ip.toLowerCase() === "any";
+		}
+
+		function isValidPort(port) {
+			var pattern = new RegExp(/^[0-9]{1,5}$/);
+			return pattern.test(port) && (0 <= port && port <= 65535) || port.toLowerCase() === "any";
+		}
+
+		function isPositiveNumber(num) {
+			return Number(num) >= 0;
+		}
+
+		function validateForm() {
+			var detectedName = document.getElementById("detected_name").value;
+			var action = document.getElementById("action").value;
+			var srcIP = document.getElementById("src_ip").value;
+			var srcPort = document.getElementById("src_port").value;
+			var baseTime = document.getElementById("base_time").value;
+			var baseLimit = document.getElementById("base_limit").value;
+			var level = document.getElementById("level").value;
+
+			if (detectedName.trim() === "") {
+			alert("Detected Name은 필수 항목입니다. 값을 입력해주세요.");
+				return false;
+			}
+			if (!isValidIp(srcIP)) {
+				alert("Source IP가 유효한 IP 주소 형식이 아닙니다.");
+				return false;
+			}
+			if (!isValidPort(srcPort)) {
+				alert("Source Port가 유효한 포트 번호 형식이 아닙니다.");
+				return false;
+			}
+			if (!isPositiveNumber(baseTime)) {
+				alert("Base Time은 양수만 가능합니다.");
+				return false;
+			}
+			if (!isPositiveNumber(baseLimit)) {
+				alert("Base Limit은 양수만 가능합니다.");
+				return false;
+			}
+				
+			fetch('/admin/menu/readPolicy/checkDuplication?detected_name=' + encodeURIComponent(detectedName))
+				.then(response => response.text())
+				.then(function(result) {
+					if (result === 'EXIST') {
+						alert('동일한 Detected Name이 이미 존재합니다.');
+					} else {
+						alert('정책 추가 작업이 완료되었습니다.');
+						document.getElementById('policyForm').submit();
+					}
+				});
+				
+			return false;
+		}
+
+		function cancel() {
+			window.location.href = "/admin/menu/readPolicy";
+		}
+		
+        function changeScreen(screenId) {
+            // 화면 교체
+            location.href = screenId;
+        }
+    </script>
+	
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<!-- 라이브러리 추가 -->
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
+	
+	<!-- Datepicker 적용 스크립트 -->
+	<script>
+	  $(function() {
+		$("#startDate, #endDate").datetimepicker({
+		  dateFormat: "yy-mm-dd",
+		  timeFormat: "HH:mm:ss"
+		});
+	  });
+	</script>
+	
+	<title>Sentinel</title>
+</head>
+
+<body>
+	<h2>로그 리스트</h2>
+
+	<form th:action="@{/admin/menu/readLogs}" method="get">
+		<label for="ip">IP:</label>
+		<input type="text" id="ip" name="ip">
+
+		<label for="port">Port:</label>
+		<input type="text" id="port" name="port">
+		
+		<br>
+		
+		<label>위험순위:</label>
+		<select id="level" name="level">
+			<option value=0>하</option>
+			<option value=1>중</option>
+			<option value=2>상</option>
+			<option value=3>최상</option>
+		</select>
+		<label><input type="radio" name="levelApply" value="true" checked>적용</label>
+		<label><input type="radio" name="levelApply" value="false">미적용</label>
+
+		<label>동작:</label>
+		<select id="action" name="action">
+			<option value=0>탐지</option>
+			<option value=1>탐지+경고</option>
+			<option value=2>탐지+차단</option>
+			<option value=3>탐지+차단+경고</option>
+		</select>
+		<label><input type="radio" name="actionApply" value="true" checked>적용</label>
+		<label><input type="radio" name="actionApply" value="false">미적용</label>
+		
+		<br>
+
+		<label for="startDate">시작 지점 날짜:</label>
+		<input type="text" id="startDate" name="startDate">
+
+		<label for="endDate">종료 지점 날짜:</label>
+		<input type="text" id="endDate" name="endDate">
+		
+		<br>
+		
+		<button type="submit">적용</button>
+	</form>
+
+	<ul>
+   		<li th:each="readLogs : ${readLogs}">
+        <span th:text="${readLogs.log_index}"></span>
+        <span th:text="${readLogs.timeFormatted}"></span>
+        <span th:text="${readLogs.detected_name}"></span>
+        <span th:text="${readLogs.level}"></span>
+        <span th:text="${readLogs.action}"></span>
+        <span th:text="${readLogs.src_ip}"></span>
+        <span th:text="${readLogs.src_port}"></span>
+    </li>
+</ul>
+
+</body>
+
+</html>

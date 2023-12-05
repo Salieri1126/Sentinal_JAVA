@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel</title>
+</head>
+
+<body>
+    <h2>Setup</h2>
+    
+    <form action="/admin/menu/setup" method="post" onsubmit="return confirmSubmit()">
+        <label for="dbNIC">DB NIC: </label>
+        <input type="text" id="dbNIC" name="dbNIC"><br>
+    
+        <label for="dbIP">DB IP: </label>
+        <input type="text" id="dbIP" name="dbIP"><br>
+    
+        <label for="dbPORT">DB Port: </label>
+        <input type="text" id="dbPORT" name="dbPORT"><br>
+        
+        <input type="submit" value="설정">
+        <button type="button" onclick="cancel()">취소</button>
+    </form>
+
+    <script>
+        function confirmSubmit() {
+            return confirm("설정을 적용하시겠습니까?");
+        }
+
+        function cancel() {
+            window.location.href = "/admin/menu/readPolicy";
+        }
+    </script>
+</body>
+
+</html>

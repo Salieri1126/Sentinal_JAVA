@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+/* 제목앞에 파란색 라인 */
+.hline{
+	border-left: 5px solid #447294;
+	
+}
+h2{
+	margin-left:10px;
+}

@@ -1,0 +1,201 @@
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+	/* 글자앞 |  */
+.hline{
+	margin-left: 10px;
+	border-left: 5px solid #447294;
+}
+h3{
+	margin-left : 10px;
+}
+
+ .container {
+  	width: 80%;
+   	margin: 80px auto;
+  	border: 1px solid black;
+  	padding: 10px;
+}
+
+    .section {
+      border: 1px solid gray;
+      border-radius: 5px;
+      margin: 10px;
+      padding: 10px;
+      position: relative;
+    }
+	.b_se{
+		text-align: right;
+	}
+    .section h3 {
+      text-align: center;
+    }
+
+    .section input, .section select {
+      display: block;
+      width: 80%;
+      margin: 5px auto;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th, .table td {
+      border: 1px solid gray;
+      padding: 5px;
+      text-align: center;
+    }
+
+
+    .left {
+      float: left;
+      width: 50%;
+    }
+
+    .right {
+      float: right;
+      width: 50%;
+    }
+
+    .clear {
+      clear: both;
+    }
+
+    .bar {
+      width: 10px;
+      height: 100%;
+      background-color: blue;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .label {
+      	display: inline-block;
+ 		width: 100%;
+     
+    }
+
+    .left .section .label,
+    .right .section .label {
+      display: inline-block;
+      width: 35%; 
+      margin: 5px;
+      text-align: left;
+    }
+
+    .left .section input,
+    .right .section input,
+    .left .section select,
+    .right .section select,
+    .left .section textarea,
+    .right .section textarea,
+    .left .section .checkbox,
+    .right .section .checkbox {
+      display: inline-block;
+      width: 55%;
+      height: 25px;
+      text-align: right;
+    }
+
+	.section[name="r_section"] {
+		height: 230px;
+	}
+	.section[name="r_section"] .label{
+		margin: 20px 0;
+	}
+	.section[name="r_section"] .input{
+
+		height: 35px;
+	}
+	.section[name="b_section"] {
+		text-align : left;
+	}
+	.section[name="b_section"] .label {
+	
+	
+	}
+
+/* 패턴정의부분 */
+	.section3 {
+    background-color: #fff;
+    padding: 20px;
+    margin : 10px;
+    margin-bottom: 20px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+
+.b_top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.label1, .label2, .label3, .label4 {
+    margin-bottom: 10px;
+}
+
+
+
+.label3 input[type="checkbox"] {
+    width: auto;
+}
+.secT {
+	width: 15px;
+}
+.numT {
+	width: 15px;
+}
+section3 .label input[type="text"] {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+section3 .b_se {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.label3,
+.label4 {
+    display: inline-block;
+    vertical-align: top; /* 상단 정렬을 위해 추가 */
+    margin-right: 10px; /* 간격을 조절할 수 있습니다. */
+}
+    .button1, .button2 {
+      display: inline-block;
+      width: 90px;
+      height: 40px;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .button1{
+		background-color:#3498db;
+	}
+	.button2{
+		background-color:#5e5e5e;
+	}
+    .checkbox {
+      display: inline-block;
+      width: 20px;
+      margin: 5px;
+    }
+
+    .textarea {
+      display: block;
+      width: 100%;
+      height: 100px;
+      margin: 5px;
+      overflow-y: scroll;
+    }
