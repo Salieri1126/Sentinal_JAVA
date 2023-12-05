@@ -32,6 +32,7 @@ public class PolicyController {
 	
 	@GetMapping("/admin/menu/readPolicy")
 	public String showPolicyList(Model model) {
+		System.out.println("!!");
 		List<ReadPolicyEntity> readPolicies = readPolicyMapper.findAll();
 		
 		for (ReadPolicyEntity policyList : readPolicies) {
