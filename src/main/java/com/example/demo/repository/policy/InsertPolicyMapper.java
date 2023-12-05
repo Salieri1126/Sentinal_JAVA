@@ -6,5 +6,5 @@ import com.example.demo.model.policy.InsertPolicyEntity;
 
 @Mapper
 public interface InsertPolicyMapper {
-	void insertPolicy(InsertPolicyEntity policy);
+    void insertPolicy(InsertPolicyEntity policy);
 }

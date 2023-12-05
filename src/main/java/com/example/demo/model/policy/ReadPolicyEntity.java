@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ReadPolicyEntity {
-	private Integer detected_no;
+    private Integer detected_no;
     private String detected_name;
     private Integer enable;
     private String src_ip;

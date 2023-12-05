@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class MemberEntity {
-	private Integer personal_no;
-	private String id;
-	private String password;
+    private Integer personal_no;
+    private String id;
+    private String password;
 }
