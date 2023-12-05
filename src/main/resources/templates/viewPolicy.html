@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/insertPolicy.css">
+	<title>Sentinel</title>
+</head>
+
+<body>
+	<div class="container" id="policyForm" action="/admin/menu/readPolicy/insertPolicy" method="post" onsubmit="return validateForm()">
+    <div class="left">
+			<div class="hline">
+    			<h3>탐지 정책 기본 정보</h3>
+			</div>
+      <div class="section">      
+        <span class="label">탐지명:</span>
+        <input type="text" id="detected_name" name="detected_name" readonly style="background-color: #f2f2f2;">
+        
+        <span class="label">유효기간:</span>
+        <input type="text" placeholder="유효기간을 입력하세요." readonly style="background-color: #f2f2f2;">
+        
+        <span class="label">위험등급:</span>
+        <select id="action" name="action" readonly style="background-color: #f2f2f2;">
+          	<option value=0>하</option>
+			<option value=1>중</option>
+			<option value=2>상</option>
+			<option value=3>최상</option>
+        </select>
+      </div>
+      
+	  		<div class="hline">
+    			<h3>정책 동작</h3>
+			</div>  
+      <div class="section">   
+        <span class="label">동작설정:</span>
+        <select id="action" name="action" readonly style="background-color: #f2f2f2;">
+          	<option value=0>탐지</option>
+			<option value=1>탐지+경고</option>
+			<option value=2>탐지+차단</option>
+			<option value=3>탐지+차단+경고</option>
+        </select>
+      </div>
+    </div>
+	
+    <div class="right">
+			<div class="hline">
+    			<h3>세션 정보</h3>
+			</div>      
+      <div class="section" name="r_section" readonly style="background-color: #f2f2f2;">
+        <span class="label">출발지 IP:</span>
+        <input type="text" id="src_ip" name="src_ip" value="any" readonly style="background-color: #f2f2f2;">
+        <span class="label">출발지 Port:</span>
+        <input type="text" id="src_port" name="src_port" value="any" readonly style="background-color: #f2f2f2;">
+        <span class="label">서비스명:</span>
+        <input type="text" id="content1" name="content1"readonly style="background-color: #f2f2f2;">
+      </div>
+    </div>
+	
+    <div class="clear"></div>
+		<div class="hline">
+    			<h3>탐지 패턴</h3>
+		</div>      
+	
+    <div class="section3" name="b_section">
+      <div class="b_top">
+      <div class="label1">기준횟수:
+        <input type="text" placeholder="0" class="secT" readonly style="background-color: #f2f2f2;">
+        초 동안
+        <input type="text" placeholder="0" class="numT" readonly style="background-color: #f2f2f2;">
+        회 발생
+    </div>
+    
+	 <div class="label2">패킷길이:
+        <input type="text" placeholder="패턴정의를 입력하세요." readonly style="background-color: #f2f2f2;">
+    </div>
+    </div>
+		  <div class="label">
+			  <h8>패턴정의<h8>
+				<div class ="pattenbox">
+			      <div class="label3">
+			        <input type="checkbox" class="checkbox" name="포함여부" readonly style="background-color: #f2f2f2;">포함여부
+					</div>
+			    
+			      <div class="label4">내용:
+			        <input type="text" placeholder="패킷길이를 입력하세요." readonly style="background-color: #f2f2f2;">
+			    </div>
+				</div>
+			      <textarea class="textarea" name="내용" readonly style="background-color: #f2f2f2;"></textarea>
+		</div>
+      </div>
+    <div class="b_se" >
+      <button class="button1" onclick="changeScreen('/admin/menu/readPolicy/insertPolicy')">수정</button>
+      <button class="button2" type="button" onclick="cancel()">취소</button>
+    </div>
+  </div>
+  <script>
+		function cancel() {
+				window.location.href = "/admin/menu/readPolicy";
+		}
+        function changeScreen(screenId) {
+            	// 화면 교체
+            	location.href = screenId;
+        }
+    </script>
+	
+</body>
+
+</html>
