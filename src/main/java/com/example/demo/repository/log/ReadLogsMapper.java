@@ -6,12 +6,12 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.example.demo.model.log.ReadLogEntity;
+import com.example.demo.model.log.ReadLogsEntity;
 
 @Mapper
-public interface ReadLogMapper {
-	List<ReadLogEntity> findAll();
-	List<ReadLogEntity> findFilteredLogs(
+public interface ReadLogsMapper {
+	List<ReadLogsEntity> findAll();
+	List<ReadLogsEntity> findFilteredLogs(
             @Param("ip") String ip,
             @Param("port") Integer port,
             @Param("level") Integer level,

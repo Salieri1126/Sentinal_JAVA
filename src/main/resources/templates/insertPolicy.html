@@ -11,7 +11,44 @@
 
 <body>
 	<form class="container" id="policyForm" action="/admin/menu/readPolicy/insertPolicy" method="post" onsubmit="return validateForm()">
-	    <div class="left">
+    <div class="left">
+		<div class="hline">
+   			<h3>탐지 정책 기본 정보</h3>
+		</div>
+		<div>
+			test
+		</div>
+      <div class="section">
+        <span class="label">탐지명:</span>
+        <input type="text" id="detected_name" name="detected_name">
+        
+        <span class="label">유효기간:</span>
+        <input type="text" placeholder="유효기간을 입력하세요.">
+        
+        <span class="label">위험등급:</span>
+        <select id="level" name="level">
+          	<option value=0>하</option>
+			<option value=1>중</option>
+			<option value=2>상</option>
+			<option value=3>최상</option>
+        </select>
+      </div>
+      
+	  		<div class="hline">
+    			<h3>정책 동작</h3>
+			</div>  
+      <div class="section">   
+        <span class="label">동작설정:</span>
+        <select id="action" name="action">
+          	<option value=0>탐지</option>
+			<option value=1>탐지+경고</option>
+			<option value=2>탐지+차단</option>
+			<option value=3>탐지+차단+경고</option>
+        </select>
+      </div>
+    </div>
+	
+    <div class="right">
 			<div class="hline">
 	   			<h3>탐지 정책 기본 정보</h3>
 			</div>
