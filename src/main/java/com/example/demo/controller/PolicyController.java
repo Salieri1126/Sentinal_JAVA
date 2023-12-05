@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.model.policy.InsertPolicyEntity;
 import com.example.demo.model.policy.ReadPolicyEntity;
 import com.example.demo.model.policy.UpdatePolicyEntity;
+import com.example.demo.model.policy.ViewPolicyEntity;
 import com.example.demo.repository.policy.DeletePolicyMapper;
 import com.example.demo.repository.policy.InsertPolicyMapper;
 import com.example.demo.repository.policy.ReadPolicyMapper;
 import com.example.demo.repository.policy.UpdatePolicyMapper;
+import com.example.demo.repository.policy.ViewPolicyMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +31,7 @@ public class PolicyController {
 	private final InsertPolicyMapper insertPolicyMapper;
 	private final UpdatePolicyMapper updatePolicyMapper;
 	private final DeletePolicyMapper deletePolicyMapper;
-
+  
 	@GetMapping("/admin/menu/readPolicy")
 	public String showPolicyList(Model model) {
 		List<ReadPolicyEntity> readPolicies = readPolicyMapper.findAll();
@@ -117,5 +119,19 @@ public class PolicyController {
 		} else {
 			return "NOT_EXIST";
 		}
+	}
+	
+	@GetMapping("/admin/menu/readPolicy/viewPolicy")
+	public String showViewPolicy(@RequestParam("id") int detected_no, Model model) {
+	    ViewPolicyEntity viewPolicy = viewPolicyMapper.getPolicyPrintAll(detected_no);    
+
+		if (viewPolicy.getSrc_ip().equals("0")) {
+			viewPolicy.setSrc_ip("any");
+		}
+		if (viewPolicy.getSrc_port().equals("0")) {
+			viewPolicy.setSrc_port("any");
+		}
+	    model.addAttribute("viewPolicy", viewPolicy);
+	    return "viewPolicy";
 	}
 }

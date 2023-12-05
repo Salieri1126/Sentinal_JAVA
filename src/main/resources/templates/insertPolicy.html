@@ -50,52 +50,89 @@
 	
     <div class="right">
 			<div class="hline">
-    			<h3>세션 정보</h3>
-			</div>      
-      <div class="section" name="r_section">
-        <span class="label">출발지 IP:</span>
-        <input type="text" id="src_ip" name="src_ip" value="any">
-        <span class="label">출발지 Port:</span>
-        <input type="text" id="src_port" name="src_port" value="any">
-      </div>
-    </div>
-	
-    <div class="clear"></div>
-		<div class="hline">
-    			<h3>탐지 패턴</h3>
+	   			<h3>탐지 정책 기본 정보</h3>
+			</div>
+				
+		      <div class="section">
+			        <span class="label">탐지명:</span>
+			        <input type="text" id="detected_name" name="detected_name" class="de_red">
+			        
+			        <span class="label">유효기간:</span>
+			        <input type="text" placeholder="유효기간을 입력하세요.">
+			        
+			        <span class="label">위험등급:</span>
+			        <select id="level" name="level">
+			          	<option value=0>하</option>
+						<option value=1>중</option>
+						<option value=2>상</option>
+						<option value=3>최상</option>
+			        </select>
+		      </div>
+	      
+		  	
+	    </div>
+		
+	    <div class="right">
+				<div class="hline">
+	    			<h3>세션 정보</h3>
+				</div>      
+		      <div class="section" name="r_section">
+			        <span class="label">출발지 IP:</span>
+			        <input type="text" id="src_ip" name="src_ip" value="any" class="de_red">
+			        <span class="label">출발지 Port:</span>
+			        <input type="text" id="src_port" name="src_port" value="any" class="de_red">
+		      </div>
+		      
+		      	<div class="hline">
+	    			<h3>정책 동작</h3>
+				</div>  			
+		      <div class="section">   
+			        <span class="label">동작설정:</span>
+			        <select id="action" name="action">
+			          	<option value=0>탐지</option>
+						<option value=1>탐지+경고</option>
+						<option value=2>탐지+차단</option>
+						<option value=3>탐지+차단+경고</option>
+			        </select>
+		      </div>
+	    </div>
+		
+	    <div class="clear"></div>
+	    
+		<div class="hline">				
+	    	<h3>탐지 패턴</h3>
 		</div>      
-	
-    <div class="section3" name="b_section">
-      <div class="b_top">
-      <div class="label1">기준횟수:
-        <input type="text" id="base_time" name="base_time" placeholder="0" class="secT">
-        초 동안
-        <input type="text" id="base_limit" name="base_limit" placeholder="0" class="numT">
-        회 발생
-    </div>
-    
-	 <div class="label2">패킷길이:
-        <input type="text" placeholder="패턴정의를 입력하세요.">
-    </div>
-    </div>
-		  <div class="label">
-			  <h8>패턴정의<h8>
-				<div class ="pattenbox">
-			      <div class="label3">
-			        <input type="checkbox" class="checkbox" name="포함여부">포함여부
-					</div>
-			    
-			      <div class="label4">내용:
-			        <input type="text" placeholder="패킷길이를 입력하세요.">
-			    </div>
+		
+	    <div class="section3" name="b_section">
+			    <div class="b_top">
+			      	<div class="label1">기준횟수:
+				        <input type="text" id="base_time" name="base_time" placeholder="0" class="secT">
+				        초 동안
+				        <input type="text" id="base_limit" name="base_limit" placeholder="0" class="numT">
+				        회 발생
+			    	</div>
 				</div>
-			      <textarea class="textarea" name="내용"></textarea>
-		</div>
-      </div>
-    <div class="b_se">
-      <button class="button1" type="submit">확인</button>
-      <button class="button2" type="button" onclick="cancel()">취소</button>
-    </div>
+			    
+				<div class="label">
+					  <h8>패턴정의 <p> </p><h8>
+						<div class ="pattenbox">
+					      	<div class="label3">
+					        	<input type="checkbox" class="checkbox" name="포함여부">포함여부
+							</div>
+					    
+					      	<div class="label4">내용:
+					        	<input type="text" placeholder="입력하세요.">
+					    	</div>
+						</div>
+					    <textarea class="textarea" name="내용"></textarea>
+				</div>
+	      </div>
+	      
+	    <div class="b_se">
+	      <button class="button1" type="submit">확인</button>
+	      <button class="button2" type="button" onclick="cancel()">취소</button>
+	    </div>
+	    
   </form>
   
   <script>
@@ -112,7 +149,7 @@
 		function isPositiveNumber(num) {
 			return Number(num) >= 0;
 		}
-
+		
 		function validateForm() {
 			var detectedName = document.getElementById("detected_name").value;
 			var action = document.getElementById("action").value;
@@ -165,6 +202,7 @@
             // 화면 교체
             location.href = screenId;
         }
+        
     </script>
 	
 </body>
