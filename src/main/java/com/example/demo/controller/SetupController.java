@@ -13,17 +13,17 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class SetupController {
-	
-	private final FileService fileService;
-	
-	@GetMapping("/admin/menu/setup")
-	public String showSetupForm() {
-		return "setup";
-	}
-	
-	@PostMapping("/admin/menu/setup")
-	public String updateFile(@ModelAttribute ConfFileEntity confFileEntity) {
-		fileService.makeConfFile(confFileEntity);
-		return "redirect:/admin/menu";
-	}
+
+    private final FileService fileService;
+
+    @GetMapping("/admin/menu/setup")
+    public String showSetupForm() {
+        return "setup";
+    }
+
+    @PostMapping("/admin/menu/setup")
+    public String updateFile(@ModelAttribute ConfFileEntity confFileEntity) {
+        fileService.makeConfFile(confFileEntity);
+        return "redirect:/admin/menu";
+    }
 }

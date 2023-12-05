@@ -24,16 +24,16 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class PolicyController {
-	
+
 	private final ReadPolicyMapper readPolicyMapper;
 	private final InsertPolicyMapper insertPolicyMapper;
 	private final UpdatePolicyMapper updatePolicyMapper;
 	private final DeletePolicyMapper deletePolicyMapper;
-	
+
 	@GetMapping("/admin/menu/readPolicy")
 	public String showPolicyList(Model model) {
 		List<ReadPolicyEntity> readPolicies = readPolicyMapper.findAll();
-		
+
 		for (ReadPolicyEntity policyList : readPolicies) {
 			if (policyList.getSrc_ip().equals("0")) {
 				policyList.setSrc_ip("any");
@@ -48,7 +48,7 @@ public class PolicyController {
 	}
 
 	@GetMapping("/admin/menu/readPolicy/insertPolicy")
-	public String showInsertPolicy(Model model) {
+	public String showInsertPolicy() {
 		return "insertPolicy";
 	}
 
@@ -81,25 +81,25 @@ public class PolicyController {
 		model.addAttribute("policyDetails", policyDetails);
 		return "updatePolicy";
 	}
-	
+
 	@PostMapping("/admin/menu/readPolicy/updatePolicy")
 	public String updatePolicy(@RequestParam("id") int detected_no, UpdatePolicyEntity policy, Model model) {
 		if ("any".equalsIgnoreCase(policy.getSrc_ip())) {
-	        policy.setSrc_ip("0");
-	    }
-	    if ("any".equalsIgnoreCase(policy.getSrc_port())) {
-	        policy.setSrc_port("0");
-	    }
+			policy.setSrc_ip("0");
+		}
+		if ("any".equalsIgnoreCase(policy.getSrc_port())) {
+			policy.setSrc_port("0");
+		}
 
-	    policy.setDetected_no(detected_no);
-	    updatePolicyMapper.updatePolicy(policy);
-	    return "redirect:/admin/menu/readPolicy";
+		policy.setDetected_no(detected_no);
+		updatePolicyMapper.updatePolicy(policy);
+		return "redirect:/admin/menu/readPolicy";
 	}
-	
+
 	@PostMapping("/admin/menu/readPolicy/updatePolicyEnable")
 	public ResponseEntity<Void> updatePolicyEnable(@RequestBody ReadPolicyEntity policy) {
 		readPolicyMapper.updatePolicyEnable(policy.getDetected_no(), policy.getEnable());
-	    return ResponseEntity.ok().build();
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/admin/menu/readPolicy/deletePolicy")
@@ -107,7 +107,7 @@ public class PolicyController {
 		deletePolicyMapper.deletePolicyById(detected_no);
 		return "redirect:/admin/menu/readPolicy";
 	}
-	
+
 	@GetMapping("/admin/menu/readPolicy/checkDuplication")
 	@ResponseBody
 	public String checkDuplication(@RequestParam("detected_name") String detected_name) {

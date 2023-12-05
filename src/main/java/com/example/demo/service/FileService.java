@@ -15,9 +15,6 @@ import com.example.demo.model.file.ConfFileEntity;
 public class FileService {
 	
 	public void makeConfFile(ConfFileEntity confFileEntity) {
-		/**
-		 * 해당 부분 추후에 수정 필요
-		 */
 		final String path = "C:/Users/chlru/Desktop/Study/Project/dbms_ips_manager.conf";
         final File file = new File(path);
         final File backupFile = new File(path + "_backup");

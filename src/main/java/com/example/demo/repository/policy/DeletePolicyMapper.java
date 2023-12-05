@@ -4,5 +4,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface DeletePolicyMapper {
-	void deletePolicyById(int detected_no);
+    void deletePolicyById(int detected_no);
 }

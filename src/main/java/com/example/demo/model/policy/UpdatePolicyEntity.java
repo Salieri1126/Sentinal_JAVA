@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class UpdatePolicyEntity {
-	private Integer detected_no;
+    private Integer detected_no;
     private String detected_name;
     private Integer enable;
     private Integer action;
