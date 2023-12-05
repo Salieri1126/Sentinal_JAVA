@@ -27,7 +27,7 @@ public class MemberController {
     public String login(@ModelAttribute MemberEntity memberEntity, Model model, HttpSession session) {
         if (memberService.login(memberEntity)) {
         	session.setAttribute("id", memberEntity);
-        	session.setMaxInactiveInterval(50 * 60);
+        	session.setMaxInactiveInterval(30 * 60);
             return "redirect:/admin/menu";
         } else {
             return "redirect:/admin";

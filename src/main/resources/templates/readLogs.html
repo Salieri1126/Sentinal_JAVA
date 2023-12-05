@@ -5,22 +5,89 @@
 	<meta http-equiv="X-UA-Compatible" content="chrome">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-	<!-- 라이브러리 추가 -->
+	<!-- Datepicker 사용을 위한 jQuery, jQuery-UI 라이브러리 추가 -->
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/i18n/datepicker-ko.min.js"></script> <!-- 한국어 지역 설정 추가 -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-ko.js"></script> <!-- Timepicker 한국어 지역 설정 추가 -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
-	
+
 	<!-- Datepicker 적용 스크립트 -->
 	<script>
-	  $(function() {
-		$("#startDate, #endDate").datetimepicker({
-		  dateFormat: "yy-mm-dd",
-		  timeFormat: "HH:mm:ss"
-		});
-	  });
+		$.datepicker.setDefaults({
+		    closeText: "적용",
+		    currentText: "오늘",
+		    prevText: '이전 달',
+		    nextText: '다음 달',
+		    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+		    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+		    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+		    weekHeader: "주",
+		    yearSuffix: '년'
+	    });
+	    
+	    $(function() {
+	        $("#startDate").datepicker({
+	            dateFormat: "yy-mm-dd",
+	            onSelect: function(selectedDate) {
+	                $("#endDate").datepicker("option", "minDate", selectedDate);
+	            },
+	            onClose: function(selectedDate) {
+	                if (new Date(selectedDate) > new Date($("#endDate").val())) {
+	                    alert("시작 날짜는 종료 날짜보다 이후일 수 없습니다.");
+	                    $("#startDate").datepicker("setDate", $("#endDate").val());
+	                }
+	            }
+	        });
+
+	        $("#endDate").datepicker({
+	            dateFormat: "yy-mm-dd",
+	            onSelect: function(selectedDate) {
+	                $("#startDate").datepicker("option", "maxDate", selectedDate);
+	            },
+	            onClose: function(selectedDate) {
+	                if (new Date(selectedDate) < new Date($("#startDate").val())) {
+	                    alert("종료 날짜는 시작 날짜보다 이전일 수 없습니다.");
+	                    $("#endDate").datepicker("setDate", $("#startDate").val());
+	                }
+	            }
+	        });
+	        
+	        $.timepicker.setDefaults($.timepicker.regional['ko']);
+	         
+	        $("#startTime, #endTime").timepicker({
+	            timeFormat: 'HH:mm:ss',
+	            controlType: 'select',
+	            closeText: "적용",
+		    	currentText: "현재 시각",
+	            oneLine: true,
+	            timeInput: true,
+	            showButtonPanel: true,
+	            stepHour: 1,
+	            stepMinute: 1,
+	            stepSecond: 1,
+	        });
+	         
+	        $("#startTime").change(function() {
+	            if ($("#startDate").val() == $("#endDate").val() && $("#startTime").val() > $("#endTime").val()) {
+	                alert("시작 시간은 종료 시간보다 이후일 수 없습니다");
+	                $("#startTime").val($("#endTime").val());
+	            }
+	        });
+	        
+	        $("#endTime").change(function() {
+	            if ($("#startDate").val() == $("#endDate").val() && $("#endTime").val() < $("#startTime").val()) {
+	                alert("종료 시간은 시작 시간보다 이전일 수 없습니다");
+	                $("#endTime").val($("#startTime").val());
+	            }
+	        });
+	    });
 	</script>
+
 	
 	<title>Sentinel</title>
 </head>
@@ -37,37 +104,37 @@
 		
 		<br>
 		
-		<label>위험순위:</label>
+		<label>위험등급:</label>
 		<select id="level" name="level">
-			<option value=0>하</option>
-			<option value=1>중</option>
-			<option value=2>상</option>
-			<option value=3>최상</option>
+		    <option value="-1" name="levelApply" checked>전체</option>
+		    <option value="0" name="levelApply" checked>하</option>
+		    <option value="1" name="levelApply" checked>중</option>
+		    <option value="2" name="levelApply" checked>상</option>
+		    <option value="3" name="levelApply" checked>최상</option>
 		</select>
-		<label><input type="radio" name="levelApply" value="true" checked>적용</label>
-		<label><input type="radio" name="levelApply" value="false">미적용</label>
-
+		
 		<label>동작:</label>
 		<select id="action" name="action">
-			<option value=0>탐지</option>
-			<option value=1>탐지+경고</option>
-			<option value=2>탐지+차단</option>
-			<option value=3>탐지+차단+경고</option>
+		    <option value="-1" name="levelApply" checked>전체</option>
+		    <option value="0" name="levelApply" checked>탐지</option>
+		    <option value="1" name="levelApply" checked>탐지+경고</option>
+		    <option value="2" name="levelApply" checked>탐지+차단</option>
+		    <option value="3" name="levelApply" checked>탐지+차단+경고</option>
 		</select>
-		<label><input type="radio" name="actionApply" value="true" checked>적용</label>
-		<label><input type="radio" name="actionApply" value="false">미적용</label>
 		
 		<br>
 
 		<label for="startDate">시작 지점 날짜:</label>
-		<input type="text" id="startDate" name="startDate">
-
+		<input type="text" id="startDate" name="startDate" class="datepicker" placeholder="년-월-일">
+		<input type="text" id="startTime" name="startTime" value="00:00:00">
+		
 		<label for="endDate">종료 지점 날짜:</label>
-		<input type="text" id="endDate" name="endDate">
+		<input type="text" id="endDate" name="endDate" class="datepicker" placeholder="년-월-일">
+		<input type="text" id="endTime" name="endTime" value="23:59:59">
 		
 		<br>
 		
-		<button type="submit">적용</button>
+		<button type="submit">필터 적용</button>
 	</form>
 
 	<ul>

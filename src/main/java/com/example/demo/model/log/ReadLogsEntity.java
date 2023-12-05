@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class ReadLogEntity {
+public class ReadLogsEntity {
 	private Integer log_index;
 	private Integer detected_no;
 	private String detected_name;
