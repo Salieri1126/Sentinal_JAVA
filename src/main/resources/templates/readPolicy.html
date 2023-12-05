@@ -45,12 +45,11 @@
 					<tr th:each="policy : ${readPolicies}">
 						<th>
 							<input type="checkbox" name="selectedPolicy" th:value="${policy.detected_no}" style="display:inline;">
-				        	
 				        </th>
 				        
 				        <th><span th:text="${policy.detected_no}"></span></th>
 				        
-				        <th class="click" onclick=""> <!-- onclick에 상세보기 맵핑 필요 -->
+				        <th class="click" onclick="view()"> <!-- onclick에 상세보기 맵핑 필요 -->
 		                    <span th:text="${policy.detected_name}"></span>
 		                </th>
 		                
@@ -142,6 +141,12 @@
 		        });
 		    });
 		});
+		function view() {
+        	// 각 정책에 대한 상세보기 페이지로 이동
+        	const target = event.target.closest('tr').querySelector('th input').value;
+        	window.location.href = "/admin/menu/readPolicy/viewPolicy?id=" + target;
+    	}
+		
 	</script>
 </body>
 

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="chrome">
@@ -25,9 +24,13 @@
 	<meta name="theme-color" content="#ffffff">
 	<link rel="stylesheet" href="/css/menuStyle.css">
 	<title>Sentinel</title>
-	
+	<!-- content부분 화면전환 -->
+	<script>
+		function loadContent(url) {
+			document.getElementById("contentFrame").src = url;
+		}
+	</script>
 </head>
-
 <body>	
 	<div class="header">
 	    <img src="/img/logo.png" alt="로고" class="logo">
@@ -37,31 +40,31 @@
   	</div>
   	<div class="sidebar">
 		<div class="menubox">
-			<a href="/admin/menu/readPolicy" class="menu-item">
+			<a href="#" class="menu-item" onclick="loadContent('/admin/menu/readPolicy')">
 				<div class="icon" style="background-image: url('/img/home.png');"></div>
 					홈
 			</a>
 		</div>
 		<div class="menubox">
-			<a href="/admin/menu/readPolicy" class="menu-item">
+			<a href="#" class="menu-item" onclick="loadContent('/admin/menu/readPolicy')">
 				<div class="icon" style="background-image: url('/img/policy.png');"></div>
 					정책 구성
 			</a>
 		</div>
 		<div class="menubox">
-			<a href="/admin/menu/readLogs" class="menu-item">
+			<a href="#" class="menu-item" onclick="loadContent('/admin/menu/readLogs')">
 				<div class="icon" style="background-image: url('/img/logs.png');"></div>
 					로그 조회
 			</a>
 		</div>
 		<div class="menubox">
-			<a href="/admin/menu/readReport" class="menu-item">
+			<a href="#" class="menu-item" onclick="loadContent('/admin/menu/readReport')">
 				<div class="icon" style="background-image: url('/img/reports.png');"></div>
 					탐지 보고서
 			</a>
 		</div>
 		<div class="menubox">
-			<a href="/admin/menu/setup" class="menu-item">
+			<a href="#" class="menu-item" onclick="loadContent('/admin/menu/setup')">
 				<div class="icon" style="background-image: url('/img/settings.png');"></div>
 					설정
 			</a>
@@ -72,5 +75,4 @@
 		<iframe id="contentFrame" src=""></iframe>
   	</div>
 </body>
-
 </html>
