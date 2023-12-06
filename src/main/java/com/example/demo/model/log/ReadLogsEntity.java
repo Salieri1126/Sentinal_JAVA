@@ -21,6 +21,5 @@ public class ReadLogsEntity {
 	private Integer src_port;
 	private byte[] packet_bin;
 	private Integer level;
-	
 	private String timeFormatted;
 }

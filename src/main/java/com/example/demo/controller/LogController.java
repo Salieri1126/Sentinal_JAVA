@@ -35,7 +35,7 @@ public class LogController {
 	    if (ip != null && ip.isEmpty()) ip = null;
 	    if (level == -1) level = null;
 	    if (action == -1) action = null;
-
+	    
 	    LocalDateTime startDate = null;
 	    if (startDateStr != null && !startDateStr.isEmpty() && startTimeStr != null && !startTimeStr.isEmpty()) {
 	        startDate = LocalDateTime.parse(startDateStr + " " + startTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
