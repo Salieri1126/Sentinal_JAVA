@@ -15,7 +15,7 @@
 	    	<h2>정책현황</h2>
 		</div>
 	</header>
-	<form class="container" id="policyForm">
+	<form class="container" id="policyForm" onsubmit="changeScreen(/admin/menu/readPolicy/updatePolicy)">
 		<div class="left">
 					<div class="hline">
 						<h3>탐지 정책 기본 정보 상세 보기</h3>
@@ -109,7 +109,7 @@
 		  </div>
 		</div>  
 		<div class="b_se">
-		  <button class="button1" type="submit" onclick="update()">수정</button>
+		  <button class="button1" type="submit">수정</button>
 		  <button class="button2" type="button" onclick="cancel()">취소</button>
 		</div>
 	
@@ -119,13 +119,11 @@
 		function cancel() {
 			window.location.href = "/admin/menu/readPolicy";
 		}
-		function update() {
-			window.location.href = "/admin/menu/readPolicy/updatePolicy";
-		}
+		
 		
         function changeScreen(screenId) {
             // 화면 교체
-            location.href = screenId;
+            window.location.href = screenId;
         }
         
     </script>

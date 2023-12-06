@@ -53,9 +53,6 @@
 					
 					<span class="label">출발지 Port:</span>
 					<input type="text" id="src_port" name="src_port" th:value="${policyDetails.src_port}">
-					
-					<span class="label">서비스명:</span>
-					<input type="text" id="content1" name="content1" th:value="${policyDetails.content1}">
 		    </div>
 		    
 		    <div class="hline">
@@ -89,29 +86,43 @@
 				</div>
 		
 			  <div class="label">
-				  <h8>패턴정의<h8>
-					<div class ="pattenbox">
-				      <div class="label3">
-				        <input type="checkbox" class="checkbox" name="포함여부">포함여부
+					<h8>패턴정의<h8>
+					<div class="pattenbox">
+						<div class="label3">
+							<input type="checkbox" class="checkbox" name="포함여부">포함여부
 						</div>
-				    
-				      <div class="label4">내용:
-				        <input type="text" placeholder="패킷길이를 입력하세요.">
-				    </div>
-				    
-				    <button>추가</button>
-				    <button>수정</button>
-				    <button>삭제</button>
-	     
+		
+						<div class="label4">내용:
+							<input type="text" id="contentInput" placeholder="content를 입력하세요.">
+							<div>
+								<button type="button" onclick="addContent()">추가</button>
+								<button type="button" onclick="deleteContent()">삭제</button>
+							</div>
+						</div>
 					</div>
-				    <div class="contentT">
-								<table>
-									<td><input type="text" placeholder="텍스트 입력1"></td>
-	            					<td><input type="text" placeholder="텍스트 입력2"></td>
-	            					<td><input type="text" placeholder="텍스트 입력1"></td>
-								</table>
+					<div class="contentT" id='result'>
+						<table>
+							<tr class="content-row">	
+							    <td>
+							        <input type="checkbox" class="checkbox" name="포함여부">
+							        <input type="text" id="content1" name="content1" th:value="${policyDetails.content1}">
+							    </td>
+							</tr>
+							<tr class="content-row">	
+							    <td>
+							        <input type="checkbox" class="checkbox" name="포함여부">
+							        <input type="text" id="content2" name="content2" th:value="${policyDetails.content2}">
+							    </td>
+							</tr>
+							<tr class="content-row">	
+							    <td>
+							        <input type="checkbox" class="checkbox" name="포함여부">
+							        <input type="text" id="content3" name="content3" th:value="${policyDetails.content3}">
+							    </td>
+							</tr>
+						</table>
 					</div>
-			</div>
+		</div>
       </div>
 	  
     <div class="b_se">
@@ -120,6 +131,8 @@
     </div>
 	
   </form>
+
+
 
 	<script>
 		function isValidIp(ip) {
@@ -186,7 +199,57 @@
 
 			return false;
 		}
+		
+		function addContent() {
+			var contentInput = document.getElementById("contentInput");
+			var content = contentInput.value.toLowerCase(); // 입력된 값을 소문자로 변환
+			var contentT = document.getElementById("result");
+			
+			// 이미 있는 값인지 확인
+			var existingContent = Array.from(contentT.children).find(function(item) {
+			  return item.innerText.toLowerCase() === content;
+			});
+	
+			if (contentT.childElementCount < 3 && content.trim() !== "") {
+			  if (existingContent) {
+				alert("이미 있는 content입니다.");
+			  } else {
+				var newContent = document.createElement("div");
+				newContent.innerHTML = `<input type="checkbox" class="checkbox" name="포함여부">${content}`;
+				contentT.appendChild(newContent);
+				contentInput.value = "";
+			  }
+			} else{
+				alert("최대 3개 추가 가능")
+			}
+		  }
 
+	  function deleteContent() {
+		var contentT = document.getElementById("result");
+		var checkboxes = contentT.getElementsByClassName("checkbox");
+
+		for (var i = checkboxes.length - 1; i >= 0; i--) {
+		  if (checkboxes[i].checked) {
+			contentT.removeChild(checkboxes[i].parentNode);
+		  }
+		}
+	  }
+	  document.addEventListener("DOMContentLoaded", function () {
+	   	 hideEmptyContentRows();
+	});
+
+	function hideEmptyContentRows() {
+	    var contentRows = document.querySelectorAll(".content-row");
+	
+	    contentRows.forEach(function (row) {
+	        var contentTextbox = row.querySelector("input[type='text']");
+	        if (contentTextbox.value.trim() === "") {
+	            row.style.display = "none";
+	        }
+	    });
+	}
+	  
+		
 		function cancel() {
 			window.location.href = "/admin/menu/readPolicy";
 		}
