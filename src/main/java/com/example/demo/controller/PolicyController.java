@@ -31,6 +31,7 @@ public class PolicyController {
 	private final InsertPolicyMapper insertPolicyMapper;
 	private final UpdatePolicyMapper updatePolicyMapper;
 	private final DeletePolicyMapper deletePolicyMapper;
+	private final ViewPolicyMapper viewPolicyMapper;
   
 	@GetMapping("/admin/menu/readPolicy")
 	public String showPolicyList(Model model) {
