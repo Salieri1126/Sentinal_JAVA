@@ -18,7 +18,6 @@ public class ReadLogsEntity {
 	private Integer action;
 	private String detail;
 	private String src_ip;
-	private Integer src_port;
 	private byte[] packet_bin;
 	private Integer level;
 	private String timeFormatted;

@@ -108,7 +108,7 @@
   </form>
   
   <script>
-	  function isValidIp(ip) {
+	  	function isValidIp(ip) {
 			var pattern = new RegExp(/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/);
 			return pattern.test(ip) || ip === "0" || ip.toLowerCase() === "any";
 		}
@@ -132,7 +132,7 @@
 			var level = document.getElementById("level").value;
 
 			if (detectedName.trim() === "") {
-			alert("Detected Name은 필수 항목입니다. 값을 입력해주세요.");
+				alert("Detected Name은 필수 항목입니다. 값을 입력해주세요.");
 				return false;
 			}
 			if (!isValidIp(srcIP)) {
