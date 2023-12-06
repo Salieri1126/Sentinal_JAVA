@@ -10,6 +10,11 @@
 </head>
 
 <body>
+	<header>
+		<div class="hline">
+	    	<h2>정책 추가</h2>
+		</div>
+	</header>
 	<form class="container" id="policyForm" action="/admin/menu/readPolicy/insertPolicy" method="post" onsubmit="return validateForm()">
 	    <div class="left">
 			<div class="hline">
@@ -86,8 +91,18 @@
 					      	<div class="label4">내용:
 					        	<input type="text" placeholder="입력하세요.">
 					    	</div>
+					    	
+					    	<button>확인</button>
+			    			<button>확인</button>
+			    			<button>확인</button>
 						</div>
-					    <textarea class="textarea" name="내용"></textarea>
+					    <div class="contentT">
+								<table>
+									<td><input type="text" placeholder="텍스트 입력1"></td>
+            						<td><input type="text" placeholder="텍스트 입력2"></td>
+            						<td><input type="text" placeholder="텍스트 입력1"></td>
+								</table>
+						</div>
 				</div>
 	      </div>
 	      
