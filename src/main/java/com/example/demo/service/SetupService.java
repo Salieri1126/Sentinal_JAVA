@@ -9,12 +9,12 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.file.ConfFileEntity;
+import com.example.demo.model.file.SetupEntity;
 
 @Service
-public class FileService {
+public class SetupService {
 	
-	public void makeConfFile(ConfFileEntity confFileEntity) {
+	public void makeConfFile(SetupEntity confFileEntity) {
 		final String path = "C:/Users/chlru/Desktop/Study/Project/dbms_ips_manager.conf";
         final File file = new File(path);
         final File backupFile = new File(path + "_backup");

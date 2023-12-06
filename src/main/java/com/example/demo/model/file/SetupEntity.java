@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class ConfFileEntity {
+public class SetupEntity {
 	private String dbNIC;
 	private String dbIP;
 	private String dbPORT;

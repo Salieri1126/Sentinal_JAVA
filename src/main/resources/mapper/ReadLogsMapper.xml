@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "C:/Users/chlru/Desktop/Study/Java/Library/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.log.ReadLogsMapper">
+    <select id="findAll" resultType="com.example.demo.model.log.ReadLogsEntity">
+	    SELECT * FROM ${tableName}
+	</select>
+	
+	<select id="findFilteredLogs" resultType="com.example.demo.model.log.ReadLogsEntity">
+	    SELECT * FROM ${tableName}
+	    <where>
+	        <if test="ip != null and ip != ''">
+	            AND src_ip = #{ip}
+	        </if>
+	        <if test="level != null">
+	            AND level = #{level}
+	        </if>
+	        <if test="action != null">
+	            AND action = #{action}
+	        </if>
+	        <if test="startDate != null and endDate != null">
+	            AND time BETWEEN #{startDate} AND #{endDate}
+	        </if>
+	    </where>
+</select>
+
+</mapper>

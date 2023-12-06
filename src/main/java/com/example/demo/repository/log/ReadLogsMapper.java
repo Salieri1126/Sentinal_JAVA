@@ -10,10 +10,10 @@ import com.example.demo.model.log.ReadLogsEntity;
 
 @Mapper
 public interface ReadLogsMapper {
-	List<ReadLogsEntity> findAll();
+	List<ReadLogsEntity> findAll(@Param("tableName") String tableName);
 	List<ReadLogsEntity> findFilteredLogs(
+			@Param("tableName") String tableName,
             @Param("ip") String ip,
-            @Param("port") Integer port,
             @Param("level") Integer level,
             @Param("action") Integer action,
             @Param("startDate") LocalDateTime startDate,
