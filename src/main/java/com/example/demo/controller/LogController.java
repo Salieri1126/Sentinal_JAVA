@@ -24,7 +24,7 @@ public class LogController {
 	public String showLogListForm(
 			Model model,
 			@RequestParam(name = "ip", required = false) String ip,
-	        @RequestParam(name = "port", required = false) Integer port,
+			@RequestParam(name = "port", required = false) Integer port,
 	        @RequestParam(name = "level", required = false, defaultValue = "-1") Integer level,
 	        @RequestParam(name = "action", required = false, defaultValue = "-1") Integer action,
 	        @RequestParam(name = "startDate", required = false) String startDateStr,
@@ -50,7 +50,7 @@ public class LogController {
 	    if (ip != null || port != null || level != null || action != null || startDate != null || endDate != null) {
 	        readLogs = readLogMapper.findFilteredLogs(ip, port, level, action, startDate, endDate);
 	    }
-	    
+
 	    readLogs.forEach(
 	            log -> log.setTimeFormatted(
 	                    log.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
