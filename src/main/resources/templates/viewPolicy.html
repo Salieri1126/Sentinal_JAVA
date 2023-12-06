@@ -10,115 +10,117 @@
 </head>
 
 <body>
+	<header>
+		<div class="hline">
+	    	<h2>정책현황</h2>
+		</div>
+	</header>
 	<form class="container" id="policyForm">
-	    <div class="left">
-		<div class="hline">
-    		<h3>탐지 정책 기본 정보 상세 보기</h3>
-		</div>
-			
-		<input type="hidden" id="detected_no" name="id" th:value="${viewPolicy.detected_no}">
-			
-      <div class="section">
-        <span class="label">탐지명:</span>
-        <input type="text" id="detected_name" name="detected_name" th:value="${viewPolicy.detected_name}">
-        
-        <span class="label">유효기간:</span>
-        <input type="text" placeholder="유효기간을 입력하세요.">
-        
-        <span class="label">위험등급:</span>
-        <select id="level" name="level">
-			<option value=0 th:selected="${viewPolicy.level == 0}">하</option>
-			<option value=1 th:selected="${viewPolicy.level == 1}">중</option>
-			<option value=2 th:selected="${viewPolicy.level == 2}">상</option>
-			<option value=3 th:selected="${viewPolicy.level == 3}">최상</option>
-		</select>
-      </div>
-      
-	  		<div class="hline">
-    			<h3>정책 동작</h3>
-			</div>  
-      <div class="section">   
-        <span class="label">동작설정:</span>
-        <select id="action" name="action">
-			<option value=0 th:selected="${viewPolicy.action == 0}">탐지</option>
-			<option value=3 th:selected="${viewPolicy.action == 1}">탐지+경고</option>
-			<option value=4 th:selected="${viewPolicy.action == 2}">탐지+차단</option>
-			<option value=5 th:selected="${viewPolicy.action == 3}">탐지+차단+경고</option>
-		</select>
-      </div>
-    </div>
-	
-    <div class="right">
-			<div class="hline">
-    			<h3>세션 정보</h3>
-			</div>      
-      <div class="section" name="r_section">
-        <span class="label">출발지 IP:</span>
-			<input type="text" id="src_ip" name="src_ip" th:value="${viewPolicy.src_ip}">
-			<span class="label">출발지 Port:</span>
-			<input type="text" id="src_port" name="src_port" th:value="${viewPolicy.src_port}">
-      </div>
-    </div>
-	
-    <div class="clear"></div>
-		<div class="hline">
-    		<h3>탐지 패턴</h3>
-		</div>      
-	
-    <div class="section3" name="b_section">
-		<div class="b_top">
-			<div class="label1">기준횟수:
-				<input type="text" id="base_time" name="base_time" class="secT" th:value="${viewPolicy.base_time}">
-				초 동안
-				<input type="text" id="base_limit" name="base_limit" class="numT" th:value="${viewPolicy.base_limit}">
-				회 발생
-			</div>
-		</div>
-	</div>
-    
-	
-    </div>
-		  <div class="label">
-			  <h8>패턴정의<h8>
-				<div class ="pattenbox">
-			      <div class="label3">
-			        <input type="checkbox" class="checkbox" name="포함여부">포함여부
+		<div class="left">
+					<div class="hline">
+						<h3>탐지 정책 기본 정보 상세 보기</h3>
 					</div>
-			    
-			      <div class="label4">내용:
-			        <input type="text" placeholder="패킷길이를 입력하세요.">
-			    </div>
-				</div>
-				<div class="contentT">
-					<span th:value="${viewPolicy.content1}"></span>
-					<span th:value="${viewPolicy.content2}"></span>
-					<span th:value="${viewPolicy.content3}"></span>
-				</div>
-				<!--
-					<table>
-						<tr>
-							<th><span th:value="${viewPolicy.content1}"></span></th>
-							<th><span th:value="${viewPolicy.content2}"></span></th>
-							<th><span th:value="${viewPolicy.content3}"></span></th>
-						</tr>
-					</table>
-			      <textarea class="textarea" name="내용">
-					
-					<input type="text" id="content1" name="content1" th:value="${viewPolicy.content1}">
-				  </textarea> -->
+						
+					<input type="hidden" id="detected_no" name="id" th:value="${viewPolicy.detected_no}">
+						
+				  <div class="section">
+							<span class="label">탐지명:</span>
+							<input type="text" id="detected_name" name="detected_name" th:value="${viewPolicy.detected_name}"  readonly style="background-color: #f2f2f2;">
+							
+							<span class="label">유효기간:</span>
+							<input type="text" placeholder="유효기간을 입력하세요."  readonly style="background-color: #f2f2f2;">
+							
+							<span class="label">위험등급:</span>
+							<select id="level" name="level"  readonly style="background-color: #f2f2f2;">
+								<option value=0 th:selected="${viewPolicy.level == 0}">하</option>
+								<option value=1 th:selected="${viewPolicy.level == 1}">중</option>
+								<option value=2 th:selected="${viewPolicy.level == 2}">상</option>
+								<option value=3 th:selected="${viewPolicy.level == 3}">최상</option>
+							</select>
+				  </div>
+				  
+						
 		</div>
-      </div>
-	  
-    <div class="b_se">
-      <button class="button1" type="submit">확인</button>
-      <button class="button2" type="button" onclick="cancel()">취소</button>
-    </div>
+		
+		<div class="right">
+						<div class="hline">
+							<h3>세션 정보</h3>
+						</div>      
+				  <div class="section" name="r_section">
+						<span class="label">출발지 IP:</span>
+						<input type="text" id="src_ip" name="src_ip" th:value="${viewPolicy.src_ip}"  readonly style="background-color: #f2f2f2;">
+						<span class="label">출발지 Port:</span>
+						<input type="text" id="src_port" name="src_port" th:value="${viewPolicy.src_port}"  readonly style="background-color: #f2f2f2;">
+				  </div>
+				  
+				  
+				  <div class="hline">
+							<h3>정책 동작</h3>
+						</div>  
+				  <div class="section">   
+						<span class="label">동작설정:</span>
+						<select id="action" name="action"  readonly style="background-color: #f2f2f2;">
+							<option value=0 th:selected="${viewPolicy.action == 0}">탐지</option>
+							<option value=3 th:selected="${viewPolicy.action == 1}">탐지+경고</option>
+							<option value=4 th:selected="${viewPolicy.action == 2}">탐지+차단</option>
+							<option value=5 th:selected="${viewPolicy.action == 3}">탐지+차단+경고</option>
+						</select>
+				  </div>
+		</div>
+		
+		<div class="clear"></div>
+			<div class="hline">
+				<h3>탐지 패턴</h3>
+			</div>      
+		
+		<div class="section3" name="b_section">
+			<div class="b_top">
+				<div class="label1">
+					<span> 기준횟수 : </span>
+					<input type="text" id="base_time" name="base_time" class="secT" th:value="${viewPolicy.base_time}"  readonly style="background-color: #f2f2f2;">
+						<span>초 동안</span>
+					<input type="text" id="base_limit" name="base_limit" class="numT" th:value="${viewPolicy.base_limit}"  readonly style="background-color: #f2f2f2;">
+					<span>회 발생</span>
+				</div>
+			</div>
+		
+		
+				<div class="label">
+					  <h8>패턴정의</h8>
+							<div class ="pattenbox">
+									  <div class="label3">
+										<input type="checkbox" class="checkbox" name="포함여부"  readonly style="background-color: #f2f2f2;">
+										<span>포함여부</span>
+										</div>
+									
+									  <div class="label4">
+									  <span>내용 : </span>
+										<input type="text" placeholder="내용을 입력하세요."  readonly style="background-color: #f2f2f2;">
+									</div>
+							</div>
+							<div class="contentT"  readonly style="background-color: #f2f2f2;">
+								<table>
+									<td><span th:text="${viewPolicy.content1}"></span></td>
+									<td><span th:text="${viewPolicy.content2}"></span></td>
+									<td><span th:text="${viewPolicy.content3}"></span></td>
+								</table>
+							</div>
+				</div>
+		  </div>
+		</div>  
+		<div class="b_se">
+		  <button class="button1" type="submit" onclick="update()">수정</button>
+		  <button class="button2" type="button" onclick="cancel()">취소</button>
+		</div>
 	
   </form>
   
   <script>
 		function cancel() {
 			window.location.href = "/admin/menu/readPolicy";
+		}
+		function update() {
+			window.location.href = "/admin/menu/readPolicy/updatePolicy";
 		}
 		
         function changeScreen(screenId) {
