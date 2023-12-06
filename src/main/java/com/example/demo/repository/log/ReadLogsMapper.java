@@ -19,4 +19,3 @@ public interface ReadLogsMapper {
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
 }
-//
