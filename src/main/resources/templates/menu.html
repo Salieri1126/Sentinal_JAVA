@@ -44,6 +44,7 @@
 				<div class="icon" style="background-image: url('/img/home.png');"></div>
 					홈
 			</a>
+			
 		</div>
 		<div class="menubox">
 			<a href="#" class="menu-item" onclick="loadContent('/admin/menu/readPolicy')">
@@ -74,5 +75,11 @@
   	<div class="content" id="dynamicContent">
 		<iframe id="contentFrame" src=""></iframe>
   	</div>
+  	
+<script>
+	  window.onload = function() {
+	    loadContent('/admin/menu/readPolicy');
+	  };
+</script>
 </body>
 </html>
