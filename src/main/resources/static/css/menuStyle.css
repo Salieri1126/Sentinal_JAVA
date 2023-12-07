@@ -54,7 +54,9 @@
   color: white;
   width: 100%;
 }
-
+.menu-item.active {
+  background-color: #6ec0f8;
+}
 .menu-item::after {
   content: '';
   display: block;
