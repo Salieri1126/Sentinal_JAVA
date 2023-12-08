@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LogController {
     
-    private final ReadLogsMapper readLogMapper;
+    private final ReadLogsMapper readLogsMapper;
 
     @GetMapping("/admin/menu/readLogs")
     public String showLogListForm(Model model) {
@@ -29,9 +30,9 @@ public class LogController {
         return "readLogs";
     }
     
-    @GetMapping("/admin/menu/readLogs/api/getLogData")
+    @GetMapping("/admin/menu/readLogs/api/getLogList")
     @ResponseBody
-    public List<ReadLogsEntity> getLogData(
+    public List<ReadLogsEntity> getLogList(
             @RequestParam(name = "ip", required = false) String ip,
             @RequestParam(name = "level", required = false, defaultValue = "-1") Integer level,
             @RequestParam(name = "action", required = false, defaultValue = "-1") Integer action,
@@ -62,7 +63,7 @@ public class LogController {
             LocalDate end = endDate.toLocalDate();
             for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
                 String tableName = "log_" + date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-                readLogs.addAll(readLogMapper.findFilteredLogs(tableName, ip, level, action, startDate, endDate));
+                readLogs.addAll(readLogsMapper.findFilteredLogs(tableName, ip, level, action, startDate, endDate));
             }
             readLogs.forEach(
                     log -> log.setTimeFormatted(
@@ -70,4 +71,12 @@ public class LogController {
             return readLogs;
         }
     }
+    
+	@GetMapping("/admin/menu/readLogs/viewLogs/{log_index}")
+	public String showBinaryData(@PathVariable int log_index, Model model) {
+		ReadLogsEntity readLogs = readLogsMapper.getBinaryData(log_index);
+		String binaryData = new java.math.BigInteger(readLogs.getPacket_bin()).toString(16);
+		model.addAttribute("binaryData", binaryData);
+		return "viewLogs";
+	}
 }

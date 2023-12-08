@@ -17,6 +17,9 @@
 	            AND time BETWEEN #{startDate} AND #{endDate}
 	        </if>
 	    </where>
-</select>
-
+	</select>
+	
+	<select id="getBinaryData" resultType="com.example.demo.model.log.ReadLogsEntity">
+	    SELECT packet_bin FROM log_20231208 WHERE log_index = #{log_index}
+	</select>
 </mapper>

@@ -110,7 +110,7 @@
 		    $('form').on('submit', function(e) {
 		        e.preventDefault();
 		        $.ajax({
-		            url: '/admin/menu/readLogs/api/getLogData',
+		            url: '/admin/menu/readLogs/api/getLogList',
 		            method: 'GET',
 		            data: $(this).serialize(),
 		            success: function(data) {
@@ -119,8 +119,9 @@
 					        var li = $('<li>');
 					        li.append($('<span>').text(log.log_index + ' '));
 					        li.append($('<span>').text(log.timeFormatted + ' '));
-					        li.append($('<span>').text(log.detected_name + ' '));
-					        li.append($('<span>').text(log.level + ' '));
+							var detectedNameLink = $('<a>').attr('href', '/admin/menu/readLogs/viewLogs/' + log.log_index).text(log.detected_name);
+							li.append(detectedNameLink);
+					        li.append($('<span>').text(' ' + log.level + ' '));
 					        li.append($('<span>').text(log.action + ' '));
 					        li.append($('<span>').text(log.src_ip + ' '));
 					        $('#logList').append(li);
