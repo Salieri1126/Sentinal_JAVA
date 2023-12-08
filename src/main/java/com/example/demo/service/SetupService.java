@@ -39,10 +39,10 @@ public class SetupService {
                     writer.write(line + "\n");
                 }
             } catch (IOException e) {
-                System.err.println("Read Backup Conf File Error: " + e.getMessage());
+                System.err.println("Read Backup .Conf File Error: " + e.getMessage());
             }
         } catch (IOException e) {
-            System.err.println("Make Conf File Error: " + e.getMessage());
+            System.err.println("Make .Conf File Error: " + e.getMessage());
         }
 	}
 }
