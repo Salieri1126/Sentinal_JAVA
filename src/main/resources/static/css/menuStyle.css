@@ -1,10 +1,22 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  color: #444;
+  font: 16px "맑은 고딕", sans-serif;
+  font-weight:700;
+}
+
 /* 헤더 */
 .header {
-  background-color: #447294;
-  height: 60px;
+ 	background-color: #447294;
+ 	height: 60px;
 }
 .logo {
 	float: left;
@@ -21,12 +33,12 @@
 
 /* 메뉴 */
 .sidebar {
-  background-color: #dddddd;
-  height: 840px;
-  width: 15%;
-  float: left;
-  display: flex;
-  flex-direction: column;
+	background-color: #dddddd;
+	height: 93%;
+	width: 15%;
+	float: left;
+	display: flex;
+	flex-direction: column;
 }
 
 .icon {
@@ -41,8 +53,9 @@
   padding: 3px 15px;
   color: #153450;
   text-align: center;
-  text-decoration: none;
   font-size: 16px;
+  font-weight:700;
+  text-decoration: none;
   display: flex; /* 아이콘과 텍스트를 한 줄에 표시 */
   align-items: center; /* 세로 중앙 정렬 */
   position: relative;
@@ -71,7 +84,7 @@
 /* 컨텐츠 화면 iframe  */
 .content {
   background-color: white;
-  height: 900px;
+  height: 93%;
   width: 85%;
   float: right;
 }
