@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="chrome">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/readLogsStyle.css">
 	
 	<!-- Datepicker 사용을 위한 jQuery, jQuery-UI 라이브러리 추가 -->
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -17,6 +18,8 @@
 	<!-- Datepicker 적용 스크립트 -->
 	<script>
 		$.datepicker.setDefaults({
+			showButtonPanel: true,
+			controlType: 'select',
 		    closeText: "적용",
 		    currentText: "오늘",
 		    prevText: '이전 달',
@@ -102,6 +105,42 @@
 				return true;
 			}
 		}
+		
+		$(function() {
+		    $('form').on('submit', function(e) {
+		        e.preventDefault();
+		        $.ajax({
+		            url: '/admin/menu/readLogs/api/getLogData',
+		            method: 'GET',
+		            data: $(this).serialize(),
+		            success: function(data) {
+					    $('#logList').empty();
+					    data.forEach(function(log) {
+					        var li = $('<li>');
+					        li.append($('<span>').text(log.log_index + ' '));
+					        li.append($('<span>').text(log.timeFormatted + ' '));
+					        li.append($('<span>').text(log.detected_name + ' '));
+					        li.append($('<span>').text(log.level + ' '));
+					        li.append($('<span>').text(log.action + ' '));
+					        li.append($('<span>').text(log.src_ip + ' '));
+					        $('#logList').append(li);
+					    });
+					}
+		        });
+		    });
+		});
+		
+		function resetFilters() {
+			var today = new Date().toISOString().slice(0, 10);
+			$("#ip").val('any');
+	        $("#level").val('-1');
+	        $("#action").val('-1');
+	        $("#startDate").val(today);
+	        $("#startTime").val('00:00:00');
+	        $("#endDate").val(today);
+	        $("#endTime").val('23:59:59');
+	        return false;
+		}
 	</script>
 	
 	<title>Sentinel</title>
@@ -138,28 +177,22 @@
 	
 	    <label for="startDate">시작 지점 날짜:</label>
 		<input type="text" id="startDate" name="startDate" class="datepicker" th:attr="value=${startDate!=null}?${startDate}:${today}">
-		<input type="text" id="startTime" name="startTime" th:attr="value=${startTime!=null}?${startTime}:'00:00:00'">
+		<input type="text" id="startTime" name="startTime" class="timepicker" th:attr="value=${startTime!=null}?${startTime}:'00:00:00'">
 		
 		<label for="endDate">종료 지점 날짜:</label>
 		<input type="text" id="endDate" name="endDate" class="datepicker" th:attr="value=${endDate!=null}?${endDate}:${today}">
-		<input type="text" id="endTime" name="endTime" th:attr="value=${endTime!=null}?${endTime}:'23:59:59'">
+		<input type="text" id="endTime" name="endTime" class="timepicker" th:attr="value=${endTime!=null}?${endTime}:'23:59:59'">
 		
 	    <br>
-	
-	    <button type="submit">필터 적용</button>
+	    
+	    <button class="button2" type="submit">필터 적용</button>
+	    <button class="button2" type="button" onclick="resetFilters()">필터 초기화</button>
 	</form>
-
-	<ul>
-   		<li th:each="readLogs : ${readLogs}">
-        <span th:text="${readLogs.log_index}"></span>
-        <span th:text="${readLogs.timeFormatted}"></span>
-        <span th:text="${readLogs.detected_name}"></span>
-        <span th:text="${readLogs.level}"></span>
-        <span th:text="${readLogs.action}"></span>
-        <span th:text="${readLogs.src_ip}"></span>
-    </li>
-</ul>
-
+	
+	<ul id="logList">
+		<!-- ul태그 삭제 금지 -->
+		<!-- 실제 동적 리스트 출력 부분 -->
+	</ul>
 </body>
 
 </html>

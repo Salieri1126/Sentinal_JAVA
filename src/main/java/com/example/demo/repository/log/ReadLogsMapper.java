@@ -10,7 +10,6 @@ import com.example.demo.model.log.ReadLogsEntity;
 
 @Mapper
 public interface ReadLogsMapper {
-	List<ReadLogsEntity> findAll(@Param("tableName") String tableName);
 	List<ReadLogsEntity> findFilteredLogs(
 			@Param("tableName") String tableName,
             @Param("ip") String ip,
