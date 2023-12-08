@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="chrome">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/commonStyle.css">
 	<link rel="stylesheet" href="/css/changePolicyStyle.css">
 	<title>Sentinel</title>
 </head>
@@ -102,31 +103,19 @@
 					</div>
 					<div class="contentT" id='result'>
 						<table>
-							<tr class="content-row">	
-							    <td>
-							        <input type="checkbox" class="checkbox" name="포함여부">
-							        <input type="text" id="content1" name="content1" th:value="${policyDetails.content1}">
-							    </td>
-							</tr>
-							<tr class="content-row">	
-							    <td>
-							        <input type="checkbox" class="checkbox" name="포함여부">
-							        <input type="text" id="content2" name="content2" th:value="${policyDetails.content2}">
-							    </td>
-							</tr>
-							<tr class="content-row">	
-							    <td>
-							        <input type="checkbox" class="checkbox" name="포함여부">
-							        <input type="text" id="content3" name="content3" th:value="${policyDetails.content3}">
-							    </td>
-							</tr>
+							<tr>
+						  <td>
+						    <input type="checkbox" class="checkbox" name="포함여부">
+						    <input type="text" class="content-input" value="CONTENT_VALUE">
+						  </td>
+						</tr>
 						</table>
 					</div>
 		</div>
       </div>
 	  
     <div class="b_se">
-      <button class="button1" type="submit">확인</button>
+      <button class="button1" type="submit">수정</button>
       <button class="button2" type="button" onclick="cancel()">취소</button>
     </div>
 	
