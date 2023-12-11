@@ -42,7 +42,7 @@ public class LogController {
             @RequestParam(name = "startTime", required = false) String startTimeStr,
             @RequestParam(name = "endDate", required = false) String endDateStr,
             @RequestParam(name = "endTime", required = false) String endTimeStr) {
-
+    	
         if ("".equalsIgnoreCase(ip) || "any".equalsIgnoreCase(ip) || ip.isEmpty()) ip = null;
         if (level == -1) level = null;
         if (action == -1) action = null;

@@ -13,6 +13,17 @@ public class LogService {
 	}
 	
 	private String parseLogDetail(String binaryData) {
-		return binaryData;
+		int index = 0;
+		String packetDetail = "";
+		while (index < binaryData.length()) {
+			String packet = binaryData.substring(index, Math.min(index + 2, binaryData.length()));
+			packetDetail += packet + " ";
+			index += 2;
+		}
+		return packetDetail.trim();
+	}
+	
+	private String parsePacket(String packet) {
+		return packet;
 	}
 }
