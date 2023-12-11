@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.model.log.ReadLogsEntity;
 import com.example.demo.repository.log.ReadLogsMapper;
+import com.example.demo.service.LogService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class LogController {
     
     private final ReadLogsMapper readLogsMapper;
+    private final LogService logService;
 
     @GetMapping("/admin/menu/readLogs")
     public String showLogListForm(Model model) {
@@ -66,17 +68,20 @@ public class LogController {
                 readLogs.addAll(readLogsMapper.findFilteredLogs(tableName, ip, level, action, startDate, endDate));
             }
             readLogs.forEach(
-                    log -> log.setTimeFormatted(
+                    log -> log.setLog_date(
                             log.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
             return readLogs;
         }
     }
     
-	@GetMapping("/admin/menu/readLogs/viewLogs/{log_index}")
-	public String showBinaryData(@PathVariable int log_index, Model model) {
-		ReadLogsEntity readLogs = readLogsMapper.getBinaryData(log_index);
-		String binaryData = new java.math.BigInteger(readLogs.getPacket_bin()).toString(16);
-		model.addAttribute("binaryData", binaryData);
-		return "viewLogs";
-	}
+    @GetMapping("/admin/menu/readLogs/viewLogs/{log_date}/{log_index}")
+    public String showBinaryData(@PathVariable String log_date, @PathVariable int log_index, Model model) {
+        LocalDateTime dateTime = LocalDateTime.parse(log_date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String formattedDate = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String tableName = "log_" + formattedDate;
+        ReadLogsEntity log = readLogsMapper.getBinaryData(tableName, log_index);
+        String binaryData = logService.parseBinaryData(log);
+        model.addAttribute("binaryData", binaryData);
+        return "viewLogs";
+    }
 }

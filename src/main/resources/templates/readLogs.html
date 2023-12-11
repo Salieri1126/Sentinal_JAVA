@@ -119,8 +119,8 @@
 					    data.forEach(function(log) {
 					        var li = $('<li>');
 					        li.append($('<span>').text(log.log_index + ' '));
-					        li.append($('<span>').text(log.timeFormatted + ' '));
-							var detectedNameLink = $('<a>').attr('href', '/admin/menu/readLogs/viewLogs/' + log.log_index).text(log.detected_name);
+					        li.append($('<span>').text(log.log_date + ' '));
+							var detectedNameLink = $('<a>').attr('href', '/admin/menu/readLogs/viewLogs/' + log.log_date + '/' + log.log_index).text(log.detected_name);
 							li.append(detectedNameLink);
 					        li.append($('<span>').text(' ' + log.level + ' '));
 					        li.append($('<span>').text(log.action + ' '));
