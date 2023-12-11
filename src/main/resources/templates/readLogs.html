@@ -106,7 +106,7 @@
 				return true;
 			}
 		}
-	
+/*	
 		$(function() {
 		    $('form').on('submit', function(e) {
 		        e.preventDefault();
@@ -130,9 +130,9 @@
 					}
 		        });
 		    });
-		}); 
+		}); */
 		/*********************************************************************/
-		/*$(function() {
+		$(function() {
 		    $('form').on('submit', function(e) {
 		        e.preventDefault();
 		        $.ajax({
@@ -144,18 +144,17 @@
 		                data.forEach(function(log) {
 		                    var row = $('<tr>');
 		                    row.append($('<td>').text(log.log_index));
-		                    row.append($('<td>').text(log.date));
-		                    var detectedNameLink = $('<a>').attr('href', '/admin/menu/readLogs/viewLogs/' + log.log_date + '/' + log.log_index).text(log.detected_name);
-		                    row.append($('<td>').append(detectedNameLink));
+		                    row.append($('<td>').text(log.log_date));
+		                    row.append($('<td>').text(log.detected_name));
 		                    row.append($('<td>').text(log.level));
 		                    row.append($('<td>').text(log.action));
 		                    row.append($('<td>').text(log.src_ip));
 		                    var buttonCell = $('<td>');
 		                    var button1 = $('<button>').text('패킷').addClass('pkBt').on('click', function() {
-		                        // 버튼1 클릭 시 수행할 동작을 여기에 작성하세요.
+		                        // 버튼1 클릭 시 수행할 동작을 여기에 작성하세요.                  
 		                    });
 		                    var button2 = $('<button>').text('상세보기').addClass('infoBt').on('click', function() {
-		                        // 버튼2 클릭 시 수행할 동작을 여기에 작성하세요.
+		                        window.location.href = '/admin/menu/readLogs/viewLogs/' + log.log_date + '/' + log.log_index;
 		                    });
 		                    buttonCell.append(button1).append(button2);
 		                    row.append(buttonCell);
@@ -164,7 +163,15 @@
 		            }
 		        });
 		    });
-		});*/
+		     $('form').on('submit', function(e) {
+		        e.preventDefault();
+		        getLogList();
+		    });
+
+		    $('.applyB').on('click', function() {
+		        getLogList();
+		    });
+		});
 
 
 		/*********************************************************************/
@@ -192,7 +199,7 @@
 	</header>
 	<div class="log-list-filter">	
 		<form th:action="@{/admin/menu/readLogs}" method="get" onsubmit="return validateForm()">
-			<h3>필터</h3>
+			<h2>필터</h2>
 			<div class="lft">
 				<div class="input-group">
 				    <label for="ip">IP:</label>
@@ -201,7 +208,7 @@
 				
 				<div class="input-group">
 				    <label for="level">위험등급:</label>
-				    <select id="level" name="level">
+				    <select id="level" name="level" class="custom-input-group">
 				        <option value="-1" th:selected="${level == -1}">전체</option>
 				        <option value="0" th:selected="${level == 0}">하</option>
 				        <option value="1" th:selected="${level == 1}">중</option>
@@ -212,7 +219,7 @@
 				
 				<div class="input-group">
 				    <label for="action">동작:</label>
-				    <select id="action" name="action">
+				    <select id="action" name="action" class="custom-input-group">
 				        <option value="-1" th:selected="${action == -1}">전체</option>
 				        <option value="0" th:selected="${action == 0}">탐지</option>
 				        <option value="1" th:selected="${action == 1}">탐지+경고</option>
@@ -241,10 +248,10 @@
 			</div>
 		</form>
 	</div>
-	<ul id="logList"> 
+	<!-- <ul id="logList"> -->
 		<!-- ul태그 삭제 금지 -->
 		<!-- 실제 동적 리스트 출력 부분 -->
-	 </ul> 
+	<!-- </ul> -->
 <div class="logListBox">
     <table>
 		<thead>
