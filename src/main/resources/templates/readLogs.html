@@ -106,7 +106,7 @@
 				return true;
 			}
 		}
-		
+	
 		$(function() {
 		    $('form').on('submit', function(e) {
 		        e.preventDefault();
@@ -119,8 +119,8 @@
 					    data.forEach(function(log) {
 					        var li = $('<li>');
 					        li.append($('<span>').text(log.log_index + ' '));
-					        li.append($('<span>').text(log.timeFormatted + ' '));
-							var detectedNameLink = $('<a>').attr('href', '/admin/menu/readLogs/viewLogs/' + log.log_index).text(log.detected_name);
+					        li.append($('<span>').text(log.log_date + ' '));
+							var detectedNameLink = $('<a>').attr('href', '/admin/menu/readLogs/viewLogs/' + log.log_date + '/' + log.log_index).text(log.detected_name);
 							li.append(detectedNameLink);
 					        li.append($('<span>').text(' ' + log.level + ' '));
 					        li.append($('<span>').text(log.action + ' '));
@@ -130,8 +130,44 @@
 					}
 		        });
 		    });
-		});
-		
+		}); 
+		/*********************************************************************/
+		/*$(function() {
+		    $('form').on('submit', function(e) {
+		        e.preventDefault();
+		        $.ajax({
+		            url: '/admin/menu/readLogs/api/getLogList',
+		            method: 'GET',
+		            data: $(this).serialize(),
+		            success: function(data) {
+		                $('#logTable').empty();
+		                data.forEach(function(log) {
+		                    var row = $('<tr>');
+		                    row.append($('<td>').text(log.log_index));
+		                    row.append($('<td>').text(log.date));
+		                    var detectedNameLink = $('<a>').attr('href', '/admin/menu/readLogs/viewLogs/' + log.log_date + '/' + log.log_index).text(log.detected_name);
+		                    row.append($('<td>').append(detectedNameLink));
+		                    row.append($('<td>').text(log.level));
+		                    row.append($('<td>').text(log.action));
+		                    row.append($('<td>').text(log.src_ip));
+		                    var buttonCell = $('<td>');
+		                    var button1 = $('<button>').text('패킷').addClass('pkBt').on('click', function() {
+		                        // 버튼1 클릭 시 수행할 동작을 여기에 작성하세요.
+		                    });
+		                    var button2 = $('<button>').text('상세보기').addClass('infoBt').on('click', function() {
+		                        // 버튼2 클릭 시 수행할 동작을 여기에 작성하세요.
+		                    });
+		                    buttonCell.append(button1).append(button2);
+		                    row.append(buttonCell);
+		                    $('#logTable').append(row);
+		                });
+		            }
+		        });
+		    });
+		});*/
+
+
+		/*********************************************************************/
 		function resetFilters() {
 			var today = new Date().toISOString().slice(0, 10);
 			$("#ip").val('any');
@@ -149,52 +185,84 @@
 </head>
 
 <body>
-	<h2>로그 리스트</h2>
-
-	<form th:action="@{/admin/menu/readLogs}" method="get" onsubmit="return validateForm()">
-	    <label for="ip">IP:</label>
-		<input type="text" id="ip" name="ip" th:attr="value=${ip!=null}?${ip}:'any'">
-	
-	    <br>
-	
-	    <label for="level">위험등급:</label>
-	    <select id="level" name="level">
-	        <option value="-1" th:selected="${level == -1}">전체</option>
-	        <option value="0" th:selected="${level == 0}">하</option>
-	        <option value="1" th:selected="${level == 1}">중</option>
-	        <option value="2" th:selected="${level == 2}">상</option>
-	        <option value="3" th:selected="${level == 3}">최상</option>
-	    </select>
-	
-	    <label for="action">동작:</label>
-	    <select id="action" name="action">
-	        <option value="-1" th:selected="${action == -1}">전체</option>
-	        <option value="0" th:selected="${action == 0}">탐지</option>
-	        <option value="1" th:selected="${action == 1}">탐지+경고</option>
-	        <option value="2" th:selected="${action == 2}">탐지+차단</option>
-	        <option value="3" th:selected="${action == 3}">탐지+차단+경고</option>
-	    </select>
-	
-	    <br>
-	
-	    <label for="startDate">시작 지점 날짜:</label>
-		<input type="text" id="startDate" name="startDate" class="datepicker" th:attr="value=${startDate!=null}?${startDate}:${today}">
-		<input type="text" id="startTime" name="startTime" class="timepicker" th:attr="value=${startTime!=null}?${startTime}:'00:00:00'">
-		
-		<label for="endDate">종료 지점 날짜:</label>
-		<input type="text" id="endDate" name="endDate" class="datepicker" th:attr="value=${endDate!=null}?${endDate}:${today}">
-		<input type="text" id="endTime" name="endTime" class="timepicker" th:attr="value=${endTime!=null}?${endTime}:'23:59:59'">
-		
-	    <br>
-	    
-	    <button class="button2" type="submit">필터 적용</button>
-	    <button class="button2" type="button" onclick="resetFilters()">필터 초기화</button>
-	</form>
-	
-	<ul id="logList">
+	<header>
+		<div class="hline">
+	    	<h1>로그조회</h1>
+		</div>
+	</header>
+	<div class="log-list-filter">	
+		<form th:action="@{/admin/menu/readLogs}" method="get" onsubmit="return validateForm()">
+			<h3>필터</h3>
+			<div class="lft">
+				<div class="input-group">
+				    <label for="ip">IP:</label>
+					<input type="text" id="ip" name="ip" th:attr="value=${ip!=null}?${ip}:'any'">
+				</div>
+				
+				<div class="input-group">
+				    <label for="level">위험등급:</label>
+				    <select id="level" name="level">
+				        <option value="-1" th:selected="${level == -1}">전체</option>
+				        <option value="0" th:selected="${level == 0}">하</option>
+				        <option value="1" th:selected="${level == 1}">중</option>
+				        <option value="2" th:selected="${level == 2}">상</option>
+				        <option value="3" th:selected="${level == 3}">최상</option>
+				    </select>
+				</div>
+				
+				<div class="input-group">
+				    <label for="action">동작:</label>
+				    <select id="action" name="action">
+				        <option value="-1" th:selected="${action == -1}">전체</option>
+				        <option value="0" th:selected="${action == 0}">탐지</option>
+				        <option value="1" th:selected="${action == 1}">탐지+경고</option>
+				        <option value="2" th:selected="${action == 2}">탐지+차단</option>
+				        <option value="3" th:selected="${action == 3}">탐지+차단+경고</option>
+				    </select>
+				</div>
+			</div>
+			<div class="rft">
+				<div class="input-group datepicker">
+				    <label for="startDate">시작 지점 날짜:</label>
+					<input type="text" id="startDate" name="startDate" class="datepicker" th:attr="value=${startDate!=null}?${startDate}:${today}">
+					<input type="text" id="startTime" name="startTime" class="timepicker" th:attr="value=${startTime!=null}?${startTime}:'00:00:00'">
+				</div>
+				
+				<div class="input-group datepicker">
+					<label for="endDate">종료 지점 날짜:</label>
+					<input type="text" id="endDate" name="endDate" class="datepicker" th:attr="value=${endDate!=null}?${endDate}:${today}">
+					<input type="text" id="endTime" name="endTime" class="timepicker" th:attr="value=${endTime!=null}?${endTime}:'23:59:59'">
+				</div>
+				
+				<div class="button-group">
+				    <button class="button2 applyB" type="submit">적용</button>
+				    <button class="button2 resetB" type="button" onclick="resetFilters()">초기화</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<ul id="logList"> 
 		<!-- ul태그 삭제 금지 -->
 		<!-- 실제 동적 리스트 출력 부분 -->
-	</ul>
+	 </ul> 
+<div class="logListBox">
+    <table>
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>시간</th>
+				<th>내용</th>
+				<th>레벨</th>
+				<th>동작</th>
+				<th>IP</th>
+				<th> </th>
+			</tr>
+		</thead>
+		<tbody id="logTable">
+		    <!-- 여기에 로그가 동적으로 추가됩니다 -->
+		</tbody>
+	</table>
+</div>
 </body>
 
 </html>

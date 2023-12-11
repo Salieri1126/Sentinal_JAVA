@@ -1,13 +1,115 @@
 @charset "UTF-8";
+body {
+    padding: 30px;
+}
+header {
+    padding: 10px;
+}
 
 /* 제목앞에 파란색 라인 */
 .hline{
 	border-left: 5px solid #447294;
 }
-h2{
+h1{
 	margin-left:10px;
 }
 #logList {
     height: 300px; /* 로그 리스트 출력 시 해당 픽셀을 초과하면 스크롤이 생김 */
     overflow-y: auto;
 }
+
+/* 필터 */
+.log-list-filter {
+	border: 1px solid #e0e0e0;
+  	border-radius: 5px;
+  	padding: 10px;
+  	height: 25%;
+  	width: 100%;
+  	display: flex;
+	justify-content: center;
+}
+
+
+.button-group {
+    text-align: right;
+}
+.button2{
+	width: 65px;
+	height: 30px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bond;
+    margin: 0px 5px;
+    cursor: pointer;
+}
+.applyB{
+	background-color: #3498db;
+}
+.resetB{
+	margin-left: 10px;
+	background-color: #5e5e5e;
+}
+
+/* 로그테이블 */
+.logListBox {
+    width: 100%;
+    margin-top: 15px;
+    background-color: #f9f9f9;
+    overflow-y: scroll;
+	overflow-x: scroll;
+    height: 70%;  /* 높이 설정 */
+    border: 1px solid #e0e0e0;
+}
+
+.logListBox table {
+    border-collapse: collapse;  
+    height: 100%;
+    width: 100%;
+    text-align:center;
+}
+thead th{
+	
+    text-align: center;
+    position: sticky; top: 0;
+    border-top: 0;
+    background-clip: padding-box;
+	background-color: #e0e0e0;
+}
+
+.logListBox th, .logListBox td {
+    border-bottom: 1px solid #ccc;
+    padding: 4px;
+    text-align: left;
+}
+
+.logListBox tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* 로그테이블 패킷,상세보기 버튼 */
+.pkBt, .infoBt {
+	width: 60px;
+	height: 30px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bond;
+    margin: 0px 5px;
+    cursor: pointer;
+}
+.pkBt{
+	background-color: #5e5e5e;
+}
+.infoBt {
+	background-color: #3498db;
+}
+
