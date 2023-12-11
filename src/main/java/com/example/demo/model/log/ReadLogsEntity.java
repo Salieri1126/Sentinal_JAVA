@@ -20,5 +20,5 @@ public class ReadLogsEntity {
 	private String src_ip;
 	private byte[] packet_bin;
 	private Integer level;
-	private String timeFormatted;
+	private String log_date;
 }

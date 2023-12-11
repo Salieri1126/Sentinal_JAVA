@@ -17,5 +17,7 @@ public interface ReadLogsMapper {
             @Param("action") Integer action,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
-	ReadLogsEntity getBinaryData(int log_index);
+	ReadLogsEntity getBinaryData(
+			@Param("tableName") String tableName,
+			@Param("log_index") int log_index);
 }
