@@ -10,112 +10,111 @@
 	<title>Sentinel</title>
 </head>
 
-<body>
+<body onload="updateDeleteButton()">
 	<header>
 		<div class="hline">
-	    	<h2>정책 추가</h2>
+			<h2>정책 추가</h2>
 		</div>
 	</header>
-	<form class="container" id="policyForm" action="/admin/menu/readPolicy/insertPolicy" method="post" onsubmit="return validateForm()">
-	    <div class="left">
+	<form class="container" id="policyForm" action="/admin/menu/readPolicy/insertPolicy" method="post"
+		onsubmit="return validateForm()">
+		<div class="left">
 			<div class="hline">
-	   			<h3>탐지 정책 기본 정보</h3>
+				<h3>탐지 정책 기본 정보</h3>
 			</div>
-			
-			    <input type="hidden" id="content1" name="content1" value="">
-			    <input type="hidden" id="content2" name="content2" value="">
-			    <input type="hidden" id="content3" name="content3" value="">
-				
-		      <div class="section">
-			        <span class="label">탐지명:</span>
-			        <input type="text" id="detected_name" name="detected_name" placeholder="정책 이름을 입력하세요." class="de_red">
-			        
-			        <span class="label">유효기간:</span>
-			        <input type="text" placeholder="유효 기간을 입력하세요.">
-			        
-			        <span class="label">위험등급:</span>
-			        <select id="level" name="level">
-			          	<option value=0>하</option>
-						<option value=1>중</option>
-						<option value=2>상</option>
-						<option value=3>최상</option>
-			        </select>
-		      </div>
-		  	
-	    </div>
-		
-	    <div class="right">
-				<div class="hline">
-	    			<h3>세션 정보</h3>
-				</div>
-		      <div class="section" name="r_section">
-			        <span class="label">출발지 IP:</span>
-			        <input type="text" id="src_ip" name="src_ip" value="any" class="de_red">
-			        <span class="label">출발지 Port:</span>
-			        <input type="text" id="src_port" name="src_port" value="any" class="de_red">
-		      </div>
-		      
-		      	<div class="hline">
-	    			<h3>정책 동작</h3>
-				</div>  			
-		      <div class="section">   
-			        <span class="label">동작설정:</span>
-			        <select id="action" name="action">
-			          	<option value=0>탐지</option>
-						<option value=1>탐지+경고</option>
-						<option value=2>탐지+차단</option>
-						<option value=3>탐지+차단+경고</option>
-			        </select>
-		      </div>
-	    </div>
-		
-	    <div class="clear"></div>
-	    
-		<div class="hline">				
-	    	<h3>탐지 패턴</h3>
-		</div>      
-		
-	    <div class="section3" name="b_section">
-			    <div class="b_top">
-			      	<div class="label1">기준횟수:
-				        <input type="text" id="base_time" name="base_time" placeholder="0" value="0" class="secT">
-				        초 동안
-				        <input type="text" id="base_limit" name="base_limit" placeholder="0" value="0" class="numT">
-				        회 발생
-			    	</div>
-				</div>
-			    
-				<div class="label">
-			<h8>패턴정의<h8>
-			<div class="pattenbox">
-				<div class="label3">
-					<input type="checkbox" class="checkbox" name="포함여부">포함여부
-				</div>
 
-				<div class="label4">내용:
-					<input type="text" id="contentInput" placeholder="content를 입력하세요.">
-					<div>
-						<button type="button" onclick="addContent()">추가</button>
-						<button type="button" onclick="deleteContent()">삭제</button>
-					</div>
+			<input type="hidden" id="content1" name="content1" value="">
+			<input type="hidden" id="content2" name="content2" value="">
+			<input type="hidden" id="content3" name="content3" value="">
+
+			<div class="section">
+				<span class="label">탐지명:</span>
+				<input type="text" id="detected_name" name="detected_name" placeholder="정책 이름을 입력하세요." class="de_red">
+
+				<span class="label">유효기간:</span>
+				<input type="text" placeholder="유효 기간을 입력하세요.">
+
+				<span class="label">위험등급:</span>
+				<select id="level" name="level">
+					<option value=0>하</option>
+					<option value=1>중</option>
+					<option value=2>상</option>
+					<option value=3>최상</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="right">
+			<div class="hline">
+				<h3>세션 정보</h3>
+			</div>
+			<div class="section" name="r_section">
+				<span class="label">출발지 IP:</span>
+				<input type="text" id="src_ip" name="src_ip" value="any" class="de_red">
+				<span class="label">출발지 Port:</span>
+				<input type="text" id="src_port" name="src_port" value="any" class="de_red">
+			</div>
+
+			<div class="hline">
+				<h3>정책 동작</h3>
+			</div>
+			<div class="section" name="r_section">
+				<span class="label">동작설정:</span>
+				<select id="action" name="action">
+					<option value=0>탐지</option>
+					<option value=1>탐지+경고</option>
+					<option value=2>탐지+차단</option>
+					<option value=3>탐지+차단+경고</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="clear"></div>
+
+		<div class="hline">
+			<h3>탐지 패턴</h3>
+		</div>
+
+		<div class="section3" name="b_section">
+			<div class="b_top">
+				<div class="label1">기준횟수:
+					<input type="text" id="base_time" name="base_time" placeholder="0" value="0" class="secT">
+					초 동안
+					<input type="text" id="base_limit" name="base_limit" placeholder="0" value="0" class="numT">
+					회 발생
 				</div>
 			</div>
-			<div class="contentT" id='result'></div>
+
+			<div class="label">
+				<h8>패턴정의<h8>
+						<div class="pattenbox">
+							<div class="label3">
+								<input type="checkbox" class="checkbox" name="포함여부">포함여부
+							</div>
+
+							<div class="label4">내용:
+								<input class="de_gray" type="text" id="contentInput" placeholder="content를 입력하세요.">
+								<div>
+									<button type="button" class="addB" onclick="addContent(); updateDeleteButton()">추가</button>
+									<button type="button" class="dropB" id="deleteButton" onclick="deleteContent(); updateDeleteButton()">삭제</button>
+								</div>
+							</div>
+						</div>
+				<div class="contentT" id='result'></div>
+			</div>
 		</div>
-	      </div>
-	      
-	    <div class="b_se">
-	      <button class="button1" type="submit">추가</button>
-	      <button class="button2" type="button" onclick="cancel()">취소</button>
-	    </div>
-	    
-  </form>
-  
-  <script>
-	  var contents = [];
-	  
-	  	function isValidIp(ip) {
-			var pattern = new RegExp(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/);
+
+		<div class="b_se">
+			<button class="button1" type="submit">추가</button>
+			<button class="button2" type="button" onclick="cancel()">취소</button>
+		</div>
+	</form>
+
+	<script>
+		var contents = [];
+
+		function isValidIp(ip) {
+			var pattern = new RegExp(/^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$/);
 			return pattern.test(ip) || ip === "0" || ip.toLowerCase() === "any";
 		}
 
@@ -127,7 +126,7 @@
 		function isPositiveNumber(num) {
 			return Number(num) >= 0;
 		}
-		
+
 		function validateForm() {
 			var detectedName = document.getElementById("detected_name").value;
 			var action = document.getElementById("action").value;
@@ -136,7 +135,8 @@
 			var baseTime = document.getElementById("base_time").value;
 			var baseLimit = document.getElementById("base_limit").value;
 			var level = document.getElementById("level").value;
-			
+			var contentInput = document.getElementById("contentInput");
+
 			if (detectedName.trim() === "") {
 				alert("Detected Name은 필수 항목입니다. 값을 입력해주세요.");
 				return false;
@@ -157,78 +157,105 @@
 				alert("Base Limit은 양수만 가능합니다.");
 				return false;
 			}
-			
-			for (let i = 0; i < contents.length; i++) {
-		        document.getElementById("content" + (i + 1)).value = contents[i];
-		    }
-			
-			// 중복 정책 확인 및 폼 제출
-		    fetch('/admin/menu/readPolicy/checkDuplication?detected_name=' + encodeURIComponent(detectedName))
-		        .then(response => response.text())
-		        .then(function(result) {
-		            if (result === 'EXIST') {
-		                alert('동일한 Detected Name이 이미 존재합니다.');
-		            } else {
-		                alert('정책 추가 작업이 완료되었습니다.');
-		                document.getElementById('policyForm').submit();
-		            }
-		        });
-		
-		    return false;
-		}
-		
-		function addContent() {
-		    var contentInput = document.getElementById("contentInput");
-		    var content = contentInput.value.toLowerCase(); // 입력된 값을 소문자로 변환
-		    var contentT = document.getElementById("result");
-		
-		    // 이미 있는 값인지 확인
-		    var existingContent = Array.from(contentT.children).find(function(item) {
-		        return item.innerText.toLowerCase() === content;
-		    });
-		
-		    if (contentT.childElementCount < 3 && content.trim() !== "") {
-		        if (existingContent) {
-		            alert("동일한 Content가 이미 존재합니다.");
-		        } else {
-		            contents.push(content); // 전역 변수에 컨텐트 추가
-		            var newContent = document.createElement("div");
-		            newContent.innerHTML = `<input type="checkbox" class="checkbox" name="포함여부">${content}`;
-		            contentT.appendChild(newContent);
-		
-		            // Content 값을 Form에 설정
-		            var contentInputs = document.querySelectorAll(".content-input");
-		            for (var i = 0; i < contentInputs.length; i++) {
-		                document.getElementById("content" + (i + 1)).value = contentInputs[i].value;
-		            }
+		    if (contentInput.value.trim() !== "") {
+		        var confirmResult = confirm("입력한 Content가 추가되지 않았습니다. 그대로 적용하시겠습니까?");
+		        if (confirmResult === false) {
+		            return false;
 		        }
-		    } else {
-		        alert("Content는 최대 3개까지 추가 가능합니다.");
+		    }
+		    
+			for (let i = 0; i < contents.length; i++) {
+				document.getElementById("content" + (i + 1)).value = contents[i];
+			}
+
+			// 중복 정책 확인 및 폼 제출
+			fetch('/admin/menu/readPolicy/checkDuplication?detected_name=' + encodeURIComponent(detectedName))
+				.then(response => response.text())
+				.then(function (result) {
+					if (result === 'EXIST') {
+						alert('동일한 Detected Name이 이미 존재합니다.');
+					} else {
+						alert('정책 추가 작업이 완료되었습니다.');
+						document.getElementById('policyForm').submit();
+					}
+				});
+
+			return false;
+		}
+
+		function addContent() {
+			var contentInput = document.getElementById("contentInput");
+			var content = contentInput.value.toLowerCase(); // 입력된 값을 소문자로 변환
+			var contentT = document.getElementById("result");
+			
+			// 이미 있는 값인지 확인
+			var existingContent = Array.from(contentT.children).find(function (item) {
+				return item.innerText.toLowerCase() === content;
+			});
+
+			if (contentT.childElementCount < 3 && content.trim() !== "") {
+				if (existingContent) {
+					alert("동일한 Content가 이미 존재합니다.");
+				} else {
+					contents.push(content); // 전역 변수에 컨텐츠 추가
+					var newContent = document.createElement("div");
+					newContent.innerHTML = `<input type="checkbox" class="checkbox" name="포함여부">${content}`;
+					contentT.appendChild(newContent);
+					
+					// Content 값을 Form에 설정
+					var contentInputs = document.querySelectorAll(".content-input");
+					for (var i = 0; i < contentInputs.length; i++) {
+						document.getElementById("content" + (i + 1)).value = contentInputs[i].value;
+					}
+				}
+			} else {
+				alert("Content는 최대 3개까지 추가 가능합니다.");
+			}
+		}
+
+		function deleteContent() {
+		    var contentT = document.getElementById("result");
+		    var checkboxes = contentT.getElementsByClassName("checkbox");
+		    var checkedCount = 0;
+		
+		    for (var i = 0; i < checkboxes.length; i++) {
+		        if (checkboxes[i].checked) {
+		            checkedCount++;
+		        }
+		    }
+		
+		    if (checkedCount === 0) {
+		        alert("삭제할 Content를 선택하세요.");
+		        return;
+		    }
+		
+		    for (var i = checkboxes.length - 1; i >= 0; i--) {
+		        if (checkboxes[i].checked) {
+		            contentT.removeChild(checkboxes[i].parentNode);
+		        }
 		    }
 		}
 		
-		function deleteContent() {
-			var contentT = document.getElementById("result");
-			var checkboxes = contentT.getElementsByClassName("checkbox");
-
-			for (var i = checkboxes.length - 1; i >= 0; i--) {
-		  		if (checkboxes[i].checked) {
-					contentT.removeChild(checkboxes[i].parentNode);
-		  		}
-			}
-	  	}
+		function updateDeleteButton() {
+		    var contentT = document.getElementById("result");
+		    var deleteButton = document.getElementById("deleteButton"); // 삭제 버튼의 id를 가정함
+		    
+		    if (contentT.childElementCount > 0) {
+		        deleteButton.hidden = false;
+		    } else {
+		        deleteButton.hidden = true;
+		    }
+		}
 
 		function cancel() {
 			window.location.href = "/admin/menu/readPolicy";
 		}
-		
-        function changeScreen(screenId) {
-            // 화면 교체
-            location.href = screenId;
-        }
-        
-    </script>
-	
+
+		function changeScreen(screenId) {
+			// 화면 교체
+			location.href = screenId;
+		}
+	</script>
 </body>
 
 </html>

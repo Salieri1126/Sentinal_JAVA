@@ -13,7 +13,7 @@
 <body>
 	<header>
 		<div class="hline">
-	    	<h1>정책현황</h1>
+			<h1>정책현황</h1>
 		</div>
 	</header>
 	<div class="buttonbox">
@@ -24,99 +24,102 @@
 
 	<main class="box2">
 		<div role="region" aria-label="data table" tabindex="0" class="primary">
-        	<table>
-            	<thead>
+			<table>
+				<thead>
 					<tr>
 						<th class="click" onclick="toggleAllCheckboxes()"><input type="checkbox"></th>
-						<th >no</th>
-		                <th >이름</th>
-		                <th >적용 </th>
-		                <th >src_IP</th>
-		                <th >src_Port</th>
-		                <th >base_time</th>
-		                <th>base_limit</th>
-		                <th >content1</th>
-		                <th>content2</th>
-		                <th>content3</th>
-		                <th> level</th>
-		                
-	            	</tr>
-	            </thead>
-	            <tbody>
+						<th>no</th>
+						<th>이름</th>
+						<th>적용</th>
+						<th>action</th>
+						<th>src_IP</th>
+						<th>src_Port</th>
+						<th>base_time</th>
+						<th>base_limit</th>
+						<th>content1</th>
+						<th>content2</th>
+						<th>content3</th>
+						<th>level</th>
+					</tr>
+				</thead>
+				<tbody>
 					<tr th:each="policy : ${readPolicies}">
 						<th>
-							<input type="checkbox" name="selectedPolicy" th:value="${policy.detected_no}" style="display:inline;">
-				        </th>
-				        
-				        <th><span th:text="${policy.detected_no}"></span></th>
-				        
-				        <th class="click" onclick="view()"> <!-- onclick에 상세보기 맵핑 필요 -->
-		                    <span th:text="${policy.detected_name}"></span>
-		                </th>
-		                
-		                <th>
-		                    <label class="switch-button">
+							<input type="checkbox" name="selectedPolicy" th:value="${policy.detected_no}"
+								style="display:inline;">
+						</th>
+
+						<th><span th:text="${policy.detected_no}"></span></th>
+
+						<th class="click" onclick="view()"> <!-- onclick에 상세보기 맵핑 필요 -->
+							<span th:text="${policy.detected_name}"></span>
+						</th>
+
+						<th>
+							<label class="switch-button">
 								<input type="checkbox" th:checked="${policy.enable == 1}">
 								<span class="onoff-switch"></span>
 							</label>
-		                </th>
-		                
-		                <th><span th:text="${policy.src_ip}"></span></th>
-		                
-		                <th><span th:text="${policy.src_port}"></span></th>
-		                
-		                <th><span th:text="${policy.base_time}"></span></th>
-		                
-		                <th><span th:text="${policy.base_limit}"></span></th>
-		                
-		                <th><span th:text="${policy.content1}"></span></th>
-		                <th><span th:text="${policy.content2}"></span></th>	
-		                <th><span th:text="${policy.content3}"></span></th>
-		                	            
-		                <th><span th:text="${policy.level}"></span></th>
-		            </tr>        	   
-				</tr>
-	
+						</th>
+						
+						<th><span th:text="${policy.level}"></span></th>
+						
+						<th><span th:text="${policy.src_ip}"></span></th>
+
+						<th><span th:text="${policy.src_port}"></span></th>
+
+						<th><span th:text="${policy.base_time}"></span></th>
+
+						<th><span th:text="${policy.base_limit}"></span></th>
+
+						<th><span th:text="${policy.content1}"></span></th>
+						<th><span th:text="${policy.content2}"></span></th>
+						<th><span th:text="${policy.content3}"></span></th>
+						
+						<th><span th:text="${policy.action}"></span></th>
+					</tr>
+					</tr>
+
 				</tbody>
 			</table>
 		</div> <!-- 000 -->
 	</main>
-	
+
 	<script>
 		function updatePolicy() {
-        	const selectedChecks = document.querySelectorAll('input[name="selectedPolicy"]:checked');
-        
-        	if (selectedChecks.length > 1) {
-            	alert("수정은 한 개씩만 가능합니다.");
-        	} else if (selectedChecks.length === 1) {
-            	const detected_no = selectedChecks[0].value;
-            	window.location.href = "/admin/menu/readPolicy/updatePolicy?id=" + detected_no;
-        	} else {
-            	alert("정책을 선택하세요.");
-    	    }
-	    }
+			const selectedChecks = document.querySelectorAll('input[name="selectedPolicy"]:checked');
+
+			if (selectedChecks.length > 1) {
+				alert("수정은 한 개씩만 가능합니다.");
+			} else if (selectedChecks.length === 1) {
+				const detected_no = selectedChecks[0].value;
+				window.location.href = "/admin/menu/readPolicy/updatePolicy?id=" + detected_no;
+			} else {
+				alert("정책을 선택하세요.");
+			}
+		}
 
 		function deletePolicy() {
-        	const selectedChecks = document.querySelectorAll('input[name="selectedPolicy"]:checked');
-        
-        	if (selectedChecks.length >= 1) {
-            	const isConfirmed = confirm("선택된 정책을 모두 삭제하시겠습니까?");
-            
-            	if (isConfirmed) {
-                	selectedChecks.forEach((selectedCheck) => {
-                    	const detected_no = selectedCheck.value;
-                    	window.location.href = "/admin/menu/readPolicy/deletePolicy?id=" + detected_no;
-                	});
-            	} else {
-                	alert("삭제가 취소되었습니다.");
-            	}
-       		} else {
-           		alert("정책을 선택하세요.");
-        	}
-    	}
-		
+			const selectedChecks = document.querySelectorAll('input[name="selectedPolicy"]:checked');
+
+			if (selectedChecks.length >= 1) {
+				const isConfirmed = confirm("선택된 정책을 모두 삭제하시겠습니까?");
+
+				if (isConfirmed) {
+					selectedChecks.forEach((selectedCheck) => {
+						const detected_no = selectedCheck.value;
+						window.location.href = "/admin/menu/readPolicy/deletePolicy?id=" + detected_no;
+					});
+				} else {
+					alert("삭제가 취소되었습니다.");
+				}
+			} else {
+				alert("정책을 선택하세요.");
+			}
+		}
+
 		function toggleAllCheckboxes() {
-        // 모든 체크박스를 체크 상태로 변경 또는 해제
+			// 모든 체크박스를 체크 상태로 변경 또는 해제
 			const checkboxes = document.querySelectorAll('input[name="selectedPolicy"]');
 			const isChecked = !checkboxes[0].checked;
 
@@ -124,30 +127,30 @@
 				cb.checked = isChecked;
 			});
 		}
-		
+
 		document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
-		    checkbox.addEventListener('change', (e) => {
-		        const detected_no = e.target.closest('tr').querySelector('th span').textContent;
-		        const enable = e.target.checked ? 1 : 0;
-		
-		        fetch(`/admin/menu/readPolicy/updatePolicyEnable`, {
-		            method: 'POST',
-		            headers: {
-		                'Content-Type': 'application/json',
-		            },
-		            body: JSON.stringify({
-		                detected_no,
-		                enable,
-		            }),
-		        });
-		    });
+			checkbox.addEventListener('change', (e) => {
+				const detected_no = e.target.closest('tr').querySelector('th span').textContent;
+				const enable = e.target.checked ? 1 : 0;
+
+				fetch(`/admin/menu/readPolicy/updatePolicyEnable`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						detected_no,
+						enable,
+					}),
+				});
+			});
 		});
-		function view() {
-        	// 각 정책에 대한 상세보기 페이지로 이동
-        	const target = event.target.closest('tr').querySelector('th input').value;
-        	window.location.href = "/admin/menu/readPolicy/viewPolicy?id=" + target;
-    	}
 		
+		function view() {
+			// 각 정책에 대한 상세보기 페이지로 이동
+			const target = event.target.closest('tr').querySelector('th input').value;
+			window.location.href = "/admin/menu/readPolicy/viewPolicy?id=" + target;
+		}
 	</script>
 </body>
 
