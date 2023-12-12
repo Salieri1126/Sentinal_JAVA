@@ -49,17 +49,17 @@
 								style="display:inline;">
 						</th>
 
-						<th><span th:text="${policy.detected_no}"></span></th>
+						<th><span th:text="${policy.detected_no}" class="detected_no"></span></th>
 
 						<th class="click" onclick="view()"> <!-- onclick에 상세보기 맵핑 필요 -->
 							<span th:text="${policy.detected_name}"></span>
 						</th>
 
 						<th>
-							<label class="switch-button">
-								<input type="checkbox" th:checked="${policy.enable == 1}">
-								<span class="onoff-switch"></span>
-							</label>
+						    <label class="switch-button">
+						        <input type="checkbox" th:checked="${policy.enable == 1}" class="individual-switch">
+						        <span class="onoff-switch"></span>
+						    </label>
 						</th>
 						
 						<th><span th:text="${policy.level}"></span></th>
@@ -119,32 +119,35 @@
 		}
 
 		function toggleAllCheckboxes() {
-			// 모든 체크박스를 체크 상태로 변경 또는 해제
-			const checkboxes = document.querySelectorAll('input[name="selectedPolicy"]');
-			const isChecked = !checkboxes[0].checked;
-
-			checkboxes.forEach((cb) => {
-				cb.checked = isChecked;
-			});
+		    const enableSwitches = document.querySelectorAll('.individual-switch');
+		
+		    enableSwitches.forEach((switchInput) => {
+		        switchInput.checked = !switchInput.checked;
+		        updateEnableValue(switchInput);
+		    });
 		}
-
-		document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
-			checkbox.addEventListener('change', (e) => {
-				const detected_no = e.target.closest('tr').querySelector('th span').textContent;
-				const enable = e.target.checked ? 1 : 0;
-
-				fetch(`/admin/menu/readPolicy/updatePolicyEnable`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						detected_no,
-						enable,
-					}),
-				});
-			});
+		
+		document.querySelectorAll('.individual-switch').forEach((switchInput) => {
+		    switchInput.addEventListener('change', (e) => {
+		        updateEnableValue(e.target);
+		    });
 		});
+
+		function updateEnableValue(switchInput) {
+		    const detected_no = switchInput.closest('tr').querySelector('.detected_no').textContent;
+		    const enable = switchInput.checked ? 1 : 0;
+		
+		    fetch(`/admin/menu/readPolicy/updatePolicyEnable`, {
+		        method: 'POST',
+		        headers: {
+		            'Content-Type': 'application/json',
+		        },
+		        body: JSON.stringify({
+		            detected_no,
+		            enable,
+		        }),
+		    });
+		}
 		
 		function view() {
 			// 각 정책에 대한 상세보기 페이지로 이동
