@@ -1,165 +1,176 @@
 @charset "UTF-8";
+
 body {
-    padding: 30px;
+	padding: 30px;
 }
+
 header {
-    padding: 10px;
+	padding: 10px;
 }
 
 /* 제목앞에 파란색 라인 */
-.hline{
+.hline {
 	border-left: 5px solid #447294;
 }
-h1{
-	margin-left:10px;
+
+h1 {
+	margin-left: 10px;
 }
 
 /* 필터 */
 /* 필터 */
 .log-list-filter {
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
-  padding: 20px;
-  height: 30%;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  box-sizing: border-box;
-  font-size: 16px;
-  font-weight: bold;
+	border: 1px solid #e0e0e0;
+	border-radius: 5px;
+	padding: 20px;
+	height: 30%;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	box-sizing: border-box;
+	font-size: 16px;
+	font-weight: bold;
 }
 
 h2 {
-  margin-bottom: 15px;
+	margin-bottom: 15px;
 }
 
 .lft {
-  flex: 1;
-  float: left;
+	flex: 1;
+	float: left;
 }
 
 .rft {
-  margin-left: 20px;
-  flex: 1;
-  float: right;
+	margin-left: 20px;
+	flex: 1;
+	float: right;
 }
 
 .input-group {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
-.input-group input{
+.input-group input {
 	width: 180px;
 	height: 30px;
 	margin-left: 10px;
 	border-radius: 5px;
 	border: 1px solid #ccc;
 }
+
 .custom-input-group {
-  	width: 180px;
+	width: 180px;
 	height: 30px;
 	margin-left: 10px;
 	border-radius: 5px;
-  	border: 1px solid #ccc;
+	border: 1px solid #ccc;
 
 }
+
 .datepicker {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 10px;
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 10px;
 }
 
 .datepicker label {
-  margin-right: 10px;
+	margin-right: 10px;
 }
 
 .button-group {
-  display: flex;
-  justify-content: flex-end;
+	display: flex;
+	justify-content: flex-end;
 }
 
 .button-group label {
-  margin-right: 10px;
+	margin-right: 10px;
 }
 
 .button2 {
-  width: 65px;
-  height: 30px;
-  border: none;
-  color: white;
-  border-radius: 5px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 13px;
-  font-weight: bold;
-  margin: 0px 5px;
-  cursor: pointer;
+	width: 65px;
+	height: 30px;
+	border: none;
+	color: white;
+	border-radius: 5px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 13px;
+	font-weight: bold;
+	margin: 0px 5px;
+	cursor: pointer;
 }
 
 .applyB {
-  background-color: #3498db;
+	background-color: #3498db;
 }
 
 .resetB {
-  margin-left: 10px;
-  background-color: #5e5e5e;
+	margin-left: 10px;
+	background-color: #5e5e5e;
 }
 
 /* 로그테이블 */
 .logListBox {
-    width: 100%;
-    margin-top: 15px;
-    background-color: #f9f9f9;
-    overflow-y: scroll;
+	width: 100%;
+	margin-top: 15px;
+	background-color: #f9f9f9;
+	overflow-y: scroll;
 	overflow-x: scroll;
-    height: 70%;  /* 높이 설정 */
-    border: 1px solid #e0e0e0;
+	height: 70%;
+	/* 높이 설정 */
+	border: 1px solid #e0e0e0;
 }
 
 .logListBox table {
-    border-collapse: collapse;  
-    height: 100%;
-    width: 100%;
-    text-align:center;
+	border-collapse: collapse;
+	height: 100%;
+	width: 100%;
+	text-align: center;
 }
-thead th{	
-    text-align: center;
-    position: sticky; top: 0;
-    border-top: 0;
-    background-clip: padding-box;
+
+thead th {
+	text-align: center;
+	position: sticky;
+	top: 0;
+	border-top: 0;
+	background-clip: padding-box;
 	background-color: #e0e0e0;
 }
 
-.logListBox th, .logListBox td {
-    border-bottom: 1px solid #ccc;
-    padding: 4px;
-    text-align: center;
+.logListBox th,
+.logListBox td {
+	border-bottom: 1px solid #ccc;
+	padding: 4px;
+	text-align: center;
 }
 
 .logListBox tr:nth-child(even) {
-    background-color: #f2f2f2;
+	background-color: #f2f2f2;
 }
 
 /* 로그테이블 패킷,상세보기 버튼 */
-.pkBt, .infoBt {
+.pkBt,
+.infoBt {
 	width: 60px;
 	height: 30px;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 13px;
-    font-weight: bond;
-    margin: 0px 5px;
-    cursor: pointer;
+	border: none;
+	color: white;
+	border-radius: 5px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 13px;
+	font-weight: bond;
+	margin: 0px 5px;
+	cursor: pointer;
 }
-.pkBt{
+
+.pkBt {
 	background-color: #5e5e5e;
 }
+
 .infoBt {
 	background-color: #3498db;
 }
-

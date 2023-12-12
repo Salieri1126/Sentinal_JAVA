@@ -12,6 +12,7 @@ public class ReadPolicyEntity {
     private Integer detected_no;
     private String detected_name;
     private Integer enable;
+    private Integer action;
     private String src_ip;
     private String src_port;
     private String content1;

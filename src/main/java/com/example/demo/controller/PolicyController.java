@@ -80,11 +80,11 @@ public class PolicyController {
 		if (policyDetails.getSrc_port().equals("0")) {
 			policyDetails.setSrc_port("any");
 		}
-
+		
 		model.addAttribute("policyDetails", policyDetails);
 		return "updatePolicy";
 	}
-
+	
 	@PostMapping("/admin/menu/readPolicy/updatePolicy")
 	public String updatePolicy(@RequestParam("id") int detected_no, UpdatePolicyEntity policy, Model model) {
 		if ("any".equalsIgnoreCase(policy.getSrc_ip())) {
@@ -93,12 +93,12 @@ public class PolicyController {
 		if ("any".equalsIgnoreCase(policy.getSrc_port())) {
 			policy.setSrc_port("0");
 		}
-
+		
 		policy.setDetected_no(detected_no);
 		updatePolicyMapper.updatePolicy(policy);
 		return "redirect:/admin/menu/readPolicy";
 	}
-
+	
 	@PostMapping("/admin/menu/readPolicy/updatePolicyEnable")
 	public ResponseEntity<Void> updatePolicyEnable(@RequestBody ReadPolicyEntity policy) {
 		readPolicyMapper.updatePolicyEnable(policy.getDetected_no(), policy.getEnable());

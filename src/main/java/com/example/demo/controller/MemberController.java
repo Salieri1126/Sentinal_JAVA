@@ -43,4 +43,9 @@ public class MemberController {
     		return "redirect:/admin";
     	}
     }
+    
+    @GetMapping("/admin/home")
+    public String showHomePage() {
+    	return "home";
+    }
 }

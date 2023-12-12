@@ -5,20 +5,20 @@
         SELECT * FROM ips_policy WHERE detected_no = #{detected_no}
     </select>
 
-    <update id="updatePolicy">	
-        UPDATE ips_policy
-        SET 
-        	detected_name = #{detected_name},
-            action = #{action},
-            src_ip = #{src_ip},
-            src_port = #{src_port},
-            content1 = #{content1},
-            content2 = #{content2},
-            content3 = #{content3},
-            base_time = #{base_time},
-            base_limit = #{base_limit},
-            level = #{level}
-        WHERE
-            detected_no = #{detected_no}
-    </update>
+	<update id="updatePolicy">	
+	    UPDATE ips_policy
+	    SET 
+	    	detected_name = #{detected_name},
+	        action = #{action},
+	        src_ip = #{src_ip},
+	        src_port = #{src_port},
+        	content1 = #{content1},
+        	content2 = #{content2},
+        	content3 = #{content3},
+	        base_time = #{base_time},
+	        base_limit = #{base_limit},
+	        level = #{level}
+	    WHERE
+	        detected_no = #{detected_no}
+	</update>
 </mapper>
