@@ -38,10 +38,10 @@ public class PolicyController {
 		List<ReadPolicyEntity> readPolicies = readPolicyMapper.findAll();
 
 		for (ReadPolicyEntity policyList : readPolicies) {
-			if (policyList.getSrc_ip().equals("0")) {
+			if ("0".equals(policyList.getSrc_ip())) {
 				policyList.setSrc_ip("any");
 			}
-			if (policyList.getSrc_port().equals("0")) {
+			if ("0".equals(policyList.getSrc_ip())) {
 				policyList.setSrc_port("any");
 			}
 		}
@@ -74,10 +74,10 @@ public class PolicyController {
 	public String showUpdatePolicy(@RequestParam("id") int detected_no, Model model) {
 		UpdatePolicyEntity policyDetails = updatePolicyMapper.getPolicyDetailsById(detected_no);
 
-		if (policyDetails.getSrc_ip().equals("0")) {
+		if ("0".equals(policyDetails.getSrc_ip())) {
 			policyDetails.setSrc_ip("any");
 		}
-		if (policyDetails.getSrc_port().equals("0")) {
+		if ("0".equals(policyDetails.getSrc_ip())) {
 			policyDetails.setSrc_port("any");
 		}
 		
@@ -126,10 +126,10 @@ public class PolicyController {
 	public String showViewPolicy(@RequestParam("id") int detected_no, Model model) {
 	    ViewPolicyEntity viewPolicy = viewPolicyMapper.getPolicyPrintAll(detected_no);    
 
-		if (viewPolicy.getSrc_ip().equals("0")) {
+		if ("0".equals(viewPolicy.getSrc_ip())) {
 			viewPolicy.setSrc_ip("any");
 		}
-		if (viewPolicy.getSrc_port().equals("0")) {
+		if ("0".equals(viewPolicy.getSrc_port())) {
 			viewPolicy.setSrc_port("any");
 		}
 	    model.addAttribute("viewPolicy", viewPolicy);
