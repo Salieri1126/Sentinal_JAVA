@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="chrome">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/commonStyle.css">
-	<link rel="stylesheet" href="/css/changePolicyStyle.css">
+	<link rel="stylesheet" href="/css/updatePolicyStyle.css">
 	<title>Sentinel</title>
 </head>
 
@@ -41,25 +41,22 @@
 					<option value=3 th:selected="${policyDetails.level == 3}">최상</option>
 				</select>
 			</div>
-
-		</div>
-
-		<div class="right">
+			
 			<div class="hline">
 				<h3>세션 정보</h3>
 			</div>
-			<div class="section" name="r_section">
+			<div class="section">
 				<span class="label">출발지 IP:</span>
 				<input class="de_red" type="text" id="src_ip" name="src_ip" th:value="${policyDetails.src_ip}">
-
+				
 				<span class="label">출발지 Port:</span>
 				<input class="de_red" type="text" id="src_port" name="src_port" th:value="${policyDetails.src_port}">
 			</div>
-
+			
 			<div class="hline">
 				<h3>정책 동작</h3>
 			</div>
-			<div class="section" name="r_section">
+			<div class="section">
 				<span class="label">동작설정:</span>
 				<select id="action" name="action">
 					<option value=0 th:selected="${policyDetails.action == 0}">탐지</option>
@@ -68,63 +65,49 @@
 					<option value=3 th:selected="${policyDetails.action == 3}">탐지+차단+경고</option>
 				</select>
 			</div>
+
 		</div>
 
-		<div class="clear"></div>
-
-		<div class="hline">
-			<h3>탐지 패턴</h3>
-		</div>
-
-		<div class="section3" name="b_section">
-			<div class="b_top">
-				<div class="label1">기준횟수:
-					<input type="text" id="base_time" name="base_time" class="secT"
-						th:value="${policyDetails.base_time}">
-					초 동안
-					<input type="text" id="base_limit" name="base_limit" class="numT"
-						th:value="${policyDetails.base_limit}">
-					회 발생
-				</div>
+		<div class="right">
+			<div class="hline">
+				<h3>탐지 패턴</h3>
 			</div>
-
-			<div class="label">
-				<h8>패턴정의<h8>
-						<div class="pattenbox">
-							<div class="label3">
-								<input type="checkbox" class="checkbox" name="포함여부">포함여부
-							</div>
-
-							<div class="label4">내용:
-								<input class="de_gray" type="text" id="contentInput" placeholder="content를 입력하세요.">
-								<div>
-									<button type="button" class="addB" onclick="addContent(); updateDeleteButton()">추가</button>
-									<button type="button" class="dropB" id="deleteButton" onclick="deleteContent(); updateDeleteButton()">삭제</button>
-								</div>
+			<div class="r_section">	
+				<div class="b_top">
+					<div class="label1">기준횟수:
+						<input type="text" id="base_time" name="base_time" class="secT"
+							th:value="${policyDetails.base_time}">
+						초 동안
+						<input type="text" id="base_limit" name="base_limit" class="numT"
+							th:value="${policyDetails.base_limit}">
+						회 발생
+					</div>
+				</div>
+			
+				<div class="label">
+					<h8>패턴정의<h8>
+					<div class="pattenbox">
+						<div class="cont_label">내	용:
+							<input class="de_gray" type="text" id="contentInput" placeholder="content를 입력하세요.">
+							<div>
+								<button type="button" class="addB" onclick="addContent(); updateDeleteButton()">추가</button>
 							</div>
 						</div>
-						<div class="contentT" id='result'>
-							<table>
-								<tr id="content1" th:if="${policyDetails.content1 != null}">
-									<td>
-										<input type="checkbox" class="checkbox">
-										<span th:text="${policyDetails.content1}"></span>
-									</td>
-								</tr>
-								<tr id="content2" th:if="${policyDetails.content2 != null}">
-									<td>
-										<input type="checkbox" class="checkbox">
-										<span th:text="${policyDetails.content2}"></span>
-									</td>
-								</tr>
-								<tr id="content3" th:if="${policyDetails.content3 != null}">
-									<td>
-										<input type="checkbox" class="checkbox">
-										<span th:text="${policyDetails.content3}"></span>
-									</td>
-								</tr>
-							</table>
-						</div>
+					</div>
+					<div class="contentT" id='result'>
+						<table>
+							<tr id="content1" th:if="${policyDetails.content1 != null}">
+								<td><input type="text" name ="content1" class="cont_input" th:value="${policyDetails.content1}"/></td>
+							</tr>
+							<tr id="content2" th:if="${policyDetails.content2 != null}">
+								<td><input type="text" name ="content2" class="cont_input" th:value="${policyDetails.content2}"/></td>
+							</tr>
+							<tr id="content3" th:if="${policyDetails.content3 != null}">
+								<td><input type="text" name ="content3" class="cont_input" th:value="${policyDetails.content3}"/></td>
+							</tr>
+						</table>
+					</div>
+				</div>				
 			</div>
 		</div>
 

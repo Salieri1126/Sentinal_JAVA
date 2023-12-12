@@ -1,0 +1,191 @@
+@charset "UTF-8";
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+header {
+	margin-top: 30px;
+	margin-left: 30px;
+}
+
+/* 글자앞 |  */
+.hline {
+	margin-left: 10px;
+	border-left: 5px solid #447294;
+}
+
+h3 {
+	margin-left: 10px;
+}
+.container {
+	width: 90%;
+	margin: 30px auto;
+	border: 1px solid #5e5e5e;
+	border-radius: 5px;
+	padding: 20px;
+
+}
+
+.section, .r_section {
+	border: 1px solid #5e5e5e;
+	border-radius: 5px;
+	margin: 10px;
+	padding: 10px;
+	position: relative;
+}
+
+.left {
+	float: left;
+	width: 50%;
+	height: 100%;
+}
+
+.right {
+	float: right;
+	width: 50%;
+	height: 100%;
+}
+
+.section .label{
+	display: inline-block;
+	width: 35%;
+	margin: 5px;
+	text-align: left;
+}
+
+.section input,
+.section select,
+.section textarea,
+.section .checkbox {
+	display: inline-block;
+	width: 60%;
+	height: 35px;
+	border-radius: 5px;
+	text-align: right;
+	border: 1px solid #5e5e5e;
+}
+
+.left .section .label {
+	margin: 10px 0;
+}
+
+
+
+/* 탐지패턴 */
+
+.b_top {
+	display: flex;
+	justify-content: space-between;
+	margin: 10px 0;
+}
+
+.secT {
+	width: 35px;
+	height: 30px;
+	border-radius: 5px;
+	text-align: center;
+	margin: 0px 10px;
+}
+
+.numT {
+	width: 70px;
+	height: 30px;
+	border-radius: 5px;
+	text-align: center;
+	margin: 0px 10px;
+}
+
+
+ .b_se {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: flex-end;
+}
+
+ .label h3 p {
+	border-bottom: 1px solid #5e5e5e;
+}
+
+/* 포함여부 내용 버튼 */
+.r_section .label{
+	margin-top:30px;
+}
+h8 {
+	margin: 5px 0px;
+}
+
+.pattenbox {
+	display: flex;
+	align-items: center;
+	padding: 5px;
+	margin: 5px 0;
+	width: 100%;
+	font-size: 14px;
+}
+
+
+.cont_label {
+	margin-left: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.cont_label input {
+	height: 30px;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.addB {
+	width: 60px;
+	height: 25px;
+	border-radius: 5px;
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	margin-left: 10px;
+	background-color: #3498db;
+}
+
+
+
+
+.contentT {
+	width: 100%;
+	height: 220px;
+	border: 1px solid #5e5e5e;
+	padding: 10px;
+	border-radius: 5px;
+	overflow-x: hidden;
+}
+
+.cont_input {
+	outline: none;
+	padding:5px;
+	font-size: 14px;
+}
+
+/*수정 취소 버튼*/
+.button1,
+.button2 {
+	display: inline-block;
+	width: 90px;
+	height: 40px;
+	margin: 10px;
+	padding: 10px;
+	border-radius: 5px;
+	color: white;
+	cursor: pointer;
+}
+
+.button1 {
+	background-color: #3498db;
+}
+
+.button2 {
+	background-color: #5e5e5e;
+}
