@@ -22,8 +22,4 @@ public class LogService {
 		}
 		return packetDetail.trim();
 	}
-	
-	private String parsePacket(String packet) {
-		return packet;
-	}
 }

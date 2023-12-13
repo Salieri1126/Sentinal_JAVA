@@ -45,7 +45,12 @@ public class MemberController {
     }
     
     @GetMapping("/admin/home")
-    public String showHomePage() {
+    public String showHomeForm() {
     	return "home";
+    }
+    
+    @GetMapping("/admin/menu/report")
+    public String showReportForm() {
+    	return "report";
     }
 }

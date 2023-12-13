@@ -51,7 +51,7 @@
 
 						<th><span th:text="${policy.detected_no}" class="detected_no"></span></th>
 
-						<th class="click" onclick="view()"> <!-- onclick에 상세보기 맵핑 필요 -->
+						<th class="click" onclick="view()">
 							<span th:text="${policy.detected_name}"></span>
 						</th>
 
@@ -82,7 +82,7 @@
 
 				</tbody>
 			</table>
-		</div> <!-- 000 -->
+		</div>
 	</main>
 
 	<script>
@@ -119,11 +119,10 @@
 		}
 
 		function toggleAllCheckboxes() {
-		    const enableSwitches = document.querySelectorAll('.individual-switch');
-		
+		    const enableSwitches = document.querySelectorAll('.selectedPolicy');
+		    
 		    enableSwitches.forEach((switchInput) => {
 		        switchInput.checked = !switchInput.checked;
-		        updateEnableValue(switchInput);
 		    });
 		}
 		
