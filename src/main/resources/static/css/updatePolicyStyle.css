@@ -162,12 +162,29 @@ h8 {
 	border-radius: 5px;
 	overflow-x: hidden;
 }
-
-.contentT tr td {
-	outline: none;
-	padding:5px;
-	font-size: 14px;
+.contentT tr {
+	margin-bottom: 5px;
 }
+.contentT tr td span {
+	font-weight: 500;
+	font-size: 16px}
+
+.contentT tr td input {
+	outline: none;
+	border: 0;
+	color: black;
+	padding:5px;
+	font-size: 16px;
+	height: 25px;
+	font-weight: 600;
+}
+.contentT tr td button{
+	margin-left: 5px;
+	border-radius: 5px;
+	color: #ffffff;
+	background-color: #5e5e5e;
+}
+
 
 /*수정 취소 버튼*/
 .button1,

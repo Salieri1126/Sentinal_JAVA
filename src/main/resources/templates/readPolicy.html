@@ -45,7 +45,7 @@
 				<tbody>
 					<tr th:each="policy : ${readPolicies}">
 						<th>
-							<input type="checkbox" name="selectedPolicy" th:value="${policy.detected_no}"
+							<input type="checkbox" class="selectedPolicy" name="selectedPolicy" th:value="${policy.detected_no}"
 								style="display:inline;">
 						</th>
 

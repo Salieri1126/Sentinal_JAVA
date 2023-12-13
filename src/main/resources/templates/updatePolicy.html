@@ -97,13 +97,13 @@
                <div class="contentT" id='result'>
                   <table>
                      <tr id="content1" th:if="${policyDetails.content1 != null}">
-                        <td><span name="label_content1">content1   :</span><input type="text" name ="content1" th:value="${policyDetails.content1}"/><button type="button" onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
+                        <td><span name="label_content1">content1   :	</span><input type="text" name ="content1" th:value="${policyDetails.content1}" readonly/><button type="button" onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
                      </tr>
                      <tr id="content2" th:if="${policyDetails.content2 != null}">
-                        <td><span name="label_content2">content2   :</span><input type="text" name ="content2" th:value="${policyDetails.content2}"/><button type="button" onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
+                        <td><span name="label_content2">content2   :</span><input type="text" name ="content2" th:value="${policyDetails.content2}" readonly/><button type="button" onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
                      </tr>
                      <tr id="content3" th:if="${policyDetails.content3 != null}">
-                        <td><span name="label_content3">content3   :</span><input type="text" name ="content3" th:value="${policyDetails.content3}"/><button type="button" onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
+                        <td><span name="label_content3">content3   :	</span><input type="text" name ="content3" th:value="${policyDetails.content3}" readonly/><button type="button" onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
                      </tr>
                   </table>
                </div>
@@ -194,13 +194,19 @@
 function addContent() {
     var contentInput = document.getElementById("contentInput");
     var content = contentInput.value.toLowerCase();
+    
+    // 아무것도 입력하고 버튼누르면 입력하라는창
+    if (content.trim() === "") {
+        alert("정책을 입력하세요");
+        return;
+    }
 
     var contentT = document.getElementById("result");
     var table = contentT.querySelector("table");
 
     // 이미 있는 값인지 확인
-    var existingContent = Array.from(table.querySelectorAll("td span")).find(function (item) {
-        return item.innerText.toLowerCase() === content;
+    var existingContent = Array.from(table.querySelectorAll("td input")).find(function (item) {
+        return item.value.toLowerCase() === content;
     });
 
     if (table.rows.length < 3 && content.trim() !== "") {
@@ -214,11 +220,13 @@ function addContent() {
             var label = document.createElement("span");
             label.innerText = "content" + (table.rows.length) + ": ";
             cell.appendChild(label);
-            var span = document.createElement("span");
-            span.innerText = content;
-            cell.appendChild(span);
 
-            
+            // 값 추가
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = "content" + (table.rows.length);
+            input.value = content;
+            cell.appendChild(input);
 
             // 삭제 버튼 추가
             var deleteButton = document.createElement("button");
@@ -229,33 +237,10 @@ function addContent() {
             cell.appendChild(deleteButton);
 
             contentInput.value = ""; // 입력 창 초기화
-        // Form에 값을 추가하는 코드
-            var form = document.getElementById("policyForm");
-
-            // 새로운 contentInputs를 form에 추가하거나 업데이트
-            for (var i = 0; i < table.rows.length; i++) {
-                var inputName = "content" + (i + 1);
-                var existingInput = form.querySelector("input[name='" + inputName + "']");
-
-                if (existingInput) {
-                    // 이미 있는 경우 값만 업데이트
-                    existingInput.value = table.rows[i].cells[0].querySelectorAll("span")[2].innerText;
-                } else {
-                    // 없는 경우 새로 추가
-                    var input = document.createElement("input");
-                    input.type = "hidden";
-                    input.name = inputName;
-                    input.value = table.rows[i].cells[0].querySelectorAll("span")[1].innerText;
-                    form.appendChild(input);
-                }
-            }
         }
     } else {
         alert("Content는 최대 3개까지 추가 가능합니다.");
     }
-
-    // 추가된 데이터를 Form에 반영
-    updateFormData();
 }
 
 function deleteRow(row) {
@@ -276,9 +261,6 @@ function deleteRow(row) {
     }
 
     row.parentNode.removeChild(row); // 해당 row 삭제
-
-    // 추가된 데이터를 Form에 반영
-    updateFormData();
 }
 
 function updateFormData() {
