@@ -112,32 +112,7 @@
 				return true;
 			}
 		}
-		/*	
-				$(function() {
-					$('form').on('submit', function(e) {
-						e.preventDefault();
-						$.ajax({
-							url: '/admin/menu/readLogs/api/getLogList',
-							method: 'GET',
-							data: $(this).serialize(),
-							success: function(data) {
-								$('#logList').empty();
-								data.forEach(function(log) {
-									var li = $('<li>');
-									li.append($('<span>').text(log.log_index + ' '));
-									li.append($('<span>').text(log.log_date + ' '));
-									var detectedNameLink = $('<a>').attr('href', '/admin/menu/readLogs/viewLogs/' + log.log_date + '/' + log.log_index).text(log.detected_name);
-									li.append(detectedNameLink);
-									li.append($('<span>').text(' ' + log.level + ' '));
-									li.append($('<span>').text(log.action + ' '));
-									li.append($('<span>').text(log.src_ip + ' '));
-									$('#logList').append(li);
-								});
-							}
-						});
-					});
-				}); */
-		/*********************************************************************/
+		
 		$(function () {
 			$('form').on('submit', function (e) {
 				e.preventDefault();
@@ -169,6 +144,7 @@
 					}
 				});
 			});
+			
 			$('form').on('submit', function (e) {
 				e.preventDefault();
 				getLogList();
@@ -178,9 +154,7 @@
 				getLogList();
 			});
 		});
-
-
-		/*********************************************************************/
+		
 		function resetFilters() {
 			var today = new Date().toISOString().slice(0, 10);
 			$("#ip").val('any');
@@ -272,7 +246,7 @@
 				</tr>
 			</thead>
 			<tbody id="logTable">
-				<!-- 여기에 로그가 동적으로 추가됩니다 -->
+				<!-- 여기에 로그가 동적으로 추가됨 -->
 			</tbody>
 		</table>
 	</div>
