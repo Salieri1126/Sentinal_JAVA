@@ -14,8 +14,8 @@ import com.example.demo.model.file.SetupEntity;
 @Service
 public class SetupService {
 	
-	public void makeConfFile(SetupEntity confFileEntity) {
-		final String path = "C:/Users/chlru/Desktop/Study/Project/dbms_ips_manager.conf";
+	public void makeConfFile(SetupEntity setupEntity) {
+		final String path = "/home/rocky/manager/dbms_ips_manager.conf";
         final File file = new File(path);
         final File backupFile = new File(path + "_backup");
 
@@ -24,9 +24,9 @@ public class SetupService {
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
-            writer.write("SNIFF_NIC = " + confFileEntity.getDbNIC() + "\n\n");
-            writer.write("DB_IP = " + confFileEntity.getDbIP() + "\n");
-            writer.write("DB_PORT = " + confFileEntity.getDbPORT() + "");
+            writer.write("SNIFF_NIC = " + setupEntity.getDbNIC() + "\n\n");
+            writer.write("DB_IP = " + setupEntity.getDbIP() + "\n");
+            writer.write("DB_PORT = " + setupEntity.getDbPORT() + "");
             
             try (BufferedReader reader = new BufferedReader(new FileReader(backupFile))) {
                 String line;

@@ -133,27 +133,27 @@
 			var contentInput = document.getElementById("contentInput");
 
 			if (detectedName.trim() === "") {
-				alert("Detected Name은 필수 항목입니다. 값을 입력해주세요.");
+				alert("탐지명은 필수 입력 항목입니다.");
 				return false;
 			}
 			if (!isValidIp(srcIP)) {
-				alert("Source IP가 유효한 IP 주소 형식이 아닙니다.");
+				alert("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
 				return false;
 			}
 			if (!isValidPort(srcPort)) {
-				alert("Source Port가 유효한 포트 번호 형식이 아닙니다.");
+				alert("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
 				return false;
 			}
 			if (!isPositiveNumber(baseTime)) {
-				alert("Base Time은 양수만 가능합니다.");
+				alert("행동 탐지 기준 초는 양수만 입력 가능합니다. ");
 				return false;
 			}
 			if (!isPositiveNumber(baseLimit)) {
-				alert("Base Limit은 양수만 가능합니다.");
+				alert("행동 탐지 기준 쿼리 갯수는 양수만 입력 가능합니다.");
 				return false;
 			}
 			if (contentInput.value.trim() !== "") {
-				var confirmResult = confirm("입력한 Content가 추가되지 않았습니다. 그대로 적용하시겠습니까?");
+				var confirmResult = confirm("입력한 내용이 추가되지 않았습니다. 그래도 적용하시겠습니까?");
 				if (confirmResult === false) {
 					return false;
 				}
@@ -163,9 +163,9 @@
 				.then(response => response.text())
 				.then(function (result) {
 					if (result === 'EXIST') {
-						alert('동일한 Detected Name이 이미 존재합니다.');
+						alert('동일한 탐지명이 이미 존재합니다.');
 					} else if (result === 'NOT_EXIST') {
-						alert('정책 추가 작업이 완료되었습니다.');
+						alert('정책 수정 작업이 완료되었습니다.');
 						document.getElementById('policyForm').submit();
 					} else {
 						alert('예상치 못한 서버 응답입니다.');
@@ -181,7 +181,7 @@
 
 			// 아무것도 입력하지 않으면 경고 메시지 표시
 			if (content.trim() === "") {
-				alert("정책을 입력하세요");
+				alert("정책을 입력하세요.");
 				return;
 			}
 
@@ -195,7 +195,7 @@
 
 			if (table.rows.length < 3) {
 				if (existingContent) {
-					alert("동일한 Content가 이미 존재합니다.");
+					alert("동일한 내용이 이미 존재합니다.");
 				} else {
 					var newRow = table.insertRow(-1);
 					var cell = newRow.insertCell(0);
@@ -223,7 +223,7 @@
 					contentInput.value = ""; // 입력 창 초기화
 				}
 			} else {
-				alert("Content는 최대 3개까지 추가 가능합니다.");
+				alert("내용은 최대 3개까지 추가 가능합니다.");
 			}
 		}
 
