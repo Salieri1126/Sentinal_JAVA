@@ -79,10 +79,10 @@
 				<div class="b_top">
 	               <div class="label1">기준횟수:
 	                  <input type="text" id="base_time" name="base_time" class="secT"
-	                     th:value="${viewPolicy.base_time}" readonly>
+	                     th:value="${viewPolicy.base_time}" readonly style="background-color: #f2f2f2;">
 	                  초 동안
 	                  <input type="text" id="base_limit" name="base_limit" class="numT"
-	                     th:value="${viewPolicy.base_limit}" readonly>
+	                     th:value="${viewPolicy.base_limit}" readonly style="background-color: #f2f2f2;">
 	                  회 발생
 	               </div>
 	            </div>
@@ -91,10 +91,7 @@
                <h8>패턴정의<h8>
                <div class="pattenbox">
                   <div class="cont_label">내   용:
-                     <input class="de_gray" type="text" id="contentInput" placeholder="content를 입력하세요.">
-                     <div>
-                        <button type="button" class="addB" onclick="addContent(); updateDeleteButton()">추가</button>
-                     </div>
+                     <input class="de_gray" type="text" id="contentInput" placeholder="content를 입력하세요." readonly style="background-color: #f2f2f2;">
                   </div>
                </div>
                <div class="contentT" id='result'>
