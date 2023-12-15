@@ -28,18 +28,18 @@
 				<thead>
 					<tr>
 						<th class="click" onclick="toggleAllCheckboxes()"><input type="checkbox"></th>
-						<th>no</th>
+						<th>No</th>
 						<th>이름</th>
 						<th>적용</th>
-						<th>level</th>
-						<th>src_IP</th>
-						<th>src_Port</th>
-						<th>base_time</th>
-						<th>base_limit</th>
-						<th>content1</th>
-						<th>content2</th>
-						<th>content3</th>
-						<th>action</th>
+						<th>위험등급</th>
+						<th>출발지 IP</th>
+						<th>출발지 Port</th>
+						<th>기준 초</th>
+						<th>기준 쿼리 개수</th>
+						<th>탐지 문구 1</th>
+						<th>탐지 문구 2</th>
+						<th>탐지 문구 3</th>
+						<th>동작</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -62,7 +62,7 @@
 						    </label>
 						</th>
 						
-						<th><span th:text="${policy.level}"></span></th>
+						<th><span th:text="${policy.level}" class="level"></span></th>
 						
 						<th><span th:text="${policy.src_ip}"></span></th>
 
@@ -71,21 +71,71 @@
 						<th><span th:text="${policy.base_time}"></span></th>
 
 						<th><span th:text="${policy.base_limit}"></span></th>
-
+						
 						<th><span th:text="${policy.content1}"></span></th>
 						<th><span th:text="${policy.content2}"></span></th>
 						<th><span th:text="${policy.content3}"></span></th>
 						
-						<th><span th:text="${policy.action}"></span></th>
+						<th><span th:text="${policy.action}" class="action"></span></th>
 					</tr>
-					</tr>
-
 				</tbody>
 			</table>
 		</div>
 	</main>
 
 	<script>
+		window.onload = function() {
+		    var levelElements = document.getElementsByClassName('level');
+		    var actionElements = document.getElementsByClassName('action');
+		    for(var i = 0; i < levelElements.length; i++) {
+		        var levelValue = levelElements[i].innerText;
+		        var actionValue = actionElements[i].innerText;
+		        var levelText = '';
+		        var actionText = '';
+		
+		        // level value에 따른 문자열 변환
+		        switch(levelValue) {
+		            case '-1':
+		                levelText = '전체';
+		                break;
+		            case '0':
+		                levelText = '하';
+		                break;
+		            case '1':
+		                levelText = '중';
+		                break;
+		            case '2':
+		                levelText = '상';
+		                break;
+		            case '3':
+		                levelText = '최상';
+		                break;
+		        }
+		
+		        // action value에 따른 문자열 변환
+		        switch(actionValue) {
+					case '-1':
+		                actionText = '전체';
+		                break;
+		            case '0':
+		                actionText = '탐지';
+		                break;
+		            case '1':
+		                actionText = '탐지+경고';
+		                break;
+		            case '2':
+		                actionText = '탐지+차단';
+		                break;
+		            case '3':
+		                actionText = '탐지+차단+경고';
+		                break;
+		        }
+		
+		        levelElements[i].innerText = levelText;
+		        actionElements[i].innerText = actionText;
+		    }
+		}
+		
 		function updatePolicy() {
 			const selectedChecks = document.querySelectorAll('input[name="selectedPolicy"]:checked');
 

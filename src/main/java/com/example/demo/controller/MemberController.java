@@ -18,9 +18,19 @@ public class MemberController {
 
     private final MemberService memberService;
     
+    @GetMapping("/")
+    public String showLoginForm_1() {
+    	return "redirect:/admin";
+    }
+    
     @GetMapping("/admin")
-    public String showLoginForm() {
+    public String showLoginForm_2() {
         return "login";
+    }
+    
+    @GetMapping("/admin/")
+    public String showLoginForm_3() {
+    	return "redirect:/admin";
     }
 
     @PostMapping("/admin")
@@ -32,6 +42,12 @@ public class MemberController {
         } else {
             return "redirect:/admin";
         }
+    }
+    
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/admin";
     }
     
     @GetMapping("/admin/menu")
@@ -47,10 +63,5 @@ public class MemberController {
     @GetMapping("/admin/home")
     public String showHomeForm() {
     	return "home";
-    }
-    
-    @GetMapping("/admin/menu/report")
-    public String showReportForm() {
-    	return "report";
     }
 }
