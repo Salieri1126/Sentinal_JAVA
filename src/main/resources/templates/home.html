@@ -1,29 +1,107 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="chrome">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Sentinel</title>
-	
-	<style>
-	    * {
-			box-sizing: border-box;
-	      	margin: 0;
-	      	padding: 0;
-	    }
-	
-		body {
-			height: 35vh; /*vh,vw각환경 컴퓨터에 맞는 꽉찬화면 설정*/
-		    width: 100vw;
-		    background-image: url('/img/bonobono.png');
-		    background-repeat : no-repeat;
-		    background-size : cover;
-		}
-	</style>
-	
+	<link rel="stylesheet" href="/css/commonStyle.css">
+	<link rel="stylesheet" href="/css/readLogsStyle.css">
+
+	<!-- Datepicker 사용을 위한 jQuery, jQuery-UI 라이브러리 추가 -->
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/i18n/datepicker-ko.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- 한국어 지역 설정 추가 -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-ko.js"></script>
+	<!-- Timepicker 한국어 지역 설정 추가 -->
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
+
+    <title>Sentinel</title>
+    <script>
+		$(document).ready(function() {
+    var today = new Date();
+    var weekAgo = new Date();
+    weekAgo.setDate(today.getDate() - 7);  // 일주일 전
+
+    var formatDate = function(date) {
+        var year = date.getFullYear();
+        var month = (1 + date.getMonth());  // 0부터 시작하므로 1 더함
+        month = month >= 10 ? month : '0' + month;  // 월 두 자리로 저장
+        var day = date.getDate();
+        day = day >= 10 ? day : '0' + day;  // 일 두 자리로 저장
+        return  year + '-' + month + '-' + day;
+    };
+
+    $.ajax({
+        url: '/admin/menu/readLogs/api/getLogList',
+        type: 'GET',
+        data: {
+            startDate: formatDate(weekAgo),
+            endDate: formatDate(today)
+        },
+        success: function(data) {
+            $('#logTable').empty();
+            data.forEach(function (log) {
+                var row = $('<tr>');
+                row.append($('<td>').text(log.log_index));
+                row.append($('<td>').text(log.log_date));
+                row.append($('<td>').text(log.detected_name));
+                row.append($('<td>').text(log.level));
+                row.append($('<td>').text(log.src_ip));
+                row.append($('<td>').text(log.action));
+                $('#logTable').append(row);
+            });
+        },
+        error: function(request, status, error) {
+            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        }
+    });
+});
+		
+		
+	</script>
+    
+    
 </head>
+
 <body>
-	<div></div>
+    <header>
+        <div class="hline">
+            <h1>홈</h1>
+        </div>
+    </header>
+	<div class="doughnutChart">
+		
+		
+	</div>
+    <div class="logListBox">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>시간</th>
+                    <th>내용</th>
+                    <th>위험등급</th>
+                    <th>IP</th>
+                    <th>동작</th>
+                </tr>
+            </thead>
+            <tbody id="logTable">
+                <!-- 여기에 로그가 동적으로 추가됨 -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        
+    </script>
 </body>
+
 </html>
