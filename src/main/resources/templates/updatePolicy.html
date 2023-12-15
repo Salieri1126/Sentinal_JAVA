@@ -62,10 +62,8 @@
 			<div class="section">
 				<span class="label">동작설정:</span>
 				<select id="action" name="action">
-					<option value=0 th:selected="${policyDetails.action == 0}">탐지</option>
-					<option value=1 th:selected="${policyDetails.action == 1}">탐지+경고</option>
-					<option value=2 th:selected="${policyDetails.action == 2}">탐지+차단</option>
-					<option value=3 th:selected="${policyDetails.action == 3}">탐지+차단+경고</option>
+					<option value=0 th:selected="${policyDetails.action == 0}">로그</option>
+					<option value=1 th:selected="${policyDetails.action == 1}">로그+차단</option>
 				</select>
 			</div>
 
@@ -121,6 +119,18 @@
 								</table>
 							</div>
 				</div>
+			</div>
+			
+			<div class="hline">
+				<h3>탐지 내용</h3>
+			</div>
+			<div class="r_section">
+                  <div class="detailbox">설명:
+                     <!-- 설명 추가 어떻게 할지 의논후 수정 -->
+                  </div>
+                  <div>
+				      <textarea placeholder="설명을 입력하세요" style="resize: none;"></textarea>
+				  </div>
 			</div>
 		</div>
 
