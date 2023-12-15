@@ -19,8 +19,8 @@
 		
 		OFF: 로그를 완전히 비활성화합니다. 즉, 모든 로그 메시지가 무시됩니다. -->
     
-    <logger name="org.mybatis" level="INFO" />
-    <root level="INFO">
+    <logger name="org.mybatis" level="DEBUG" />
+    <root level="DEBUG">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>

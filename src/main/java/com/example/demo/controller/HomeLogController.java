@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,57 +19,46 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class HomeLogController {
+	
+	private final ReadLogsMapper readLogsMapper;
     
-    private final ReadLogsMapper readLogsMapper;
+	@GetMapping("/admin/menu/home")
+	public String showHomePage(Model model) {
+	    LocalDate today = LocalDate.now();
+	    LocalDate weekAgo = today.minusWeeks(1);
+	    model.addAttribute("today", today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+	    model.addAttribute("weekAgo", weekAgo.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+	    return "home";
+	}
 
-    @GetMapping("/admin/menu/home")
-    public String showLogListForm(Model model) {
-    	LocalDate today = LocalDate.now();
-        model.addAttribute("today", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        model.addAttribute("weekAgo", today.minusWeeks(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        return "readLogs";
-    }
-    
-    @GetMapping("/admin/menu/home/api/log")
-    @ResponseBody
-    public List<ReadLogsEntity> getLogList(
-            @RequestParam(name = "ip", required = false) String ip,
-            @RequestParam(name = "level", required = false, defaultValue = "-1") Integer level,
-            @RequestParam(name = "action", required = false, defaultValue = "-1") Integer action,
-            @RequestParam(name = "startDate", required = false) String startDateStr,
-            @RequestParam(name = "startTime", required = false) String startTimeStr,
-            @RequestParam(name = "endDate", required = false) String endDateStr,
-            @RequestParam(name = "endTime", required = false) String endTimeStr) {
-    	
-        if (ip == null || "".equalsIgnoreCase(ip) || "any".equalsIgnoreCase(ip) || ip.isEmpty()) ip = null;
-        if (level == -1) level = null;
-        if (action == -1) action = null;
-        
-        LocalDateTime startDate = null;
-        if (startDateStr != null && !startDateStr.isEmpty() && startTimeStr != null && !startTimeStr.isEmpty()) {
-            startDate = LocalDateTime.parse(startDateStr + " " + startTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        }
-        LocalDateTime endDate = null;
-        if (endDateStr != null && !endDateStr.isEmpty() && endTimeStr != null && !endTimeStr.isEmpty()) {
-            endDate = LocalDateTime.parse(endDateStr + " " + endTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        }
-        
-        List<ReadLogsEntity> readLogs = new ArrayList<>();
-        
-        if (startDateStr == null && endDateStr == null) {
-            return null;
-        } else {
-        	LocalDate start = startDate.toLocalDate();
-            LocalDate end = endDate.toLocalDate();
-            for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
-                String tableName = "log_" + date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-                readLogs.addAll(readLogsMapper.findFilteredLogs(tableName, ip, level, action, startDate, endDate));
-            }
-            readLogs.forEach(
-                    log -> log.setLog_date(
-                            log.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
-            return readLogs;
-        }
-    }
+	@GetMapping("/admin/menu/home/api/log")
+	@ResponseBody
+	public List<ReadLogsEntity> getWeeklyLogs(
+	        @RequestParam(name = "startDate", required = false) String startDateStr,
+	        @RequestParam(name = "endDate", required = false) String endDateStr) {
+
+	    LocalDate startDate = null;
+	    if (startDateStr != null && !startDateStr.isEmpty()) {
+	        startDate = LocalDate.parse(startDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	    }
+	    LocalDate endDate = null;
+	    if (endDateStr != null && !endDateStr.isEmpty()) {
+	        endDate = LocalDate.parse(endDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	    }
+
+	    List<ReadLogsEntity> logs = new ArrayList<>();
+
+	    if (startDate != null && endDate != null) {
+	        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+	            String tableName = "log_" + date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+	            logs.addAll(readLogsMapper.findFilteredLogs(tableName, null, null, null, startDate.atStartOfDay(), endDate.atTime(23, 59, 59)));
+	        }
+	    }
+
+	    return logs;
+	}
+
+
+
 
 }
