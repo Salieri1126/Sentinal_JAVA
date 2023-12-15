@@ -101,16 +101,26 @@
 			var pattern = new RegExp(/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/);
 			return pattern.test(ip) || ip === "" || ip === "0" || ip.toLowerCase() === "any";
 		}
+		
+		function isValidPort(port) {
+			var pattern = new RegExp(/^[0-9]{1,5}$/);
+			return pattern.test(port) && (0 <= port && port <= 65535) || port.toLowerCase() === "any";
+		}
 
 		function validateForm() {
-			var ip = document.getElementById("ip").value;
-
-			if (!isValidIp(ip)) {
-				alert("입력된 출발지 IP가 유효한 IP 주소 형식이 아닙니다.");
+			var srcIp = document.getElementById("src_ip").value;
+			var srcPort = document.getElementById("src_port").value;
+			var dstIp = document.getElementById("dst_ip").value;
+				
+			if (!isValidIp(srcIp) || !isValidIp(dstIp)) {
+				alert("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
 				return false;
-			} else {
-				return true;
 			}
+			if (!isValidPort(srcPort)) {
+				alert("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
+				return false;
+			}
+			return true;
 		}
 		
 		$(function () {
@@ -148,22 +158,18 @@
 							}
 							row.append($('<td>').text(resultLevel));
 							row.append($('<td>').text(log.src_ip));
+							row.append($('<td>').text(log.src_port));
+							row.append($('<td>').text(log.dst_ip));
 							var resultAction = '';
 							switch(log.action) {
 								case -1:
 									resultAction = '전체';
 									break;
 								case 0:
-									resultAction = '탐지';
+									resultAction = '로그';
 									break;
 								case 1:
-									resultAction = '탐지+경고';
-									break;
-								case 2:
-									resultAction = '탐지+차단';
-									break;
-								case 3:
-									resultAction = '탐지+차단+경고';
+									resultAction = '로그+차단';
 									break;
 							}
 							row.append($('<td>').text(resultAction));
@@ -203,7 +209,9 @@
 		
 		function resetFilters() {
 			var today = new Date().toISOString().slice(0, 10);
-			$("#ip").val('any');
+			$("#src_ip").val('any');
+			$("#src_port").val('any');
+			$("#dst_ip").val('any');
 			$("#level").val('-1');
 			$("#action").val('-1');
 			$("#startDate").val(today);
@@ -224,14 +232,25 @@
 		</div>
 	</header>
 	<div class="log-list-filter">
-		<form th:action="@{/admin/menu/readLogs}" method="get" onsubmit="return validateForm()">
+		<form th:action="@{/admin/menu/readLogs}" id="logForm" method="get" onsubmit="return validateForm()">
 			<h2>필터</h2>
 			<div class="lft">
 				<div class="input-group">
-					<label for="ip">출발지 IP:</label>
-					<input type="text" id="ip" name="ip" th:attr="value=${ip!=null}?${ip}:'any'">
+					<label for="src_ip">출발지 IP:</label>
+					<input type="text" id="src_ip" name="src_ip" th:value="${src_ip!=null}?${src_ip}:'any'">
 				</div>
-
+				
+				<div class="input-group">
+					<label for="src_port">출발지 Port:</label>
+					<input type="text" id="src_port" name="src_port" th:value="${src_port!=null}?${src_port}:'any'">
+				</div>
+				
+				<div class="input-group">
+					<label for="dst_ip">도착지 IP:</label>
+					<input type="text" id="dst_ip" name="dst_ip" th:value="${dst_ip!=null}?${dst_ip}:'any'">
+				</div>
+			</div>
+			<div class="cen">
 				<div class="input-group">
 					<label for="level">위험등급:</label>
 					<select id="level" name="level" class="custom-input-group">
@@ -247,10 +266,8 @@
 					<label for="action">동작:</label>
 					<select id="action" name="action" class="custom-input-group">
 						<option value="-1" th:selected="${action == -1}">전체</option>
-						<option value="0" th:selected="${action == 0}">탐지</option>
-						<option value="1" th:selected="${action == 1}">탐지+경고</option>
-						<option value="2" th:selected="${action == 2}">탐지+차단</option>
-						<option value="3" th:selected="${action == 3}">탐지+차단+경고</option>
+						<option value="0" th:selected="${action == 0}">로그</option>
+						<option value="1" th:selected="${action == 1}">로그+차단</option>
 					</select>
 				</div>
 			</div>
@@ -258,17 +275,17 @@
 				<div class="input-group datepicker">
 					<label for="startDate">시작 지점 날짜:</label>
 					<input type="text" id="startDate" name="startDate" class="datepicker"
-						th:attr="value=${startDate!=null}?${startDate}:${today}">
+						th:value="${startDate!=null}?${startDate}:${today}">
 					<input type="text" id="startTime" name="startTime" class="timepicker"
-						th:attr="value=${startTime!=null}?${startTime}:'00:00:00'">
+						th:value="${startTime!=null}?${startTime}:'00:00:00'">
 				</div>
 
 				<div class="input-group datepicker">
 					<label for="endDate">종료 지점 날짜:</label>
 					<input type="text" id="endDate" name="endDate" class="datepicker"
-						th:attr="value=${endDate!=null}?${endDate}:${today}">
+						th:value="${endDate!=null}?${endDate}:${today}">
 					<input type="text" id="endTime" name="endTime" class="timepicker"
-						th:attr="value=${endTime!=null}?${endTime}:'23:59:59'">
+						th:value="${endTime!=null}?${endTime}:'23:59:59'">
 				</div>
 
 				<div class="button-group">
@@ -286,7 +303,9 @@
 					<th>시간</th>
 					<th>내용</th>
 					<th>위험등급</th>
-					<th>IP</th>
+					<th>출발지 IP</th>
+					<th>출발지 Port</th>
+					<th>도착지 IP</th>
 					<th>동작</th>
 					<th> </th>
 				</tr>

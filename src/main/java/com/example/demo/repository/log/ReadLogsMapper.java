@@ -12,7 +12,9 @@ import com.example.demo.model.log.ReadLogsEntity;
 public interface ReadLogsMapper {
 	List<ReadLogsEntity> findFilteredLogs(
 			@Param("tableName") String tableName,
-            @Param("ip") String ip,
+            @Param("src_ip") String src_ip,
+            @Param("src_port") String src_port,
+            @Param("dst_ip") String dst_ip,
             @Param("level") Integer level,
             @Param("action") Integer action,
             @Param("startDate") LocalDateTime startDate,
@@ -20,4 +22,8 @@ public interface ReadLogsMapper {
 	ReadLogsEntity getBinaryData(
 			@Param("tableName") String tableName,
 			@Param("log_index") int log_index);
+	List<ReadLogsEntity> getTodayLogs(
+			@Param("tableName") String tableName,
+			@Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate);
 }
