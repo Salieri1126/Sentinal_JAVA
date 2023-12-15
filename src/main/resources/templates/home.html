@@ -1,29 +1,135 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="chrome">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Sentinel</title>
-	
-	<style>
-	    * {
-			box-sizing: border-box;
-	      	margin: 0;
-	      	padding: 0;
-	    }
-	
-		body {
-			height: 35vh; /*vh,vw각환경 컴퓨터에 맞는 꽉찬화면 설정*/
-		    width: 100vw;
-		    background-image: url('/img/bonobono.png');
-		    background-repeat : no-repeat;
-		    background-size : cover;
-		}
-	</style>
-	
+	<link rel="stylesheet" href="/css/commonStyle.css">
+	<link rel="stylesheet" href="/css/readLogsStyle.css">
+
+	<!-- Datepicker 사용을 위한 jQuery, jQuery-UI 라이브러리 추가 -->
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-ko.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+	<!-- Timepicker 한국어 지역 설정 추가 -->
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
+
+	<!-- Datepicker 적용 스크립트 -->
+	<script>
+		
+		$(document).ready(function() {
+    var startDateStr = "2023-12-13";  // 시작 날짜를 설정하세요.
+    var endDateStr = "2023-12-15";  // 종료 날짜를 설정하세요.
+    var logNames = {};  // 로그 이름을 저장할 객체입니다. 이 부분을 추가했습니다.
+
+    $.ajax({
+        url: '/admin/menu/home/api/log',
+        type: 'GET',
+        data: {
+            startDate: startDateStr,
+            endDate: endDateStr
+        },
+        success: function(data) {
+            var tbody = $('#lTable');
+            data.forEach(function(log) {
+                var row = $('<tr>');
+                row.append($('<td>').text(log.log_index));
+                row.append($('<td>').text(log.log_date));
+                row.append($('<td>').text(log.detected_name));
+                row.append($('<td>').text(log.level));
+                row.append($('<td>').text(log.src_ip));
+                row.append($('<td>').text(log.action));
+                tbody.append(row);
+
+                // 로그 이름별로 개수를 세어 logNames에 저장합니다.
+                if (logNames[log.detected_name]) {
+                    logNames[log.detected_name]++;
+                } else {
+                    logNames[log.detected_name] = 1;
+                }
+            });
+
+            // logNames를 이용해 차트 데이터를 생성합니다.
+            var labels = Object.keys(logNames);
+            var data = Object.values(logNames);
+
+            // 차트를 생성합니다.
+            var ctx = document.getElementById('logNameChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [  // 각 데이터의 배경색입니다.
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [  // 각 데이터의 테두리 색입니다.
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1  // 테두리의 두께입니다.
+                    }]
+                },
+                options: {
+                    responsive: true,  // 차트가 반응형으로 동작하도록 설정합니다.
+                }
+            });
+        },
+        error: function(request, status, error) {
+            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        }
+    });
+});
+
+ 
+    </script>
+
+
 </head>
+
 <body>
-	<div></div>
+    <header>
+        <div class="hline">
+            <h1>홈</h1>
+        </div>
+    </header>
+    
+    <div class="doughnutChart">
+		<h5 style="text-align: center;">로그 그래프</h5>
+		<canvas id="logNameChart" style="width: 600px; height: 400px;"></canvas>
+    </div>
+    <div class="logListBox">
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>시간</th>
+                    <th>내용</th>
+                    <th>위험등급</th>
+                    <th>IP</th>
+                    <th>동작</th>
+                </tr>
+            </thead>
+            <tbody id="lTable">
+                <!-- 여기에 로그가 동적으로 추가됨 -->
+            </tbody>
+        </table>
+    </div>
+
 </body>
+
 </html>
