@@ -40,7 +40,9 @@ public class LogController {
     @GetMapping("/admin/menu/readLogs/api/getLogList")
     @ResponseBody
     public List<ReadLogsEntity> getLogList(
-            @RequestParam(name = "ip", required = false) String ip,
+            @RequestParam(name = "src_ip", required = false) String src_ip,
+            @RequestParam(name = "src_port", required = false) String src_port,
+            @RequestParam(name = "dst_ip", required = false) String dst_ip,
             @RequestParam(name = "level", required = false, defaultValue = "-1") Integer level,
             @RequestParam(name = "action", required = false, defaultValue = "-1") Integer action,
             @RequestParam(name = "startDate", required = false) String startDateStr,
@@ -49,8 +51,10 @@ public class LogController {
             @RequestParam(name = "endTime", required = false) String endTimeStr,
             @RequestParam(name = "page", required = true) Integer page,
             @RequestParam(name = "numPerPage", required = true) Integer numPerPage) {
-
-        if ("".equalsIgnoreCase(ip) || "any".equalsIgnoreCase(ip) || ip.isEmpty()) ip = null;
+    	
+        if ("".equalsIgnoreCase(src_ip) || "any".equalsIgnoreCase(src_ip) || src_ip.isEmpty()) src_ip = null;
+        if ("".equalsIgnoreCase(src_port) || "any".equalsIgnoreCase(src_port) || src_port.isEmpty()) src_port = null;
+        if ("".equalsIgnoreCase(dst_ip) || "any".equalsIgnoreCase(dst_ip) || dst_ip.isEmpty()) dst_ip = null;
         if (level == -1) level = null;
         if (action == -1) action = null;
 
@@ -68,7 +72,7 @@ public class LogController {
         LocalDate end = endDate.toLocalDate();
         for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
             String tableName = "log_" + date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            allLogs.addAll(readLogsMapper.findFilteredLogs(tableName, ip, level, action, startDate, endDate));
+            allLogs.addAll(readLogsMapper.findFilteredLogs(tableName, src_ip, src_port, dst_ip, level, action, startDate, endDate));
         }
         List<ReadLogsEntity> readLogs = allLogs.stream()
             .sorted(Comparator.comparing(ReadLogsEntity::getTime).thenComparing(ReadLogsEntity::getLog_index))

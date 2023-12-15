@@ -4,8 +4,14 @@
 	<select id="findFilteredLogs" resultType="com.example.demo.model.log.ReadLogsEntity">
 	    SELECT * FROM ${tableName}
 	    <where>
-	        <if test="ip != null and ip != ''">
-	            AND src_ip = #{ip}
+	        <if test="src_ip != null and src_ip != ''">
+	            AND src_ip = #{src_ip}
+	        </if>
+	        <if test="src_port != null and src_port != ''">
+	            AND src_port = #{src_port}
+	        </if>
+	        <if test="dst_ip != null and dst_ip != ''">
+	            AND dst_ip = #{dst_ip}
 	        </if>
 	        <if test="level != null">
 	            AND level = #{level}
@@ -23,5 +29,15 @@
 	<select id="getBinaryData" resultType="com.example.demo.model.log.ReadLogsEntity">
 	    SELECT packet_bin FROM ${tableName} 
 	    WHERE log_index = #{log_index}
+	</select>
+	
+	<select id="getTodayLogs" resultType="com.example.demo.model.log.ReadLogsEntity">
+	    SELECT * FROM ${tableName}
+	    <where>
+	        <if test="startDate != null and endDate != null">
+	            AND time BETWEEN #{startDate} AND #{endDate}
+	        </if>
+	    </where>
+	    ORDER BY log_index DESC
 	</select>
 </mapper>
