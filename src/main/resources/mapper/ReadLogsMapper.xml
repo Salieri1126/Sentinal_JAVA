@@ -17,6 +17,7 @@
 	            AND time BETWEEN #{startDate} AND #{endDate}
 	        </if>
 	    </where>
+	    ORDER BY time ASC, log_index ASC
 	</select>
 	
 	<select id="getBinaryData" resultType="com.example.demo.model.log.ReadLogsEntity">

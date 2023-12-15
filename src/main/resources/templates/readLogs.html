@@ -106,7 +106,7 @@
 			var ip = document.getElementById("ip").value;
 
 			if (!isValidIp(ip)) {
-				alert("입력된 IP가 유효한 IP 주소 형식이 아닙니다.");
+				alert("입력된 출발지 IP가 유효한 IP 주소 형식이 아닙니다.");
 				return false;
 			} else {
 				return true;
@@ -114,12 +114,13 @@
 		}
 		
 		$(function () {
-			$('form').on('submit', function (e) {
-				e.preventDefault();
+			var currentPage = 1;
+    		var numPerPage = 10;
+			function leadLogs(currentPage) {
 				$.ajax({
 					url: '/admin/menu/readLogs/api/getLogList',
 					method: 'GET',
-					data: $(this).serialize(),
+					data: $('form').serialize() + '&page=' + currentPage + '&numPerPage=' + numPerPage,
 					success: function (data) {
 						$('#logTable').empty();
 						data.forEach(function (log) {
@@ -131,28 +132,37 @@
 							row.append($('<td>').text(log.src_ip));
 							row.append($('<td>').text(log.action));
 							var buttonCell = $('<td>');
-							var button1 = $('<button>').text('패킷').addClass('pkBt').on('click', function () {
+							var button = $('<button>').text('상세보기').addClass('infoBt').on('click', function () {
 								window.location.href = '/admin/menu/readLogs/viewLogs/' + log.log_date + '/' + log.log_index;                 
 							});
-							var button2 = $('<button>').text('상세보기').addClass('infoBt').on('click', function () {
-								/* window.location.href = // 상세보기 맵핑 도메인 추가 */
-							});
-							buttonCell.append(button1).append(button2);
+							buttonCell.append(button);
 							row.append(buttonCell);
 							$('#logTable').append(row);
 						});
+						$('#page-num').text(currentPage + '번 페이지');
 					}
 				});
-			});
+			}
+			
+			leadLogs(currentPage);
 			
 			$('form').on('submit', function (e) {
 				e.preventDefault();
-				getLogList();
+				currentPage = 1;
+				leadLogs(currentPage);
 			});
-
-			$('.applyB').on('click', function () {
-				getLogList();
-			});
+			
+			$('.nextB').on('click', function () {
+		        currentPage += 1;
+		        leadLogs(currentPage);
+		    });
+		
+		    $('.prevB').on('click', function () {
+		        if (currentPage > 1) {
+		            currentPage -= 1;
+		            leadLogs(currentPage);
+		        }
+		    });
 		});
 		
 		function resetFilters() {
@@ -182,7 +192,7 @@
 			<h2>필터</h2>
 			<div class="lft">
 				<div class="input-group">
-					<label for="ip">IP:</label>
+					<label for="ip">출발지 IP:</label>
 					<input type="text" id="ip" name="ip" th:attr="value=${ip!=null}?${ip}:'any'">
 				</div>
 
@@ -249,6 +259,11 @@
 				<!-- 여기에 로그가 동적으로 추가됨 -->
 			</tbody>
 		</table>
+		<div id="pagination">
+	        <button class="prevB">이전</button>
+	        <span id="page-num"></span>
+	        <button class="nextB">다음</button>
+	    </div>
 	</div>
 </body>
 

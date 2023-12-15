@@ -1,6 +1,7 @@
 package com.example.demo.model.log;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
@@ -21,4 +22,8 @@ public class ReadLogsEntity {
 	private byte[] packet_bin;
 	private Integer level;
 	private String log_date;
+	
+	public void setLogdateFromTime() {
+        this.setLog_date(this.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+    }
 }

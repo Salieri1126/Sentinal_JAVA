@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +30,10 @@ public class LogController {
 
     @GetMapping("/admin/menu/readLogs")
     public String showLogListForm(Model model) {
-        model.addAttribute("today", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        model.addAttribute("today", today);
+        model.addAttribute("startDate", today);
+        model.addAttribute("endDate", today);
         return "readLogs";
     }
     
@@ -41,12 +46,14 @@ public class LogController {
             @RequestParam(name = "startDate", required = false) String startDateStr,
             @RequestParam(name = "startTime", required = false) String startTimeStr,
             @RequestParam(name = "endDate", required = false) String endDateStr,
-            @RequestParam(name = "endTime", required = false) String endTimeStr) {
-    	
+            @RequestParam(name = "endTime", required = false) String endTimeStr,
+            @RequestParam(name = "page", required = true) Integer page,
+            @RequestParam(name = "numPerPage", required = true) Integer numPerPage) {
+
         if ("".equalsIgnoreCase(ip) || "any".equalsIgnoreCase(ip) || ip.isEmpty()) ip = null;
         if (level == -1) level = null;
         if (action == -1) action = null;
-        
+
         LocalDateTime startDate = null;
         if (startDateStr != null && !startDateStr.isEmpty() && startTimeStr != null && !startTimeStr.isEmpty()) {
             startDate = LocalDateTime.parse(startDateStr + " " + startTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -55,23 +62,21 @@ public class LogController {
         if (endDateStr != null && !endDateStr.isEmpty() && endTimeStr != null && !endTimeStr.isEmpty()) {
             endDate = LocalDateTime.parse(endDateStr + " " + endTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         }
-        
-        List<ReadLogsEntity> readLogs = new ArrayList<>();
-        
-        if (startDateStr == null && endDateStr == null) {
-            return null;
-        } else {
-        	LocalDate start = startDate.toLocalDate();
-            LocalDate end = endDate.toLocalDate();
-            for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
-                String tableName = "log_" + date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-                readLogs.addAll(readLogsMapper.findFilteredLogs(tableName, ip, level, action, startDate, endDate));
-            }
-            readLogs.forEach(
-                    log -> log.setLog_date(
-                            log.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
-            return readLogs;
+
+        List<ReadLogsEntity> allLogs = new ArrayList<>();
+        LocalDate start = startDate.toLocalDate();
+        LocalDate end = endDate.toLocalDate();
+        for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
+            String tableName = "log_" + date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            allLogs.addAll(readLogsMapper.findFilteredLogs(tableName, ip, level, action, startDate, endDate));
         }
+        List<ReadLogsEntity> readLogs = allLogs.stream()
+            .sorted(Comparator.comparing(ReadLogsEntity::getTime).thenComparing(ReadLogsEntity::getLog_index))
+            .skip((long)(page-1) * numPerPage)
+            .limit(numPerPage)
+            .collect(Collectors.toList());
+        readLogs.forEach(ReadLogsEntity::setLogdateFromTime);
+        return readLogs;
     }
     
     @GetMapping("/admin/menu/readLogs/viewLogs/{log_date}/{log_index}")
