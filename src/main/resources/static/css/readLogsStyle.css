@@ -18,7 +18,6 @@ h1 {
 }
 
 /* 필터 */
-/* 필터 */
 .log-list-filter {
 	border: 1px solid #e0e0e0;
 	border-radius: 5px;
@@ -65,7 +64,6 @@ h2 {
 	margin-left: 10px;
 	border-radius: 5px;
 	border: 1px solid #ccc;
-
 }
 
 .datepicker {
@@ -113,14 +111,12 @@ h2 {
 
 /* 로그테이블 */
 .logListBox {
-	width: 100%;
-	margin-top: 15px;
-	background-color: #f9f9f9;
-	overflow-y: scroll;
-	overflow-x: scroll;
-	height: 70%;
-	/* 높이 설정 */
-	border: 1px solid #e0e0e0;
+    width: 100%;
+    margin-top: 15px;
+    background-color: #f9f9f9;
+    height: 70%;
+    /* 높이 설정 */
+    border: 1px solid #e0e0e0;
 }
 
 .logListBox table {
@@ -151,7 +147,6 @@ thead th {
 }
 
 /* 로그테이블 패킷,상세보기 버튼 */
-.pkBt,
 .infoBt {
 	width: 60px;
 	height: 30px;
@@ -165,12 +160,38 @@ thead th {
 	font-weight: bond;
 	margin: 0px 5px;
 	cursor: pointer;
+	background-color: #3498db;
 }
 
-.pkBt {
-	background-color: #5e5e5e;
+/* 페이지 뒤로 가기, 앞으로 가기 버튼 */
+.prevB {
+	width: 60px;
+	height: 30px;
+	border: none;
+	color: white;
+	border-radius: 5px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 14px;
+	font-weight: bond;
+	margin: 0px 5px;
+	cursor: pointer;
+	background-color: #3498db;
 }
 
-.infoBt {
+.nextB {
+	width: 60px;
+	height: 30px;
+	border: none;
+	color: white;
+	border-radius: 5px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 14px;
+	font-weight: bond;
+	margin: 0px 5px;
+	cursor: pointer;
 	background-color: #3498db;
 }
