@@ -7,6 +7,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/commonStyle.css">
 	<link rel="stylesheet" href="/css/changePolicyStyle.css">
+	
+	<!-- Datepicker 사용을 위한 jQuery, jQuery-UI 라이브러리 추가 -->
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/i18n/datepicker-ko.min.js"></script>
+	<!-- 한국어 지역 설정 추가 -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-ko.js"></script>
+		
 	<title>Sentinel</title>
 </head>
 
@@ -32,7 +44,7 @@
 					style="border: 1px solid #ff0000;">
 
 				<span class="label">유효기간:</span>
-				<input type="text" placeholder="유효기간을 입력하세요.">
+				<input class="datepicker" type="text" id="end_time" name="end_time" th:value="${policyDetails.end_time}">
 
 				<span class="label">위험등급:</span>
 				<select id="level" name="level">
@@ -87,37 +99,37 @@
 
 				<div class="label">
 					<h8>패턴정의<h8>
-							<div class="pattenbox">
-								<div class="cont_label">내 용:
-									<input class="de_gray" type="text" id="contentInput" placeholder="content를 입력하세요.">
-									<div>
-										<button type="button" class="addB"
-											onclick="addContent(); updateDeleteButton()">추가</button>
-									</div>
+						<div class="pattenbox">
+							<div class="cont_label">내 용:
+								<input class="de_gray" type="text" id="contentInput" placeholder="content를 입력하세요.">
+								<div>
+									<button type="button" class="addB"
+										onclick="addContent(); updateDeleteButton()">추가</button>
 								</div>
 							</div>
-							<div class="contentT" id='result'>
-								<table>
-									<tr id="content1" th:if="${policyDetails.content1 != null}">
-										<td><span name="label_content1">content1 : </span><input type="text"
-												name="content1" th:value="${policyDetails.content1}" readonly /><button
-												type="button"
-												onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
-									</tr>
-									<tr id="content2" th:if="${policyDetails.content2 != null}">
-										<td><span name="label_content2">content2 : </span><input type="text"
-												name="content2" th:value="${policyDetails.content2}" readonly /><button
-												type="button"
-												onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
-									</tr>
-									<tr id="content3" th:if="${policyDetails.content3 != null}">
-										<td><span name="label_content3">content3 : </span><input type="text"
-												name="content3" th:value="${policyDetails.content3}" readonly /><button
-												type="button"
-												onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
-									</tr>
-								</table>
-							</div>
+						</div>
+						<div class="contentT" id='result'>
+							<table>
+								<tr id="content1" th:if="${policyDetails.content1 != null}">
+									<td><span name="label_content1">content1 : </span><input type="text"
+											name="content1" th:value="${policyDetails.content1}" readonly /><button
+											type="button"
+											onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
+								</tr>
+								<tr id="content2" th:if="${policyDetails.content2 != null}">
+									<td><span name="label_content2">content2 : </span><input type="text"
+											name="content2" th:value="${policyDetails.content2}" readonly /><button
+											type="button"
+											onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
+								</tr>
+								<tr id="content3" th:if="${policyDetails.content3 != null}">
+									<td><span name="label_content3">content3 : </span><input type="text"
+											name="content3" th:value="${policyDetails.content3}" readonly /><button
+											type="button"
+											onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
+								</tr>
+							</table>
+						</div>
 				</div>
 			</div>
 			
@@ -129,7 +141,7 @@
                      <!-- 설명 추가 어떻게 할지 의논후 수정 -->
                   </div>
                   <div>
-				      <textarea placeholder="설명을 입력하세요" style="resize: none;"></textarea>
+				      <textarea id="detail" name="detail" th:text="${policyDetails.detail}" style="resize: none;"></textarea>
 				  </div>
 			</div>
 		</div>
@@ -142,6 +154,50 @@
 	</form>
 
 	<script>
+		$.datepicker.setDefaults({
+			showButtonPanel: true,
+			controlType: 'select',
+			closeText: "적용",
+			currentText: "오늘",
+			prevText: '이전 달',
+			nextText: '다음 달',
+			monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+			monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+			dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+			dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+			dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+			weekHeader: "주",
+			yearSuffix: '년'
+		});
+		
+		$(function () {
+		    var existingDate = $("#end_time").val();
+		    if (existingDate) { // 기존에 설정된 값이 있을 경우
+		        existingDate = new Date(existingDate);
+		    } else { // 기존에 설정된 값이 없을 경우
+		        $("#end_time").attr("placeholder", "설정한 유효기간이 없습니다.");
+		    }
+		    
+		    const today = new Date();
+		    today.setHours(0,0,0,0);
+		
+		    $("#end_time").datepicker({
+		        dateFormat: "yy-mm-dd",
+		        minDate: 0, // 오늘 포함 이후만 선택 가능
+		        onClose: function (selectedDate) {
+		            let selected = new Date(selectedDate);
+		            if (selected < today) {
+		                alert("오늘보다 이전인 날은 선택할 수 없습니다.");
+		                $("#end_time").datepicker("setDate", today); // 오늘 날짜로 설정
+		            }
+		        }
+		    });
+		
+		    if (existingDate) { // 기존에 설정된 값이 있을 경우
+		        $("#end_time").datepicker("setDate", existingDate); // 해당 날짜를 기본값으로 설정
+		    }
+		});
+		
 		function isValidIp(ip) {
 			var pattern = new RegExp(/^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$/);
 			return pattern.test(ip) || ip === "0" || ip.toLowerCase() === "any";
@@ -164,9 +220,14 @@
 			var baseTime = document.getElementById("base_time").value;
 			var baseLimit = document.getElementById("base_limit").value;
 			var level = document.getElementById("level").value;
+			var endTime = document.getElementById("end_time").value;
 
 			if (detectedName.trim() === "") {
 				alert("탐지명은 필수 입력 항목입니다.");
+				return false;
+			}
+			if (endTime.trim() === "") {
+				alert("유효기간을 입력해 주세요.");
 				return false;
 			}
 			if (!isValidIp(srcIP)) {

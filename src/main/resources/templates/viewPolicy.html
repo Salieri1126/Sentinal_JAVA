@@ -21,7 +21,7 @@
 			<div class="hline">
 				<h3>탐지 정책 기본 정보</h3>
 			</div>
-
+			
 			<input type="hidden" id="detected_no" name="id" th:value="${viewPolicy.detected_no}">
 
 			<div class="section">
@@ -30,7 +30,8 @@
 					readonly style="background-color: #f2f2f2;">
 
 				<span class="label">유효기간:</span>
-				<input type="text" placeholder="유효기간을 입력하세요." readonly style="background-color: #f2f2f2;">
+				<input type="text" id="end_time" name="end_time" th:value="${viewPolicy.end_time}" 
+    				readonly style="background-color: #f2f2f2;">
 
 				<span class="label">위험등급:</span>
 				<select id="level" name="level" disabled style="background-color: #f2f2f2;">
@@ -92,16 +93,16 @@
                      <input class="de_gray" type="text" id="contentInput" placeholder="content를 입력하세요." readonly style="background-color: #f2f2f2;">
                   </div>
                </div>
-               <div class="contentT" id='result'>
-                  <table>
+               <div class="contentT" id='result' style="background-color: #f2f2f2;">
+                  <table style="background-color: #f2f2f2;">
                      <tr id="content1" th:if="${viewPolicy.content1 != null}">
-                        <td><span name="label_content1">content1   :	</span><input type="text" name ="content1" th:value="${viewPolicy.content1}" readonly/></td>
+                        <td><span name="label_content1">content1   :	</span><input type="text" name ="content1" th:value="${viewPolicy.content1}" style="background-color: #f2f2f2;" readonly/></td>
                      </tr>
                      <tr id="content2" th:if="${viewPolicy.content2 != null}">
-                        <td><span name="label_content2">content2   :	</span><input type="text" name ="content2" th:value="${viewPolicy.content2}" readonly/></td>
+                        <td><span name="label_content2">content2   :	</span><input type="text" name ="content2" th:value="${viewPolicy.content2}" style="background-color: #f2f2f2;" readonly/></td>
                      </tr>
                      <tr id="content3" th:if="${viewPolicy.content3 != null}">
-                        <td><span name="label_content3">content3   :	</span><input type="text" name ="content3" th:value="${viewPolicy.content3}" readonly/></td>
+                        <td><span name="label_content3">content3   :	</span><input type="text" name ="content3" th:value="${viewPolicy.content3}" style="background-color: #f2f2f2;" readonly/></td>
                      </tr>
                   </table>
                </div>
@@ -115,7 +116,7 @@
                      <!-- 설명 추가 어떻게 할지 의논후 수정 -->
                   </div>
                   <div>
-				      <textarea placeholder="설명을 입력하세요" disabled style="background-color: #f2f2f2; resize: none;"></textarea>
+				      <textarea id="detail" name="detail" th:text="${viewPolicy.detail}" style="background-color: #f2f2f2; resize: none;" disabled></textarea>
 				  </div>
 			</div>
       </div>
@@ -127,6 +128,13 @@
 	</form>
 
 	<script>
+		document.addEventListener("DOMContentLoaded", function(){
+	        var input = document.getElementById("end_time");
+	        if(input.value == null || input.value == "") {
+	            input.placeholder = "설정한 유효기간이 없습니다.";
+	        }
+	    });
+		
 		document.addEventListener('DOMContentLoaded', (event) => {
 		    document.getElementById('level').addEventListener('click', function(e){
 		        e.preventDefault();

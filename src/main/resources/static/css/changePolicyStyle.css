@@ -189,10 +189,11 @@ h8 {
 }
 
 textarea {
-        width: 100%;
-        height: 100px;
-        padding: 10px;
-      }
+	width: 100%;
+    height: 100px;
+    padding: 10px;
+    font-weight: bold;
+}
 
 /*수정 취소 버튼*/
 .button1,

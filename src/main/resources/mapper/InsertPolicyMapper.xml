@@ -12,7 +12,9 @@
 		content3,
 		base_time,
 		base_limit,
-		level
+		level,
+		detail,
+		end_time
 		)
 		VALUES(
 		#{detected_name},
@@ -24,7 +26,9 @@
 		#{content3},
 		#{base_time},
 		#{base_limit},
-		#{level}
+		#{level},
+		#{detail},
+		#{end_time}
 		)
 	</insert>
 </mapper>

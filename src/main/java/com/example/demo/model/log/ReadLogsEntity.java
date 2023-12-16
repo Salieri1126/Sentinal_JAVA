@@ -23,8 +23,8 @@ public class ReadLogsEntity {
 	private String dst_ip;
 	private byte[] packet_bin;
 	private Integer level;
+
 	private String log_date;
-	
 	public void setLogdateFromTime() {
         this.setLog_date(this.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }

@@ -8,4 +8,5 @@ import com.example.demo.model.policy.UpdatePolicyEntity;
 public interface UpdatePolicyMapper {
     UpdatePolicyEntity getPolicyDetailsById(int detected_no);
     void updatePolicy(UpdatePolicyEntity policy);
+    void updateEnableStatus();
 }
