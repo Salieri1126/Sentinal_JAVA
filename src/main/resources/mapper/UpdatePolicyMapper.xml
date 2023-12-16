@@ -17,8 +17,14 @@
         	content3 = #{content3},
 	        base_time = #{base_time},
 	        base_limit = #{base_limit},
-	        level = #{level}
+	        level = #{level},
+	        detail = #{detail},
+	        end_time = #{end_time}
 	    WHERE
 	        detected_no = #{detected_no}
+	</update>
+	
+	<update id="updateEnableStatus">
+	    UPDATE ips_policy SET enable = 0 WHERE end_time &lt; NOW() AND enable = 1
 	</update>
 </mapper>

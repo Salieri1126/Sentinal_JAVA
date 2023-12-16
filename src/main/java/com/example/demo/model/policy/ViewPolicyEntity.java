@@ -1,5 +1,9 @@
 package com.example.demo.model.policy;
 
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import lombok.Data;
@@ -21,4 +25,8 @@ public class ViewPolicyEntity {
     private Integer base_time;
     private Integer base_limit;
     private Integer level;
+    private String detail;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate end_time;
 }

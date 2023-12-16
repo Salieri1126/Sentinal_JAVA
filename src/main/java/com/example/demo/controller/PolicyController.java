@@ -44,7 +44,7 @@ public class PolicyController {
 				if ("0".equals(policyList.getSrc_ip().trim())) {
 					policyList.setSrc_ip("any");
 				}
-				if ("0".equals(policyList.getSrc_ip().trim())) {
+				if ("0".equals(policyList.getSrc_port().trim())) {
 					policyList.setSrc_port("any");
 				}
 				if(policyList.getContent1() != null) {
@@ -103,7 +103,7 @@ public class PolicyController {
 			if ("0".equals(policyDetails.getSrc_ip().trim())) {
 				policyDetails.setSrc_ip("any");
 			}
-			if ("0".equals(policyDetails.getSrc_ip().trim())) {
+			if ("0".equals(policyDetails.getSrc_port().trim())) {
 				policyDetails.setSrc_port("any");
 			}
 			if(policyDetails.getContent1() != null) {
