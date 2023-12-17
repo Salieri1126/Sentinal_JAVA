@@ -23,7 +23,7 @@ public class PolicyService {
         return URLEncoder.encode(content, StandardCharsets.UTF_8.toString());
     }
     
-    public String decodingContetn(String content) throws UnsupportedEncodingException {
+    public String decodingContent(String content) throws UnsupportedEncodingException {
     	return URLDecoder.decode(content, StandardCharsets.UTF_8.toString());
     }
     
