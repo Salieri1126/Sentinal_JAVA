@@ -48,13 +48,13 @@ public class PolicyController {
 					policyList.setSrc_port("any");
 				}
 				if(policyList.getContent1() != null) {
-					policyList.setContent1(policyService.decodingContetn(policyList.getContent1()));
+					policyList.setContent1(policyService.decodingContent(policyList.getContent1()));
 		        }
 		        if(policyList.getContent2() != null) {
-		        	policyList.setContent2(policyService.decodingContetn(policyList.getContent2()));
+		        	policyList.setContent2(policyService.decodingContent(policyList.getContent2()));
 		        }
 		        if(policyList.getContent3() != null) {
-		        	policyList.setContent3(policyService.decodingContetn(policyList.getContent3()));
+		        	policyList.setContent3(policyService.decodingContent(policyList.getContent3()));
 		        }
 			}
 		} catch (UnsupportedEncodingException e) {
@@ -107,13 +107,13 @@ public class PolicyController {
 				policyDetails.setSrc_port("any");
 			}
 			if(policyDetails.getContent1() != null) {
-				policyDetails.setContent1(policyService.decodingContetn(policyDetails.getContent1()));
+				policyDetails.setContent1(policyService.decodingContent(policyDetails.getContent1()));
 	        }
 	        if(policyDetails.getContent2() != null) {
-	        	policyDetails.setContent2(policyService.decodingContetn(policyDetails.getContent2()));
+	        	policyDetails.setContent2(policyService.decodingContent(policyDetails.getContent2()));
 	        }
 	        if(policyDetails.getContent3() != null) {
-	        	policyDetails.setContent3(policyService.decodingContetn(policyDetails.getContent3()));
+	        	policyDetails.setContent3(policyService.decodingContent(policyDetails.getContent3()));
 	        }
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -182,13 +182,13 @@ public class PolicyController {
 				viewPolicy.setSrc_port("any");
 			}
 			if(viewPolicy.getContent1() != null) {
-				viewPolicy.setContent1(policyService.decodingContetn(viewPolicy.getContent1()));
+				viewPolicy.setContent1(policyService.decodingContent(viewPolicy.getContent1()));
 	        }
 	        if(viewPolicy.getContent2() != null) {
-	        	viewPolicy.setContent2(policyService.decodingContetn(viewPolicy.getContent2()));
+	        	viewPolicy.setContent2(policyService.decodingContent(viewPolicy.getContent2()));
 	        }
 	        if(viewPolicy.getContent3() != null) {
-	        	viewPolicy.setContent3(policyService.decodingContetn(viewPolicy.getContent3()));
+	        	viewPolicy.setContent3(policyService.decodingContent(viewPolicy.getContent3()));
 	        }
 	    } catch (UnsupportedEncodingException e) {
 	    	e.printStackTrace();
