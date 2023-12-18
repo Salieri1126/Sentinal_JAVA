@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.sql.SQLSyntaxErrorException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -38,7 +39,15 @@ public class HomeLogController {
 	    String tableName = "log_" + today.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
 	    List<ReadLogsEntity> logs = new ArrayList<>();
-	    logs.addAll(readLogsMapper.getTodayLogs(tableName, today.atStartOfDay(), today.atTime(23, 59, 59)));
+	    try {
+	    	logs.addAll(readLogsMapper.getTodayLogs(tableName, today.atStartOfDay(), today.atTime(23, 59, 59)));
+	    } catch (DataAccessException e) {
+	    	if (e.getRootCause() instanceof SQLSyntaxErrorException) {
+                System.out.println("========== <" + tableName + "> 해당 로그 테이블이 존재하지 않습니다. ==========");
+            } else {
+                e.printStackTrace();
+            }
+	    }
 	    return logs;
 	}
 	
@@ -53,9 +62,12 @@ public class HomeLogController {
 	        String tableName = "log_" + date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 	        try {
 	        	logs.addAll(readLogsMapper.getWeekLogs(tableName, date.atStartOfDay(), date.atTime(23, 59, 59)));
-	    
 	        } catch (DataAccessException e) {
-	        	e.printStackTrace();
+	        	if (e.getRootCause() instanceof SQLSyntaxErrorException) {
+	                System.out.println("========== <" + tableName + "> 해당 로그 테이블이 존재하지 않습니다. ==========");
+	            } else {
+	                e.printStackTrace();
+	            }
 	        }
 	    }
 	    return logs;
