@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="chrome">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/commonStyle.css">
-	<link rel="stylesheet" href="/css/readLogsStyle.css">
+	<link rel="stylesheet" href="/css/home.css">
 
 	<!-- Datepicker 사용을 위한 jQuery, jQuery-UI 라이브러리 추가 -->
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -18,7 +18,11 @@
 	<link rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
 
-	<script>		
+	<script>
+		//라인차트
+		
+		
+		//도넛차트		
 		$(document).ready(function() {
 		    var today = new Date();
 		    var dd = String(today.getDate()).padStart(2, '0');
@@ -110,8 +114,7 @@
         </div>
     </header>
     <div class="lineChart">
-		
-		
+		<canvas id=" " style="width: 800px; height: 250px;"></canvas>
 	</div>
     
     <div class="doughnutChart">
