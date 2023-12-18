@@ -38,89 +38,17 @@ h2 {
    margin-bottom: 15px;
 }
 
-.lft {
-   flex: 1;
-}
-
-.cen {
-   margin-left: 30px;
-   flex: 1;
-}
-
-.rft {
-   margin-left: 30px;
-   flex: 1;
-}
-
-.input-group {
-   margin-bottom: 10px;
-}
-
-.input-group input {
-   width: 180px;
-   height: 30px;
-   margin-left: 10px;
-   border-radius: 5px;
-   border: 1px solid #ccc;
-}
-
-.custom-input-group {
-   width: 180px;
-   height: 30px;
-   margin-left: 10px;
-   border-radius: 5px;
-   border: 1px solid #ccc;
-}
-
-.datepicker {
-   display: flex;
-   flex-direction: row;
-   margin-bottom: 10px;
-}
-
-.datepicker label {
-   margin-right: 10px;
-}
-
-.button-group {
-   display: flex;
-   justify-content: flex-end;
-}
-
-.button-group label {
-   margin-right: 10px;
-}
-
-.button2 {
-   width: 65px;
-   height: 30px;
-   border: none;
-   color: white;
-   border-radius: 5px;
-   text-align: center;
-   text-decoration: none;
-   display: inline-block;
-   font-size: 13px;
-   font-weight: bold;
-   margin: 0px 5px;
-   cursor: pointer;
-}
-
-.applyB {
-   background-color: #3498db;
-}
-
-.resetB {
-   margin-left: 10px;
-   background-color: #5e5e5e;
+/*원형 차트*/
+.bottomChart {
+	margin-top: 10px;
+	display: flex;
 }
 
 /* 로그테이블 */
 .logListBox {
-    width: 100%;
-    margin-top: 15px;
+    width: 50%;
     background-color: #f9f9f9;
-    height: 70%;
+    height: 40%;
     /* 높이 설정 */
     border: 1px solid #e0e0e0;
 }
@@ -152,52 +80,3 @@ thead th {
    background-color: #f2f2f2;
 }
 
-/* 로그테이블 패킷,상세보기 버튼 */
-.infoBt {
-   width: 60px;
-   height: 30px;
-   border: none;
-   color: white;
-   border-radius: 5px;
-   text-align: center;
-   text-decoration: none;
-   display: inline-block;
-   font-size: 13px;
-   font-weight: bond;
-   margin: 0px 5px;
-   cursor: pointer;
-   background-color: #3498db;
-}
-
-/* 페이지 뒤로 가기, 앞으로 가기 버튼 */
-.prevB {
-   width: 60px;
-   height: 30px;
-   border: none;
-   color: white;
-   border-radius: 5px;
-   text-align: center;
-   text-decoration: none;
-   display: inline-block;
-   font-size: 14px;
-   font-weight: bond;
-   margin: 0px 5px;
-   cursor: pointer;
-   background-color: #3498db;
-}
-
-.nextB {
-   width: 60px;
-   height: 30px;
-   border: none;
-   color: white;
-   border-radius: 5px;
-   text-align: center;
-   text-decoration: none;
-   display: inline-block;
-   font-size: 14px;
-   font-weight: bond;
-   margin: 0px 5px;
-   cursor: pointer;
-   background-color: #3498db;
-}
