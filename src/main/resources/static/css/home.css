@@ -1,9 +1,11 @@
 @charset "UTF-8";
 
 body {
-   padding: 30px;
+	margin: 0;
+	color: #444;
+	font: 14px 'Nanum Gothic', sans-serif;
+	padding: 10px;
 }
-
 header {
    padding: 10px;
 }

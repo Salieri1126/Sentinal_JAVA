@@ -26,4 +26,8 @@ public interface ReadLogsMapper {
 			@Param("tableName") String tableName,
 			@Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
+	List<ReadLogsEntity> getWeekLogs(
+			@Param("tableName") String tableName,
+			@Param("startDate") LocalDateTime startDate,
+			@Param("endDate") LocalDateTime endDate);
 }

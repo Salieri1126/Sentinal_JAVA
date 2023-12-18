@@ -19,11 +19,8 @@
 		href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
 
 	<script>
-		//라인차트
-		
-		
-		//도넛차트		
 		$(document).ready(function() {
+			//도넛차트 (1일)
 		    var today = new Date();
 		    var dd = String(today.getDate()).padStart(2, '0');
 		    var mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -103,6 +100,69 @@
 		            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
 		        }
 		    });
+		    
+		    //라인차트(7일)
+		    var oneWeekAgo = new Date();
+			oneWeekAgo.setDate(today.getDate() - 7);
+			var dd = String(oneWeekAgo.getDate()).padStart(2, '0');
+			var mm = String(oneWeekAgo.getMonth() + 1).padStart(2, '0');
+			var yyyy = oneWeekAgo.getFullYear();
+			var oneWeekAgoStr = yyyy + '-' + mm + '-' + dd;
+			var logCounts = {};
+			
+			for (var d = oneWeekAgo; d <= today; d.setDate(d.getDate() + 1)) {
+			    var date = d.toISOString().split('T')[0];
+			    logCounts[date] = 0;
+			}
+			
+			$.ajax({
+			    url: '/admin/menu/home/api/logWeek',
+			    type: 'GET',
+			    data: {
+			        startDate: oneWeekAgoStr,
+			        endDate: todayStr
+			    },
+			    success: function(data) {
+			        data.forEach(function(log) {
+			            var date = log.time.split('T')[0];
+			            if (logCounts[date]) {
+			                logCounts[date]++;
+			            } else {
+			                logCounts[date] = 1;
+			            }
+			        });
+			
+			        var labels = Object.keys(logCounts).sort();
+			        var data = labels.map(function(date) { return logCounts[date]; });
+			
+			        var ctx = document.getElementById('logCountChart').getContext('2d');
+			        var myChart = new Chart(ctx, {
+			            type: 'line',
+			            data: {
+			                labels: labels,
+			                datasets: [{
+			                    data: data,
+			                    borderColor: 'rgba(68, 114, 148, 1)',
+			                    borderWidth: 2,
+			                    fill: false,
+			                    tension: 0
+			                }]
+			            },
+			            options: {
+			                responsive: true,
+			                maintainAspectRatio: false,
+			                title: {
+					            display: true, // 제목을 표시하도록 설정합니다.
+					            text: 'Log Counts', // 제목 텍스트를 설정합니다.
+					            position: 'left' // 제목 위치를 오른쪽으로 설정합니다.
+        					}
+			            }
+			        });
+			    },
+			    error: function(request, status, error) {
+			        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+			    }
+			});
 		});
     </script>
 </head>
@@ -114,7 +174,7 @@
         </div>
     </header>
     <div class="lineChart">
-		<canvas id=" " style="width: 800px; height: 250px;"></canvas>
+		<canvas id="logCountChart" style="width: 800px; height: 250px;"></canvas>
 	</div>
     
     <div class="doughnutChart">
