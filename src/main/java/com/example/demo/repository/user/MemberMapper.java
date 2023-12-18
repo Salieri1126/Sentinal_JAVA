@@ -7,5 +7,6 @@ import com.example.demo.model.user.MemberEntity;
 
 @Mapper
 public interface MemberMapper {
-    MemberEntity validUser(@Param("id") String id);
+    MemberEntity signin(@Param("id") String id);
+	void updatePassword(MemberEntity member);
 }
