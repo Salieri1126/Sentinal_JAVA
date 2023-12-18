@@ -82,6 +82,10 @@
 			</table>
 		</div>
 	</main>
+	<div class="buttonbox">
+		<button class="enable-btn" onclick="changeEnable(1)">활성화</button>
+		<button class="disable-btn" onclick="changeEnable(0)">비활성화</button>
+	</div>
 
 	<script>
 		window.onload = function() {
@@ -155,7 +159,7 @@
 				alert("정책을 선택하세요.");
 			}
 		}
-
+		
 		function toggleAllCheckboxes() {
 		    const enableSwitches = document.querySelectorAll('.selectedPolicy');
 		    
@@ -165,25 +169,55 @@
 		}
 		
 		document.querySelectorAll('.individual-switch').forEach((switchInput) => {
-		    switchInput.addEventListener('change', (e) => {
-		        updateEnableValue(e.target);
+		    switchInput.addEventListener('click', (e) => {
+		        e.preventDefault();
+		        alert('정책을 활성화 또는 비활성화 하려면\n활성화/비활성화 버튼을 사용해주세요.');
 		    });
 		});
-
-		function updateEnableValue(switchInput) {
-		    const detected_no = switchInput.closest('tr').querySelector('.detected_no').textContent;
-		    const enable = switchInput.checked ? 1 : 0;
 		
-		    fetch(`/admin/menu/readPolicy/updatePolicyEnable`, {
-		        method: 'POST',
-		        headers: {
-		            'Content-Type': 'application/json',
-		        },
-		        body: JSON.stringify({
-		            detected_no,
-		            enable,
-		        }),
-		    });
+		document.querySelector('.enable-btn').switchInput.addEventListener('click', () => {
+			if (confirm('선택한 정책을 활성화 하시겠습니까?')) {
+		        alert('정책 활성화가 완료되었습니다.');
+		        changeEnable(1);
+		    } else {
+				alert('정책 활성화가 취소되었습니다.');
+			}
+		});
+		
+		document.querySelector('.disable-btn').switchInput.addEventListener('click', () => {
+			if (confirm('선택한 정책을 비활성화 하시겠습니까?')) {
+				alert('정책 비활성화가 완료되었습니다.');
+				changeEnable(0);
+			} else {
+				alert('정책 비활성화가 취소되었습니다.');
+			}
+		});
+		
+		function changeEnable(enableValue) {
+		    const selectedPolicies = Array.from(document.querySelectorAll('.selectedPolicy:checked')).map(checkbox => ({
+		        checkbox,
+		        detected_no: checkbox.value,
+		        enable: enableValue,
+		    }));
+		    
+		    if (selectedPolicies.length === 0) {
+		        alert('정책을 선택해주세요.');
+		        return;
+		    }
+		    
+		    const promises = selectedPolicies.map(({ checkbox, detected_no, enable }) =>
+		        fetch(`/admin/menu/readPolicy/updatePolicyEnable`, {
+		            method: 'POST',
+		            headers: {
+		                'Content-Type': 'application/json',
+		            },
+		            body: JSON.stringify([{ detected_no, enable }]),
+		        }).then(() => {
+		            checkbox.checked = false;
+		            checkbox.parentNode.querySelector('.individual-switch').checked = !!enable;
+		        }));
+		        
+		    Promise.all(promises).catch((error) => console.error(error));
 		}
 		
 		function view() {
