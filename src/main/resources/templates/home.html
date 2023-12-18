@@ -141,6 +141,7 @@
 			            data: {
 			                labels: labels,
 			                datasets: [{
+								label:'logCounts',
 			                    data: data,
 			                    borderColor: 'rgba(68, 114, 148, 1)',
 			                    borderWidth: 2,
@@ -176,29 +177,29 @@
     <div class="lineChart">
 		<canvas id="logCountChart" style="width: 800px; height: 250px;"></canvas>
 	</div>
-    
-    <div class="doughnutChart">
-		<canvas id="logNameChart" style="width: 600px; height: 200px;"></canvas>
-    </div>
-    <div class="logListBox">
-        <table>
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>내용</th>
-                    <th>위험등급</th>
-                    <th>출발지 IP</th>
-                    <th>출발지 Port</th>
-                    <th>도착지 IP</th>
-                    <th>동작</th>
-                </tr>
-            </thead>
-            <tbody id="lTable">
-                <!-- 여기에 로그가 동적으로 추가됨 -->
-            </tbody>
-        </table>
-    </div>
-
+    <div class ="bottomChart">
+	    <div class="doughnutChart">
+			<canvas id="logNameChart" style="width: 400px; height: 200px;"></canvas>
+	    </div>
+	    <div class="logListBox">
+	        <table>
+	            <thead>
+	                <tr>
+	                    <th>No</th>
+	                    <th>내용</th>
+	                    <th>위험등급</th>
+	                    <th>출발지 IP</th>
+	                    <th>출발지 Port</th>
+	                    <th>도착지 IP</th>
+	                    <th>동작</th>
+	                </tr>
+	            </thead>
+	            <tbody id="lTable">
+	                <!-- 여기에 로그가 동적으로 추가됨 -->
+	            </tbody>
+	        </table>
+	    </div>
+	</div>
 </body>
 
 </html>
