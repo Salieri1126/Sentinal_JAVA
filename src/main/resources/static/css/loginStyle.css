@@ -69,22 +69,6 @@ body {
 	width: 83%;
 }
 
-.signup-button {
-	background-color: #4f81bd;
-	border: none;
-	border-radius: 15px;
-	color: white;
-	padding: 10px 25px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	margin: 4px 2px;
-	margin-top: 10px;
-	cursor: pointer;
-	width: 67%;
-}
-
 .forgot-password {
 	text-align: center;
 	width: 100%;

@@ -12,4 +12,5 @@ public class MemberEntity {
     private Integer personal_no;
     private String id;
     private String password;
+    private String salt;
 }
