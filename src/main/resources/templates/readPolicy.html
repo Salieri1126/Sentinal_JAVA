@@ -175,7 +175,7 @@
           });
       });
       
-      document.querySelector('.enable-btn').switchInput.addEventListener('click', () => {
+      document.querySelector('.enable-btn').addEventListener('click', () => {
          if (confirm('선택한 정책을 활성화 하시겠습니까?')) {
               alert('정책 활성화가 완료되었습니다.');
               changeEnable(1);
@@ -184,7 +184,7 @@
          }
       });
       
-      document.querySelector('.disable-btn').switchInput.addEventListener('click', () => {
+      document.querySelector('.disable-btn').addEventListener('click', () => {
          if (confirm('선택한 정책을 비활성화 하시겠습니까?')) {
             alert('정책 비활성화가 완료되었습니다.');
             changeEnable(0);
