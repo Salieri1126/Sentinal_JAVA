@@ -17,6 +17,7 @@ import com.example.demo.model.policy.ReadPolicyEntity;
 import com.example.demo.model.policy.UpdatePolicyEntity;
 import com.example.demo.model.policy.ViewPolicyEntity;
 import com.example.demo.repository.policy.DeletePolicyMapper;
+import com.example.demo.repository.policy.EnableRequestEntity;
 import com.example.demo.repository.policy.InsertPolicyMapper;
 import com.example.demo.repository.policy.ReadPolicyMapper;
 import com.example.demo.repository.policy.UpdatePolicyMapper;
@@ -149,9 +150,11 @@ public class PolicyController {
 	}
 	
 	@PostMapping("/admin/menu/readPolicy/updatePolicyEnable")
-	public ResponseEntity<Void> updatePolicyEnable(@RequestBody ReadPolicyEntity policy) {
-		readPolicyMapper.updatePolicyEnable(policy.getDetected_no(), policy.getEnable());
-		return ResponseEntity.ok().build();
+	public ResponseEntity<Void> updatePolicyEnable(@RequestBody List<EnableRequestEntity> policyUpdateRequests) {
+	    for (EnableRequestEntity enableRequestEntity : policyUpdateRequests) {
+	        readPolicyMapper.updatePolicyEnable(enableRequestEntity);
+	    }
+	    return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/admin/menu/readPolicy/deletePolicy")
