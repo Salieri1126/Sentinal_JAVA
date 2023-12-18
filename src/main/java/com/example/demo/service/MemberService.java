@@ -14,7 +14,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
     
     public boolean login(MemberEntity memberEntity) {
-        MemberEntity member = memberMapper.findById(memberEntity.getId());
+        MemberEntity member = memberMapper.validUser(memberEntity.getId());
         if (member != null && member.getPassword().equals(memberEntity.getPassword())) {
             return true;
         }
