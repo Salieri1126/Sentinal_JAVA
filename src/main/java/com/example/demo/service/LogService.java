@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -99,7 +99,7 @@ public class LogService {
 	    String sourceMac = bytesToHexForMac(Arrays.copyOfRange(bytes, 6, 12));
 	    String etherType = bytesToHexForEtherType(Arrays.copyOfRange(bytes, 12, 14));
 	    
-	    Map<String, String> ethernetHeader = new HashMap<>();
+	    Map<String, String> ethernetHeader = new LinkedHashMap<>();
 	    ethernetHeader.put("Destination MAC Addr", destinationMac);
 	    ethernetHeader.put("Source MAC Addr", sourceMac);
 	    ethernetHeader.put("Ethernet Type", etherType);
@@ -141,7 +141,7 @@ public class LogService {
 	    String sourceIp = (bytes[ipStart + 12] & 0xFF) + "." + (bytes[ipStart + 13] & 0xFF) + "." + (bytes[ipStart + 14] & 0xFF) + "." + (bytes[ipStart + 15] & 0xFF);
 	    String destinationIp = (bytes[ipStart + 16] & 0xFF) + "." + (bytes[ipStart + 17] & 0xFF) + "." + (bytes[ipStart + 18] & 0xFF) + "." + (bytes[ipStart + 19] & 0xFF);
 	    
-	    Map<String, String> ipHeader = new HashMap<>();
+	    Map<String, String> ipHeader = new LinkedHashMap<>();
 	    ipHeader.put("IP Version", String.valueOf(version));
 	    ipHeader.put("Header Length", String.valueOf(headerLength));
 	    ipHeader.put("Type of Service", String.valueOf(typeOfService));
@@ -170,7 +170,7 @@ public class LogService {
         int checksumTcpHeader = ((bytes[tcpStart + 16] & 0xFF) << 8) | (bytes[tcpStart + 17] & 0xFF);
         int urgentPointer = ((bytes[tcpStart + 18] & 0xFF) << 8) | (bytes[tcpStart + 19] & 0xFF);
 
-        Map<String, String> tcpHeader = new HashMap<>();
+        Map<String, String> tcpHeader = new LinkedHashMap<>();
         tcpHeader.put("Source Port", String.valueOf(sourcePort));
         tcpHeader.put("Destination Port", String.valueOf(destinationPort));
         tcpHeader.put("Sequence Number", String.valueOf(sequenceNumber));
