@@ -13,8 +13,12 @@
 		base_time,
 		base_limit,
 		level,
+		end_time,
 		detail,
-		end_time
+		to_sip,
+		to_sp,
+		dst_ip,
+		base_size
 		)
 		VALUES(
 		#{detected_name},
@@ -27,8 +31,12 @@
 		#{base_time},
 		#{base_limit},
 		#{level},
+		#{end_time},
 		#{detail},
-		#{end_time}
+		0,
+		0,
+		0,
+		0
 		)
 	</insert>
 </mapper>

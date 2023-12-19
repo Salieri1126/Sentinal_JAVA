@@ -22,7 +22,7 @@ public interface ReadLogsMapper {
 	ReadLogsEntity getBinaryData(
 			@Param("tableName") String tableName,
 			@Param("log_index") int log_index);
-	List<ReadLogsEntity> getTodayLogs(
+	List<ReadLogsEntity> getLastLogs(
 			@Param("tableName") String tableName,
 			@Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);

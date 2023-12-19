@@ -19,7 +19,11 @@
 	        base_limit = #{base_limit},
 	        level = #{level},
 	        detail = #{detail},
-	        end_time = #{end_time}
+	        end_time = #{end_time},
+	        to_sip = 0,
+	        to_sp = 0,
+	        dst_ip = 0,
+	        base_size = 0
 	    WHERE
 	        detected_no = #{detected_no}
 	</update>

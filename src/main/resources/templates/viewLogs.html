@@ -5,12 +5,25 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="chrome">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/commonStyle.css">
+	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+	<link rel="manifest" href="/json/manifest.json">
+	
 	<title>Sentinel</title>
 </head>
 
 <body>
-	<h2>로그 상세 정보</h2>
+	<h2>패킷 상세 정보</h2>
 	<th><span th:text="${binaryData}"></span></th>
+	<br>
+	<div id="packetHeader">
+        <h3>Ethernet Header</h3>
+        <p th:each="entry : ${packetHeader[0]}" th:text="${entry.key} + ': ' + ${entry.value}"></p>
+        <h3>IP Header</h3>
+        <p th:each="entry : ${packetHeader[1]}" th:text="${entry.key} + ': ' + ${entry.value}"></p>
+        <h3>TCP Header</h3>
+        <p th:each="entry : ${packetHeader[2]}" th:text="${entry.key} + ': ' + ${entry.value}"></p>
+    </div>
 </body>
 
 </html>

@@ -31,7 +31,7 @@
 	    WHERE log_index = #{log_index}
 	</select>
 	
-	<select id="getTodayLogs" resultType="com.example.demo.model.log.ReadLogsEntity">
+	<select id="getLastLogs" resultType="com.example.demo.model.log.ReadLogsEntity">
 	    SELECT * FROM ${tableName}
 	    <where>
 	        <if test="startDate != null and endDate != null">

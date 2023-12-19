@@ -1,13 +1,16 @@
 package com.example.demo.controller;
 
+import java.sql.SQLSyntaxErrorException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,7 +75,15 @@ public class LogController {
         LocalDate end = endDate.toLocalDate();
         for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
             String tableName = "log_" + date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            allLogs.addAll(readLogsMapper.findFilteredLogs(tableName, src_ip, src_port, dst_ip, level, action, startDate, endDate));
+            try {
+            	allLogs.addAll(readLogsMapper.findFilteredLogs(tableName, src_ip, src_port, dst_ip, level, action, startDate, endDate));
+            } catch (DataAccessException e) {
+            	if (e.getRootCause() instanceof SQLSyntaxErrorException) {
+            		System.out.println("========== <" + tableName + "> 해당 로그 테이블이 존재하지 않습니다. ==========");
+            	} else {
+            		e.printStackTrace();
+            	}
+            }
         }
         List<ReadLogsEntity> readLogs = allLogs.stream()
             .sorted(Comparator.comparing(ReadLogsEntity::getTime).thenComparing(ReadLogsEntity::getLog_index))
@@ -89,8 +100,10 @@ public class LogController {
         String formattedDate = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String tableName = "log_" + formattedDate;
         ReadLogsEntity log = readLogsMapper.getBinaryData(tableName, log_index);
-        String binaryData = logService.parseBinaryData(log);
+        String binaryData = logService.getPacket(log);
+        List<Map<String, String>> packetHeader = logService.getHeader(log);
         model.addAttribute("binaryData", binaryData);
+        model.addAttribute("packetHeader", packetHeader);
         return "viewLogs";
     }
 }
