@@ -19,6 +19,10 @@
 			<h1>정책현황</h1>
 		</div>
 	</header>
+	<div class="buttonbox1">
+		<button class="add-btn" id="activate-button">활성화</button>
+		<button class="edit-btn" id="deactivate-button">비활성화</button>
+	</div>
 	<div class="buttonbox">
 		<button class="add-btn" onclick="location.href='/admin/menu/readPolicy/insertPolicy'">추가</button>
 		<button class="edit-btn" onclick="updatePolicy()">수정</button>
@@ -85,10 +89,6 @@
 			</table>
 		</div>
 	</main>
-	<div class="buttonbox">
-		<button class="add-btn" id="activate-button">활성화</button>
-		<button class="edit-btn" id="deactivate-button">비활성화</button>
-	</div>
 
 	<script>
 		window.onload = function() {
