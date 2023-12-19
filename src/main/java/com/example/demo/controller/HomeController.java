@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.model.log.ReadLogsEntity;
@@ -19,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class HomeLogController {
+public class HomeController {
 	
 	private final ReadLogsMapper readLogsMapper;
     
@@ -34,36 +35,35 @@ public class HomeLogController {
 
 	@GetMapping("/admin/menu/home/api/log")
 	@ResponseBody
-	public List<ReadLogsEntity> getTodayLogs() {
-	    LocalDate today = LocalDate.now();
-	    String tableName = "log_" + today.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-
+	public List<ReadLogsEntity> getLastLogs(@RequestParam("date") String dateStr) {
+	    LocalDate date = LocalDate.parse(dateStr);
+	    String tableName = "log_" + date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+	    
 	    List<ReadLogsEntity> logs = new ArrayList<>();
 	    try {
-	    	logs.addAll(readLogsMapper.getTodayLogs(tableName, today.atStartOfDay(), today.atTime(23, 59, 59)));
+	        logs.addAll(readLogsMapper.getLastLogs(tableName, date.atStartOfDay(), date.atTime(23, 59, 59)));
 	    } catch (DataAccessException e) {
-	    	if (e.getRootCause() instanceof SQLSyntaxErrorException) {
-                System.out.println("========== <" + tableName + "> 해당 로그 테이블이 존재하지 않습니다. ==========");
-            } else {
-                e.printStackTrace();
-            }
+	        if (e.getRootCause() instanceof SQLSyntaxErrorException) {
+	            System.out.println("========== <" + tableName + "> 해당 로그 테이블이 존재하지 않습니다. ==========");
+	        } else {
+	            e.printStackTrace();
+	        }
 	    }
 	    return logs;
 	}
 	
 	@GetMapping("/admin/menu/home/api/logWeek")
 	@ResponseBody
-	public List<ReadLogsEntity> getWeekLogs() {
-		LocalDate today = LocalDate.now();
-	    LocalDate oneWeekAgo = today.minusDays(7);
-
+	public List<ReadLogsEntity> getWeekLogs(@RequestParam("startDate") String startDateStr, @RequestParam("endDate") String endDateStr) {
+	    LocalDate startDate = LocalDate.parse(startDateStr);
+	    LocalDate endDate = LocalDate.parse(endDateStr);
 	    List<ReadLogsEntity> logs = new ArrayList<>();
-	    for (LocalDate date = oneWeekAgo; !date.isAfter(today); date = date.plusDays(1)) {
+	    for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
 	        String tableName = "log_" + date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 	        try {
-	        	logs.addAll(readLogsMapper.getWeekLogs(tableName, date.atStartOfDay(), date.atTime(23, 59, 59)));
+	            logs.addAll(readLogsMapper.getWeekLogs(tableName, date.atStartOfDay(), date.atTime(23, 59, 59)));
 	        } catch (DataAccessException e) {
-	        	if (e.getRootCause() instanceof SQLSyntaxErrorException) {
+	            if (e.getRootCause() instanceof SQLSyntaxErrorException) {
 	                System.out.println("========== <" + tableName + "> 해당 로그 테이블이 존재하지 않습니다. ==========");
 	            } else {
 	                e.printStackTrace();

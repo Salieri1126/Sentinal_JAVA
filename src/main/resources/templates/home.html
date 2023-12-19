@@ -2,203 +2,252 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
+	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="chrome">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/commonStyle.css">
 	<link rel="stylesheet" href="/css/home.css">
+	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+	<link rel="manifest" href="/json/manifest.json">
 
 	<!-- Datepicker 사용을 위한 jQuery, jQuery-UI 라이브러리 추가 -->
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-ko.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/i18n/jquery-ui-timepicker-ko.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 	<!-- Timepicker 한국어 지역 설정 추가 -->
 	<link rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
 
 	<script>
-		$(document).ready(function() {
-			//도넛차트 (1일)
-		    var today = new Date();
-		    var dd = String(today.getDate()).padStart(2, '0');
-		    var mm = String(today.getMonth() + 1).padStart(2, '0');
-		    var yyyy = today.getFullYear();
-		    var todayStr = yyyy + '-' + mm + '-' + dd;
-		    var logNames = {};
-		
-		    $.ajax({
-		        url: '/admin/menu/home/api/log',
-		        type: 'GET',
-		        data: {
-		            startDate: todayStr,
-		            endDate: todayStr
-		        },
-		        success: function(data) {
-		            var tbody = $('#lTable');
-		            data.forEach(function(log) {
-		                var row = $('<tr>');
-		                row.append($('<td>').text(log.log_index));
-		                row.append($('<td>').text(log.detected_name));
-		                row.append($('<td>').text(log.level));
-		                row.append($('<td>').text(log.src_ip));
-						row.append($('<td>').text(log.src_port));
-						row.append($('<td>').text(log.dst_ip));
-		                row.append($('<td>').text(log.action));
-		                tbody.append(row);
-		
-		                // 로그 이름별로 개수를 세어 logNames에 저장합니다.
-		                if (logNames[log.detected_name]) {
-		                    logNames[log.detected_name]++;
-		                } else {
-		                    logNames[log.detected_name] = 1;
-		                }
-		            });
-		
-		            // logNames를 이용해 차트 데이터를 생성합니다.
-		            var labels = Object.keys(logNames);
-		            var data = Object.values(logNames);
-		
-		            // 차트를 생성합니다.
-		            var ctx = document.getElementById('logNameChart').getContext('2d');
-		            var myChart = new Chart(ctx, {
-		                type: 'doughnut',
-		                data: {
-		                    labels: labels,
-		                    datasets: [{
-		                        data: data,
-		                        backgroundColor: [  // 각 데이터의 배경색입니다.
-		                            'rgba(255, 99, 132, 0.2)',
-		                            'rgba(54, 162, 235, 0.2)',
-		                            'rgba(255, 206, 86, 0.2)',
-		                            'rgba(75, 192, 192, 0.2)',
-		                            'rgba(153, 102, 255, 0.2)',
-		                            'rgba(255, 159, 64, 0.2)'
-		                        ],
-		                        borderColor: [  // 각 데이터의 테두리 색입니다.
-		                            'rgba(255, 99, 132, 1)',
-		                            'rgba(54, 162, 235, 1)',
-		                            'rgba(255, 206, 86, 1)',
-		                            'rgba(75, 192, 192, 1)',
-		                            'rgba(153, 102, 255, 1)',
-		                            'rgba(255, 159, 64, 1)'
-		                        ],
-		                        borderWidth: 1  // 테두리의 두께입니다.
-		                    }]
-		                },
-		                options: {
-		                    responsive: true,
-		                    maintainAspectRatio: false,
-		                    legend: {
-		                        position: 'right'  // 범례의 위치를 설정합니다[^2^][2].
-		                    }  // 차트가 반응형으로 동작하도록 설정합니다.
-		                }
-		            });
-		        },
-		        error: function(request, status, error) {
-		            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-		        }
-		    });
-		    
-		    //라인차트(7일)
-		    var oneWeekAgo = new Date();
-			oneWeekAgo.setDate(today.getDate() - 7);
-			var dd = String(oneWeekAgo.getDate()).padStart(2, '0');
-			var mm = String(oneWeekAgo.getMonth() + 1).padStart(2, '0');
-			var yyyy = oneWeekAgo.getFullYear();
-			var oneWeekAgoStr = yyyy + '-' + mm + '-' + dd;
-			var logCounts = {};
+	var today = new Date();
+	
+	$(document).ready(function() {
+	    var logNames = {};
+	    var logCounts = {};
+	
+	    function fetchLogs(date) {
+	        var dd = String(date.getDate()).padStart(2, '0');
+	        var mm = String(date.getMonth() + 1).padStart(2, '0');
+	        var yyyy = date.getFullYear();
+	        var dateStr = yyyy + '-' + mm + '-' + dd;
+	
+	        $.ajax({
+	            url: '/admin/menu/home/api/log',
+	            type: 'GET',
+	            data: {
+	                date: dateStr
+	            },
+	            success: function(data) {
+	                if (data.length === 0) {
+	                    date.setDate(date.getDate() - 1);
+	                    fetchLogs(date);
+	                } else {
+	                    var tbody = $('#lTable');
+						// 상위 10개 로그만 출력
+						var topTenLogs = data.slice(0, 10);
+						topTenLogs.forEach(function (log) {
+							var row = $('<tr>');
+							row.append($('<td>').text(log.log_index));
+							row.append($('<td>').text(log.detected_name));
+							var resultLevel = '';
+							switch(log.level) {
+								case -1:
+									resultLevel = '전체';
+									break;
+								case 0:
+									resultLevel = '하';
+									break;
+								case 1:
+									resultLevel = '중';
+									break;
+								case 2:
+									resultLevel = '상';
+									break;
+								case 3:
+									resultLevel = '최상';
+									break;
+							}
+							row.append($('<td>').text(resultLevel));
+							row.append($('<td>').text(log.src_ip));
+							row.append($('<td>').text(log.src_port));
+							row.append($('<td>').text(log.dst_ip));
+							var resultAction = '';
+							switch(log.action) {
+								case -1:
+									resultAction = '전체';
+									break;
+								case 0:
+									resultAction = '로그';
+									break;
+								case 1:
+									resultAction = '로그+차단';
+									break;
+							}
+							row.append($('<td>').text(resultAction));
+							tbody.append(row);
+						
+							// 로그 이름별로 개수를 세어 logNames에 저장합니다.
+							if (logNames[log.detected_name]) {
+								logNames[log.detected_name]++;
+							} else {
+								logNames[log.detected_name] = 1;
+							}
+						});
+						
+						// logNames를 이용해 차트 데이터를 생성합니다.
+						var labels = Object.keys(logNames);
+						var data = Object.values(logNames);
+						
+						// 차트를 생성합니다.
+						var ctx = document.getElementById('logNameChart').getContext('2d');
+						var myChart = new Chart(ctx, {
+							type: 'doughnut',
+							data: {
+								labels: labels,
+								datasets: [{
+									data: data,
+									backgroundColor: [
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(255, 206, 86, 0.2)',
+										'rgba(75, 192, 192, 0.2)',
+										'rgba(153, 102, 255, 0.2)',
+										'rgba(255, 159, 64, 0.2)'
+									],
+									borderColor: [
+										'rgba(255, 99, 132, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(255, 206, 86, 1)',
+										'rgba(75, 192, 192, 1)',
+										'rgba(153, 102, 255, 1)',
+										'rgba(255, 159, 64, 1)'
+									],
+									borderWidth: 1
+								}]
+							},
+							options: {
+								responsive: true,
+								maintainAspectRatio: false,
+								legend: {
+									position: 'right'
+								}
+							}
+						});
+	                }
+	            },
+	            error: function(request, status, error) {
+	                console.log("code:" + request.status + "" + "message:" + request.responseText + "" + "error:" + error);
+	            }
+	        });
+	    }
+	
+	    fetchLogs(today);
+	
+	    // 라인 차트 (7일)
+	    var oneWeekAgo = new Date();
+	    oneWeekAgo.setDate(today.getDate() - 7);
+	    var week_dd = String(oneWeekAgo.getDate()).padStart(2, '0');
+	    var week_mm = String(oneWeekAgo.getMonth() + 1).padStart(2, '0');
+	    var week_yyyy = oneWeekAgo.getFullYear();
+	    var oneWeekAgoStr = week_yyyy + '-' + week_mm + '-' + week_dd;
+	    
+	    var dd = String(today.getDate()).padStart(2, '0');
+		var mm = String(today.getMonth() + 1).padStart(2, '0');
+		var yyyy = today.getFullYear();
+		var todayStr = yyyy + '-' + mm + '-' + dd;
+	
+	    for (var d = oneWeekAgo; d <= today; d.setDate(d.getDate() + 1)) {
+	        var date = d.toISOString().split('T')[0];
+	        logCounts[date] = 0;
+	    }
+	
+	    $.ajax({
+	        url: '/admin/menu/home/api/logWeek',
+	        type: 'GET',
+	        data: {
+	            startDate: oneWeekAgoStr,
+	            endDate: todayStr
+	        },
+	        success: function (data) {
+				data.forEach(function (log) {
+					var date = log.time.split('T')[0];
+					if (logCounts[date]) {
+						logCounts[date]++;
+					} else {
+						logCounts[date] = 1;
+					}
+				});
 			
-			for (var d = oneWeekAgo; d <= today; d.setDate(d.getDate() + 1)) {
-			    var date = d.toISOString().split('T')[0];
-			    logCounts[date] = 0;
-			}
+				var labels = Object.keys(logCounts).sort();
+				var data = labels.map(function (date) {return logCounts[date];});
 			
-			$.ajax({
-			    url: '/admin/menu/home/api/logWeek',
-			    type: 'GET',
-			    data: {
-			        startDate: oneWeekAgoStr,
-			        endDate: todayStr
-			    },
-			    success: function(data) {
-			        data.forEach(function(log) {
-			            var date = log.time.split('T')[0];
-			            if (logCounts[date]) {
-			                logCounts[date]++;
-			            } else {
-			                logCounts[date] = 1;
-			            }
-			        });
-			
-			        var labels = Object.keys(logCounts).sort();
-			        var data = labels.map(function(date) { return logCounts[date]; });
-			
-			        var ctx = document.getElementById('logCountChart').getContext('2d');
-			        var myChart = new Chart(ctx, {
-			            type: 'line',
-			            data: {
-			                labels: labels,
-			                datasets: [{
-								label:'logCounts',
-			                    data: data,
-			                    borderColor: 'rgba(68, 114, 148, 1)',
-			                    borderWidth: 2,
-			                    fill: false,
-			                    tension: 0
-			                }]
-			            },
-			            options: {
-			                responsive: true,
-			                maintainAspectRatio: false,
-			                title: {
-					            display: true, // 제목을 표시하도록 설정합니다.
-					            text: 'Log Counts', // 제목 텍스트를 설정합니다.
-					            position: 'left' // 제목 위치를 오른쪽으로 설정합니다.
-        					}
-			            }
-			        });
-			    },
-			    error: function(request, status, error) {
-			        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-			    }
-			});
-		});
-    </script>
+				var ctx = document.getElementById('logCountChart').getContext('2d');
+				var myChart = new Chart(ctx, {
+					type: 'line',
+					data: {
+						labels: labels,
+						datasets: [{
+							label: '요일별 로그 개수',
+							data: data,
+							borderColor: 'rgba(68, 114, 148, 1)',
+							borderWidth: 2,
+							fill: false,
+							tension: 0
+						}]
+					},
+					options: {
+						responsive: true,
+						maintainAspectRatio: false,
+						title: {
+							display: true, // 제목을 표시하도록 설정합니다.
+							text: '로그 카운트', // 제목 텍스트를 설정합니다.
+							position: 'left' // 제목 위치를 오른쪽으로 설정합니다.
+						}
+					}
+				});
+	        },
+	        error: function (request, status, error) {
+	            console.log("code:" + request.status + "" + "message:" + request.responseText + "" + "error:" + error);
+	        }
+	    });
+	});
+	</script>
 </head>
 
 <body>
-    <header>
-        <div class="hline">
-            <h1>홈</h1>
-        </div>
-    </header>
-    <div class="lineChart">
-		<canvas id="logCountChart" style="width: 800px; height: 250px;"></canvas>
+	<header>
+		<div class="hline">
+			<h1>홈</h1>
+		</div>
+	</header>
+	<div class="lineChart">
+		<canvas id="logCountChart" style="width: 600px; height: 315px;"></canvas>
 	</div>
-    <div class ="bottomChart">
-	    <div class="doughnutChart">
-			<canvas id="logNameChart" style="width: 400px; height: 200px;"></canvas>
-	    </div>
-	    <div class="logListBox">
-	        <table>
-	            <thead>
-	                <tr>
-	                    <th>No</th>
-	                    <th>내용</th>
-	                    <th>위험등급</th>
-	                    <th>출발지 IP</th>
-	                    <th>출발지 Port</th>
-	                    <th>도착지 IP</th>
-	                    <th>동작</th>
-	                </tr>
-	            </thead>
-	            <tbody id="lTable">
-	                <!-- 여기에 로그가 동적으로 추가됨 -->
-	            </tbody>
-	        </table>
-	    </div>
+	<div class="bottomChart">
+		<div class="doughnutChart">
+			<canvas id="logNameChart" style="width: 570px; height: 285px;"></canvas>
+		</div>
+		<div class="logListBox" id="logBox">
+			<table>
+				<thead>
+					<tr>
+						<th>No</th>
+						<th>내용</th>
+						<th>위험등급</th>
+						<th>출발지 IP</th>
+						<th>출발지 Port</th>
+						<th>도착지 IP</th>
+						<th>동작</th>
+					</tr>
+				</thead>
+				<tbody id="lTable">
+					<!-- 여기에 로그가 동적으로 추가됨 -->
+				</tbody>
+			</table>
+		</div>
 	</div>
 </body>
 

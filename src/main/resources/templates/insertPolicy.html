@@ -7,6 +7,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/commonStyle.css">
 	<link rel="stylesheet" href="/css/changePolicyStyle.css">
+	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+	<link rel="manifest" href="/json/manifest.json">
 	
 	<!-- Datepicker 사용을 위한 jQuery, jQuery-UI 라이브러리 추가 -->
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -147,19 +149,21 @@
 		
 		$(function () {
 			const today = new Date();
+			const nextMonth = new Date();
+    		nextMonth.setMonth(today.getMonth() + 1);
 			$("#end_time").datepicker({
 				dateFormat: "yy-mm-dd",
 				minDate: 0, // 오늘 포함 이후만 선택 가능
-				defaultDate: today, // 기본 날짜를 오늘로 설정
+				defaultDate: nextMonth, // 기본 날짜를 오늘로 설정
 				onClose: function (selectedDate) {
 					let selected = new Date(selectedDate);
 					today.setHours(0,0,0,0);
 					if (selected < today) {
 						alert("오늘보다 이전인 날은 선택할 수 없습니다.");
-						$("#end_time").datepicker("setDate", today); // 오늘 날짜로 설정
+						$("#end_time").datepicker("setDate", nextMonth); // 오늘 날짜로 설정
 					}
 				}
-			}).datepicker("setDate", today); // 기본 날짜를 오늘로 설정
+			}).datepicker("setDate", nextMonth); // 기본 날짜를 오늘로 설정
 		});
 		
 		function isValidIp(ip) {
@@ -222,8 +226,8 @@
 					if (result === 'EXIST') {
 						alert('동일한 탐지명이 이미 존재합니다.');
 					} else if (result === 'NOT_EXIST') {
-						alert('정책 추가 작업이 완료되었습니다.');
 						document.getElementById('policyForm').submit();
+						alert('정책 추가 작업이 완료되었습니다.');
 					} else {
 						alert('예상치 못한 서버 응답입니다.');
 					}
