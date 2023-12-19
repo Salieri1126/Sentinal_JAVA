@@ -56,6 +56,9 @@ public class PolicyController {
 		        if(policyList.getContent3() != null) {
 		        	policyList.setContent3(policyService.decodingContent(policyList.getContent3()));
 		        }
+		        if(policyList.getDetail() != null) {
+		        	policyList.setDetail(policyService.decodingContent(policyList.getDetail()));
+		        }
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -87,6 +90,9 @@ public class PolicyController {
 	        if(policy.getContent3() != null) {
 	            policy.setContent3(policyService.encodingContent(policy.getContent3()));
 	        }
+	        if(policy.getDetail() != null) {
+	        	policy.setDetail(policyService.encodingContent(policy.getDetail()));
+	        }
 	    } catch (UnsupportedEncodingException e) {
 	        e.printStackTrace();
 	    }
@@ -115,6 +121,9 @@ public class PolicyController {
 	        if(policyDetails.getContent3() != null) {
 	        	policyDetails.setContent3(policyService.decodingContent(policyDetails.getContent3()));
 	        }
+	        if(policyDetails.getDetail() != null) {
+	        	policyDetails.setDetail(policyService.decodingContent(policyDetails.getDetail()));
+	        }
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -139,6 +148,9 @@ public class PolicyController {
 	        }
 	        if(policy.getContent3() != null) {
 	            policy.setContent3(policyService.encodingContent(policy.getContent3()));
+	        }
+	        if(policy.getDetail() != null) {
+	        	policy.setDetail(policyService.encodingContent(policy.getDetail()));
 	        }
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -189,6 +201,9 @@ public class PolicyController {
 	        }
 	        if(viewPolicy.getContent3() != null) {
 	        	viewPolicy.setContent3(policyService.decodingContent(viewPolicy.getContent3()));
+	        }
+	        if(viewPolicy.getDetail() != null) {
+	        	viewPolicy.setDetail(policyService.decodingContent(viewPolicy.getDetail()));
 	        }
 	    } catch (UnsupportedEncodingException e) {
 	    	e.printStackTrace();

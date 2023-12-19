@@ -21,4 +21,9 @@ public class ReadPolicyEntity {
     private Integer base_time;
     private Integer base_limit;
     private Integer level;
+    private String detail;
+    private String to_sip;
+    private String to_sp;
+    private String dst_ip;
+    private String base_size;
 }
