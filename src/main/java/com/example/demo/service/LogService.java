@@ -13,17 +13,28 @@ import com.example.demo.model.log.ReadLogsEntity;
 @Service
 public class LogService {
 	
-	/* 16진수 패킷 추출 메서드 */
+	// 문자열 파라미터 검증 메서드
+    public String validateParam(String param) {
+        return ("".equalsIgnoreCase(param) || "any".equalsIgnoreCase(param) || param.isEmpty()) ? null : param;
+    }
+    
+    // 정수 파라미터 검증 메서드
+    public Integer validateParam(Integer param, Integer defaultValue) {
+        return (param == null || param.equals(defaultValue)) ? null : param;
+    }
+	
+	// 16진수 패킷 추출 메서드
 	public String getPacket(ReadLogsEntity log) {
 		byte[] packet_bin = log.getPacket_bin();
 		StringBuilder stringBuilder = new StringBuilder();
 		for (byte b : packet_bin) {
-			stringBuilder.append(String.format("%02x", b));
+			stringBuilder.append(String.format("%02X", b));
 		}
 		String binaryData = stringBuilder.toString().toUpperCase();
 		return parseBinaryDataForPacket(binaryData);
 	}
 	
+	// 바이너리 데이터 가공 후 패킷 데이터 생성하는 메서드
 	private String parseBinaryDataForPacket(String binaryData) {
 		int index = 0;
 		String packetData = "";
@@ -35,7 +46,7 @@ public class LogService {
 		return packetData.trim();
 	}
 	
-	/* 헤더 추출 메서드 */
+	// 헤더 추출 메서드
 	public List<Map<String, String>> getHeader(ReadLogsEntity log) {
 		byte[] packet_bin = log.getPacket_bin();
 		StringBuilder stringBuilder = new StringBuilder();
@@ -102,7 +113,7 @@ public class LogService {
 	    Map<String, String> ethernetHeader = new LinkedHashMap<>();
 	    ethernetHeader.put("Destination MAC Addr", destinationMac);
 	    ethernetHeader.put("Source MAC Addr", sourceMac);
-	    ethernetHeader.put("Ethernet Type", etherType);
+	    ethernetHeader.put("Ethernet Type", "0x" + etherType);
 	    
 	    return ethernetHeader;
 	}
@@ -142,13 +153,13 @@ public class LogService {
 	    String destinationIp = (bytes[ipStart + 16] & 0xFF) + "." + (bytes[ipStart + 17] & 0xFF) + "." + (bytes[ipStart + 18] & 0xFF) + "." + (bytes[ipStart + 19] & 0xFF);
 	    
 	    Map<String, String> ipHeader = new LinkedHashMap<>();
-	    ipHeader.put("IP Version", String.valueOf(version));
+	    ipHeader.put("Version", String.valueOf(version));
 	    ipHeader.put("Header Length", String.valueOf(headerLength));
 	    ipHeader.put("Type of Service", String.valueOf(typeOfService));
 	    ipHeader.put("Datagram Length", String.valueOf(datagramLength));
 	    ipHeader.put("Identification", String.valueOf(identification));
 	    ipHeader.put("Fragment Offset", String.valueOf(fragmentOffset));
-	    ipHeader.put("Time To Live Field(TTL)", String.valueOf(ttl));
+	    ipHeader.put("Time To Live(TTL)", String.valueOf(ttl));
 	    ipHeader.put("Datagram Protocol", String.valueOf(datagramProtocol));
 	    ipHeader.put("Checksum", String.valueOf(checksumIpHeader));
 	    ipHeader.put("Source IP", sourceIp);
@@ -166,10 +177,11 @@ public class LogService {
         int dataOffset = (bytes[tcpStart + 12] >> 4) & 0xF;
         int reserved = (bytes[tcpStart + 12] >> 1) & 0x7;
         int flags = bytes[tcpStart + 13] & 0xFF;
+        String flagsString = String.format("0x%03X", flags & 0xFF);
         int windowSize = ((bytes[tcpStart + 14] & 0xFF) << 8) | (bytes[tcpStart + 15] & 0xFF);
         int checksumTcpHeader = ((bytes[tcpStart + 16] & 0xFF) << 8) | (bytes[tcpStart + 17] & 0xFF);
         int urgentPointer = ((bytes[tcpStart + 18] & 0xFF) << 8) | (bytes[tcpStart + 19] & 0xFF);
-
+        
         Map<String, String> tcpHeader = new LinkedHashMap<>();
         tcpHeader.put("Source Port", String.valueOf(sourcePort));
         tcpHeader.put("Destination Port", String.valueOf(destinationPort));
@@ -177,7 +189,7 @@ public class LogService {
         tcpHeader.put("Acknowledgment Number", String.valueOf(acknowledgmentNumber));
         tcpHeader.put("Data Offset", String.valueOf(dataOffset));
         tcpHeader.put("Reserved(RSV)", String.valueOf(reserved));
-        tcpHeader.put("Flags", String.valueOf(flags));
+        tcpHeader.put("flags", flagsString);
         tcpHeader.put("Window Size", String.valueOf(windowSize));
         tcpHeader.put("Checksum", String.valueOf(checksumTcpHeader));
         tcpHeader.put("Urgent Pointer", String.valueOf(urgentPointer));

@@ -15,17 +15,21 @@ public interface ReadLogsMapper {
             @Param("src_ip") String src_ip,
             @Param("src_port") String src_port,
             @Param("dst_ip") String dst_ip,
+            @Param("detected_name") String detected_name,
             @Param("level") Integer level,
             @Param("action") Integer action,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
+	
 	ReadLogsEntity getBinaryData(
 			@Param("tableName") String tableName,
 			@Param("log_index") int log_index);
+	
 	List<ReadLogsEntity> getLastLogs(
 			@Param("tableName") String tableName,
 			@Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
+	
 	List<ReadLogsEntity> getWeekLogs(
 			@Param("tableName") String tableName,
 			@Param("startDate") LocalDateTime startDate,

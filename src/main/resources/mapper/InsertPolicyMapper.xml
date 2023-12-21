@@ -33,8 +33,8 @@
 		#{level},
 		#{end_time},
 		#{detail},
-		0,
-		0,
+		#{to_sip},
+		#{to_sp},
 		0,
 		0
 		)

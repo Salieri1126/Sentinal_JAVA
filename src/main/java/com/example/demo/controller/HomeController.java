@@ -44,9 +44,10 @@ public class HomeController {
 	        logs.addAll(readLogsMapper.getLastLogs(tableName, date.atStartOfDay(), date.atTime(23, 59, 59)));
 	    } catch (DataAccessException e) {
 	        if (e.getRootCause() instanceof SQLSyntaxErrorException) {
-	            System.out.println("========== <" + tableName + "> 해당 로그 테이블이 존재하지 않습니다. ==========");
+	            System.out.println("========== <" + tableName + "> 해당 테이블이 존재하지 않습니다. ==========");
 	        } else {
-	            e.printStackTrace();
+	        	System.out.println("========== <" + tableName + "> 처리 중 예외가 발생했습니다. ==========");
+                e.printStackTrace();
 	        }
 	    }
 	    return logs;
@@ -64,8 +65,9 @@ public class HomeController {
 	            logs.addAll(readLogsMapper.getWeekLogs(tableName, date.atStartOfDay(), date.atTime(23, 59, 59)));
 	        } catch (DataAccessException e) {
 	            if (e.getRootCause() instanceof SQLSyntaxErrorException) {
-	                System.out.println("========== <" + tableName + "> 해당 로그 테이블이 존재하지 않습니다. ==========");
+	                System.out.println("========== <" + tableName + "> 해당 테이블이 존재하지 않습니다. ==========");
 	            } else {
+	            	System.out.println("========== <" + tableName + "> 처리 중 예외가 발생했습니다. ==========");
 	                e.printStackTrace();
 	            }
 	        }

@@ -24,6 +24,15 @@
         <h3>TCP Header</h3>
         <p th:each="entry : ${packetHeader[2]}" th:text="${entry.key} + ': ' + ${entry.value}"></p>
     </div>
+    <div>
+		<button onclick="cancel()">돌아가기</button>
+	</div>
+	
+	<script>
+		function cancel() {
+			window.location.href = "/admin/menu/readLogs";
+		}
+	</script>
 </body>
 
 </html>
