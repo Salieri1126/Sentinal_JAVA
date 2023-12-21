@@ -229,8 +229,8 @@ public class PolicyController {
     /**
      * ReadPolicyEntity의 활성화 상태를 업데이트하고 정책 업데이트를 트리거하는 메서드
      *
-     * @param policy 업데이트할 정보를 포함하는 ReadPolicyEntity입니다.
-     * @return 성공적인 업데이트를 나타내는 빈 내용의 ResponseEntity입니다.
+     * @param policy 업데이트할 정보를 포함하는 ReadPolicyEntity
+     * @return 성공적인 업데이트를 나타내는 빈 내용의 ResponseEntity
      */
     @PostMapping("/admin/menu/readPolicy/updatePolicyEnable")
     public ResponseEntity<Void> updatePolicyEnable(@RequestBody ReadPolicyEntity policy) {
@@ -238,12 +238,12 @@ public class PolicyController {
         policyService.triggerPolicyUpdate();
         return ResponseEntity.ok().build();
     }
-
+    
     /**
      * 제공된 ID 목록을 기반으로 정책을 삭제하고 필요한 경우 UDP 신호를 전송하는 메서드
      *
-     * @param payload "ids" 키 아래에 정책 ID 목록을 포함하는 맵입니다.
-     * @return 응답 본문에 성공 지표가 포함된 ResponseEntity입니다.
+     * @param payload "ids" 키 아래에 정책 ID 목록을 포함하는 Map
+     * @return 응답 본문에 성공 지표가 포함된 ResponseEntity
      */
     @PostMapping("/admin/menu/readPolicy/deletePolicies")
     @Transactional
