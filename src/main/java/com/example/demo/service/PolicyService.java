@@ -28,6 +28,7 @@ public class PolicyService {
 
     @Autowired
     private UpdatePolicyMapper updatePolicyMapper;
+    private volatile boolean isPolicyUpdated = false;
 
     /**
      * 주어진 내용을 URL 인코딩하는 메서드
@@ -68,7 +69,28 @@ public class PolicyService {
     public String[] isSplit(String portRange) {
         return portRange.split("~");
     }
+    
+    /**
+     * 정책 업데이트를 트리거하여 정책이 업데이트되었음을 표시하는 메서드
+     */
+    public void triggerPolicyUpdate() {
+        this.isPolicyUpdated = true;
+    }
 
+    /**
+     * 주기적으로 실행되며 정책이 업데이트되었을 때 UDP 신호를 전송하는 메서드
+     * 업데이트 후 플래그를 다시 false로 설정하여 중복 전송을 방지합니다.
+     *
+     * @throws IOException UDP 신호 전송 중 발생할 수 있는 입출력 예외입니다.
+     */
+    @Scheduled(fixedDelay = 10000) // 10초마다 실행
+    public void processPolicyUpdate() throws IOException {
+        if (isPolicyUpdated) {
+            sendUDP();
+            isPolicyUpdated = false; // 플래그를 다시 false로 설정
+        }
+    }
+    
     /**
      * UDP 프로토콜을 사용하여 메시지를 특정 호스트와 포트로 전송하는 메서드
      * 

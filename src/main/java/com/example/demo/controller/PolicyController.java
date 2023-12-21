@@ -1,11 +1,12 @@
 package com.example.demo.controller;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -224,38 +225,49 @@ public class PolicyController {
         updatePolicyMapper.updatePolicy(policy);
         return "redirect:/admin/menu/readPolicy";
     }
-
+    
     /**
-     * 정책 활성/비활성 상태를 업데이트하는 메서드
+     * ReadPolicyEntity의 활성화 상태를 업데이트하고 정책 업데이트를 트리거하는 메서드
      *
-     * @param policy ReadPolicyEntity 객체
-     * @return HTTP 응답 엔터티
-     * @throws IOException IOException 예외
+     * @param policy 업데이트할 정보를 포함하는 ReadPolicyEntity입니다.
+     * @return 성공적인 업데이트를 나타내는 빈 내용의 ResponseEntity입니다.
      */
     @PostMapping("/admin/menu/readPolicy/updatePolicyEnable")
-    public ResponseEntity<Void> updatePolicyEnable(@RequestBody ReadPolicyEntity policy) throws IOException {
+    public ResponseEntity<Void> updatePolicyEnable(@RequestBody ReadPolicyEntity policy) {
         readPolicyMapper.updatePolicyEnable(policy.getDetected_no(), policy.getEnable());
-        policyService.sendUDP();
+        policyService.triggerPolicyUpdate();
         return ResponseEntity.ok().build();
     }
 
     /**
-     * 정책 삭제 메서드
+     * 제공된 ID 목록을 기반으로 정책을 삭제하고 필요한 경우 UDP 신호를 전송하는 메서드
      *
-     * @param detected_no 삭제할 정책의 ID
-     * @return 정책 목록 페이지로의 리다이렉트
-     * @throws IOException IOException 예외
+     * @param payload "ids" 키 아래에 정책 ID 목록을 포함하는 맵입니다.
+     * @return 응답 본문에 성공 지표가 포함된 ResponseEntity입니다.
      */
-    @GetMapping("/admin/menu/readPolicy/deletePolicy")
-    public String deletePolicy(@RequestParam("id") int detected_no) throws IOException {
-        int enableStatus = deletePolicyMapper.getPolicyEnableStatusById(detected_no);
-        deletePolicyMapper.deletePolicyById(detected_no);
-        if (enableStatus == 1) {
+    @PostMapping("/admin/menu/readPolicy/deletePolicies")
+    @Transactional
+    public ResponseEntity<?> deletePolicies(@RequestBody Map<String, List<Integer>> payload) {
+        List<Integer> detected_ids = payload.get("ids");
+        boolean sendUdpSignal = false;
+
+        for (int detected_no : detected_ids) {
+            int enableStatus = deletePolicyMapper.getPolicyEnableStatusById(detected_no);
+            if (enableStatus == 1) {
+                sendUdpSignal = true;
+            }
+        }
+
+        if (sendUdpSignal) {
+            for (int detected_no : detected_ids) {
+                deletePolicyMapper.deletePolicyById(detected_no);
+            }
             policyService.sendUDP();
         }
-        return "redirect:/admin/menu/readPolicy";
-    }
 
+        return ResponseEntity.ok(Map.of("success", true));
+    }
+    
     /**
      * 정책 이름 중복을 체크하는 메서드
      *
