@@ -24,13 +24,22 @@ import com.example.demo.service.LogService;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 로그 컨트롤러 클래스
+ */
 @Controller
 @RequiredArgsConstructor
 public class LogController {
-    
+
     private final ReadLogsMapper readLogsMapper;
     private final LogService logService;
 
+    /**
+     * 로그 목록 화면을 보여주는 메서드
+     *
+     * @param model Model 객체
+     * @return 로그 목록 템플릿 이름
+     */
     @GetMapping("/admin/menu/readLogs")
     public String showLogListForm(Model model) {
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -39,7 +48,24 @@ public class LogController {
         model.addAttribute("endDate", today);
         return "readLogs";
     }
-    
+
+    /**
+     * 필터링된 로그 목록을 가져오는 메서드
+     *
+     * @param src_ip         소스 IP 주소
+     * @param src_port       소스 포트
+     * @param dst_ip         대상 IP 주소
+     * @param detected_name  감지된 이름
+     * @param level          로그 레벨
+     * @param action         로그 액션
+     * @param startDateStr   조회 시작 날짜 문자열
+     * @param startTimeStr   조회 시작 시간 문자열
+     * @param endDateStr     조회 종료 날짜 문자열
+     * @param endTimeStr     조회 종료 시간 문자열
+     * @param page           페이지 번호
+     * @param numPerPage     페이지당 로그 수
+     * @return 필터링된 로그 리스트
+     */
     @GetMapping("/admin/menu/readLogs/api/getLogList")
     @ResponseBody
     public List<ReadLogsEntity> getLogList(
@@ -58,14 +84,14 @@ public class LogController {
 
         final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-        
+
         detected_name = logService.validateParam(detected_name);
         src_ip = logService.validateParam(src_ip);
         src_port = logService.validateParam(src_port);
         dst_ip = logService.validateParam(dst_ip);
         level = logService.validateParam(level, -1);
         action = logService.validateParam(action, -1);
-        
+
         LocalDateTime startDate = null;
         if (startDateStr != null && !startDateStr.isEmpty() && startTimeStr != null && !startTimeStr.isEmpty()) {
             startDate = LocalDateTime.parse(startDateStr + " " + startTimeStr, formatter);
@@ -93,16 +119,24 @@ public class LogController {
             }
             tempDate = tempDate.plusDays(1);
         }
-        
+
         List<ReadLogsEntity> readLogs = allLogs.stream()
-            .sorted(Comparator.comparing(ReadLogsEntity::getTime).thenComparing(ReadLogsEntity::getLog_index))
-            .skip((long)(page-1) * numPerPage)
-            .limit(numPerPage)
-            .collect(Collectors.toList());
+                .sorted(Comparator.comparing(ReadLogsEntity::getTime).thenComparing(ReadLogsEntity::getLog_index))
+                .skip((long) (page - 1) * numPerPage)
+                .limit(numPerPage)
+                .collect(Collectors.toList());
         readLogs.forEach(ReadLogsEntity::setLogdateFromTime);
         return readLogs;
     }
-    
+
+    /**
+     * 바이너리 데이터를 보여주는 메서드
+     *
+     * @param log_date  로그 날짜
+     * @param log_index 로그 인덱스
+     * @param model     Model 객체
+     * @return 바이너리 데이터 템플릿 이름
+     */
     @GetMapping("/admin/menu/readLogs/viewLogs/{log_date}/{log_index}")
     public String showBinaryData(@PathVariable String log_date, @PathVariable int log_index, Model model) {
         LocalDateTime dateTime = LocalDateTime.parse(log_date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
