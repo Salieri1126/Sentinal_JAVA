@@ -103,37 +103,47 @@
 						
 						// 차트를 생성합니다.
 						var ctx = document.getElementById('logNameChart').getContext('2d');
-						var myChart = new Chart(ctx, {
+						var myChart = new Chart(ctx, {	
 							type: 'doughnut',
 							data: {
 								labels: labels,
 								datasets: [{
 									data: data,
 									backgroundColor: [
-										'rgba(255, 99, 132, 0.2)',
-										'rgba(54, 162, 235, 0.2)',
-										'rgba(255, 206, 86, 0.2)',
-										'rgba(75, 192, 192, 0.2)',
-										'rgba(153, 102, 255, 0.2)',
-										'rgba(255, 159, 64, 0.2)'
+										'rgba(68, 114, 148, 0.9)',
+										'rgba(54, 162, 235, 0.9)',
+										'rgba(255, 206, 86, 0.9)',
+										'rgba(75, 192, 192, 0.9)',
+										'rgba(153, 102, 255, 0.9)',
+										'rgba(255, 159, 64, 0.9)'
 									],
 									borderColor: [
-										'rgba(255, 99, 132, 1)',
+										'rgba(68, 114, 148, 1)',
 										'rgba(54, 162, 235, 1)',
 										'rgba(255, 206, 86, 1)',
 										'rgba(75, 192, 192, 1)',
 										'rgba(153, 102, 255, 1)',
 										'rgba(255, 159, 64, 1)'
 									],
-									borderWidth: 1
+									borderWidth: 0
 								}]
 							},
 							options: {
 								responsive: true,
-								maintainAspectRatio: false,
-								legend: {
-									position: 'right'
-								}
+							    maintainAspectRatio: false,
+							    layout: {
+							        padding: {
+							            left: 0,
+							            right: 0,
+							            top: 0,
+							            bottom: 0 // 범례와 그래프 사이의 아래쪽 공간을 없앰
+							        }
+							    },
+							    legend: {
+							        position: 'right', // 범례의 위치를 오른쪽에 유지
+							        align: 'end', // 범례를 오른쪽 아래로 위치시킴
+							        itemMarginTop: '-10px'
+							    }
 							}
 						});
 	                }

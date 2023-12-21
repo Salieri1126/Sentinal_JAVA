@@ -9,6 +9,8 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -69,23 +71,37 @@ public class PolicyService {
 
     /**
      * UDP 프로토콜을 사용하여 메시지를 특정 호스트와 포트로 전송하는 메서드
+     * 
+     * @throws NoSuchAlgorithmException
      */
     public void sendUDP() {
         final String RECEIVER_HOST = "192.168.1.14";
         final int RECEIVER_PORT = 9999;
-        final String MESSAGE = "test";
+        final String MESSAGE = "updatePolicy";
 
         try {
-            InetAddress receiverAddress = InetAddress.getByName(RECEIVER_HOST);
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(MESSAGE.getBytes());
+            byte[] digest = md.digest();
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b : digest) {
+                sb.append(String.format("%02x", b));
+            }
+            final String MY_HASH = sb.toString().toUpperCase();
+            
+            final InetAddress RECEIVER_ADDRESS = InetAddress.getByName(RECEIVER_HOST);
             try (DatagramSocket socket = new DatagramSocket()) {
-                byte[] buffer = MESSAGE.getBytes();
-                DatagramPacket packet = new DatagramPacket(buffer, buffer.length, receiverAddress, RECEIVER_PORT);
+                byte[] buffer = MY_HASH.getBytes();
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length, RECEIVER_ADDRESS, RECEIVER_PORT);
                 socket.send(packet);
             }
         } catch (UnknownHostException e) {
             System.err.println("호스트를 찾을 수 없습니다: " + e.getMessage());
         } catch (IOException e) {
-            System.err.println("I/O 예외가 발생했습니다: " + e.getMessage());
+            System.err.println("I/O 에러가 발생했습니다: " + e.getMessage());
+        } catch (NoSuchAlgorithmException e) {
+            System.err.println("SHA-256 알고리즘이 존재하지 않습니다: " + e.getMessage());
         }
     }
 }
