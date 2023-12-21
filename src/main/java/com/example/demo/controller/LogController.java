@@ -84,23 +84,14 @@ public class LogController {
 
         final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-        
+
         detected_name = logService.validateParam(detected_name);
         src_ip = logService.validateParam(src_ip);
         src_port = logService.validateParam(src_port);
         dst_ip = logService.validateParam(dst_ip);
         level = logService.validateParam(level, -1);
         action = logService.validateParam(action, -1);
-        
-        String[] src_ip_range = null;
-        String[] src_port_range = null;
-        String[] dst_ip_range = null;
-        if (src_ip != null) { src_ip_range = src_ip.split("-"); }
-        if (src_port != null) { src_port_range = src_port.split("-"); }
-        if (dst_ip != null) { dst_ip_range = dst_ip.split("-"); }
-        
-        detected_name = (detected_name != null) ? "%" + detected_name + "%" : null;
-        
+
         LocalDateTime startDate = null;
         if (startDateStr != null && !startDateStr.isEmpty() && startTimeStr != null && !startTimeStr.isEmpty()) {
             startDate = LocalDateTime.parse(startDateStr + " " + startTimeStr, formatter);
@@ -117,9 +108,7 @@ public class LogController {
         while (!tempDate.isAfter(endDate.toLocalDate())) {
             String tableName = "log_" + tempDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
             try {
-            	allLogs.addAll(
-            			readLogsMapper.findFilteredLogs(
-            					tableName, src_ip_range, src_port_range, dst_ip_range, detected_name, level, action, startDate, endDate));
+                allLogs.addAll(readLogsMapper.findFilteredLogs(tableName, src_ip, src_port, dst_ip, detected_name, level, action, startDate, endDate));
             } catch (DataAccessException e) {
                 if (e.getRootCause() instanceof SQLSyntaxErrorException) {
                     System.out.println("========== <" + tableName + "> 해당 로그 테이블이 존재하지 않습니다. ==========");
