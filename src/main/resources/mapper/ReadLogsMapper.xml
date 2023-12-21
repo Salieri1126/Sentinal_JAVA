@@ -4,17 +4,17 @@
 	<select id="findFilteredLogs" resultType="com.example.demo.model.log.ReadLogsEntity">
 	    SELECT * FROM ${tableName}
 	    <where>
-	        <if test="src_ip != null and src_ip != ''">
-	            AND src_ip = #{src_ip}
+	        <if test="src_ip_start != null and src_ip_end != null">
+	            AND src_ip BETWEEN #{src_ip_start} AND #{src_ip_end}
 	        </if>
-	        <if test="src_port != null and src_port != ''">
-	            AND src_port = #{src_port}
+	        <if test="src_port_start != null and src_port_end != null">
+	            AND src_port BETWEEN #{src_port_start} AND #{src_port_end}
 	        </if>
-	        <if test="dst_ip != null and dst_ip != ''">
-	            AND dst_ip = #{dst_ip}
+	        <if test="dst_ip_start != null and dst_ip_end != null">
+	            AND dst_ip BETWEEN #{dst_ip_start} AND #{dst_ip_end}
 	        </if>
 	        <if test="detected_name != null and detected_name != ''">
-	            AND detected_name = #{detected_name}
+	            AND detected_name LIKE #{detected_name}
 	        </if>
 	        <if test="level != null">
 	            AND level = #{level}
