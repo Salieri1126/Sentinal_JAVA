@@ -34,7 +34,7 @@
 			<table>
 				<thead>
 					<tr>
-						<th class="click" onclick="toggleAllCheckboxes()"><input type="checkbox"></th>
+						<th><input class="click" onclick="toggleAllCheckboxes()" type="checkbox"></th>
 						<th>No</th>
 						<th>이름</th>
 						<th>적용</th>
@@ -181,9 +181,16 @@
 
 		function toggleAllCheckboxes() {
 		    const enableSwitches = document.querySelectorAll('.selectedPolicy');
-		    
+		    let isAllChecked = true;
+		
 		    enableSwitches.forEach((switchInput) => {
-		        switchInput.checked = !switchInput.checked;
+		        if (!switchInput.checked) {
+		            isAllChecked = false;
+		        }
+		    });
+		
+		    enableSwitches.forEach((switchInput) => {
+		        switchInput.checked = isAllChecked ? false : true;
 		    });
 		}
 		
