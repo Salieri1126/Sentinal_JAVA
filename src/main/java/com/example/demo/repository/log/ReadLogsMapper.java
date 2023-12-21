@@ -18,9 +18,9 @@ public interface ReadLogsMapper {
      * 필터링된 로그를 조회하는 메서드
      *
      * @param tableName    테이블 이름
-     * @param src_ip_range       출발지 IP
-     * @param src_port_range     출발지 포트
-     * @param dst_ip_range       목적지 IP
+     * @param src_ip       출발지 IP
+     * @param src_port     출발지 포트
+     * @param dst_ip       목적지 IP
      * @param detected_name 검출 이름
      * @param level        레벨
      * @param action       동작
@@ -30,9 +30,9 @@ public interface ReadLogsMapper {
      */
     List<ReadLogsEntity> findFilteredLogs(
             @Param("tableName") String tableName,
-            @Param("src_ip") String[] src_ip_range,
-            @Param("src_port") String[] src_port_range,
-            @Param("dst_ip") String[] dst_ip_range,
+            @Param("src_ip") String src_ip,
+            @Param("src_port") String src_port,
+            @Param("dst_ip") String dst_ip,
             @Param("detected_name") String detected_name,
             @Param("level") Integer level,
             @Param("action") Integer action,
