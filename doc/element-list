@@ -1,0 +1,11 @@
+com.example.demo
+com.example.demo.config
+com.example.demo.controller
+com.example.demo.model.file
+com.example.demo.model.log
+com.example.demo.model.policy
+com.example.demo.model.user
+com.example.demo.repository.log
+com.example.demo.repository.policy
+com.example.demo.repository.user
+com.example.demo.service
