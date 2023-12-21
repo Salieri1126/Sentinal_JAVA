@@ -71,9 +71,9 @@
 						
 						<th><span th:text="${policy.level}" class="level"></span></th>
 						
-						<th><span th:text="${policy.src_ip}"></span></th>
+						<th><span th:text="${policy.src_ip == 'any' ? 'any' : (policy.to_sip == '0' ? policy.src_ip : policy.src_ip + '-' + policy.to_sip)}"></span></th>
+						<th><span th:text="${policy.src_port == 'any' ? 'any' : (policy.to_sp == '0' ? policy.src_port : policy.src_port + '-' + policy.to_sp)}"></span></th>
 
-						<th><span th:text="${policy.src_port}"></span></th>
 
 						<th><span th:text="${policy.base_time}"></span></th>
 

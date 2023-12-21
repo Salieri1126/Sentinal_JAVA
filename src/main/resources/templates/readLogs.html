@@ -135,55 +135,59 @@
 					data: $('form').serialize() + '&page=' + currentPage + '&numPerPage=' + numPerPage,
 					success: function (data) {
 						$('#logTable').empty();
-						data.forEach(function (log) {
-							var row = $('<tr>');
-							row.append($('<td>').text(log.log_index));
-							row.append($('<td>').text(log.log_date));
-							row.append($('<td>').text(log.detected_name));
-							var resultLevel = '';
-							switch(log.level) {
-								case -1:
-									resultLevel = '전체';
-									break;
-								case 0:
-									resultLevel = '하';
-									break;
-								case 1:
-									resultLevel = '중';
-									break;
-								case 2:
-									resultLevel = '상';
-									break;
-								case 3:
-									resultLevel = '최상';
-									break;
-							}
-							row.append($('<td>').text(resultLevel));
-							row.append($('<td>').text(log.src_ip));
-							row.append($('<td>').text(log.src_port));
-							row.append($('<td>').text(log.dst_ip));
-							var resultAction = '';
-							switch(log.action) {
-								case -1:
-									resultAction = '전체';
-									break;
-								case 0:
-									resultAction = '로그';
-									break;
-								case 1:
-									resultAction = '로그+차단';
-									break;
-							}
-							row.append($('<td>').text(resultAction));
-							var buttonCell = $('<td>');
-							var button = $('<button>').text('상세보기').addClass('infoBt').on('click', function () {
-								window.location.href = '/admin/menu/readLogs/viewLogs/' + log.log_date + '/' + log.log_index;                 
+						if(data.length === 0) {
+							$('#logTable').append('<tr><td colspan="8" style="text-align: center; color: gray; font-size: 26px;">해당 날짜의 로그 데이터가 없습니다.</td></tr>');
+						} else {
+							data.forEach(function (log) {
+								var row = $('<tr>');
+								row.append($('<td>').text(log.log_index));
+								row.append($('<td>').text(log.log_date));
+								row.append($('<td>').text(log.detected_name));
+								var resultLevel = '';
+								switch(log.level) {
+									case -1:
+										resultLevel = '전체';
+										break;
+									case 0:
+										resultLevel = '하';
+										break;
+									case 1:
+										resultLevel = '중';
+										break;
+									case 2:
+										resultLevel = '상';
+										break;
+									case 3:
+										resultLevel = '최상';
+										break;
+								}
+								row.append($('<td>').text(resultLevel));
+								row.append($('<td>').text(log.src_ip));
+								row.append($('<td>').text(log.src_port));
+								row.append($('<td>').text(log.dst_ip));
+								var resultAction = '';
+								switch(log.action) {
+									case -1:
+										resultAction = '전체';
+										break;
+									case 0:
+										resultAction = '로그';
+										break;
+									case 1:
+										resultAction = '로그+차단';
+										break;
+								}
+								row.append($('<td>').text(resultAction));
+								var buttonCell = $('<td>');
+								var button = $('<button>').text('상세보기').addClass('infoBt').on('click', function () {
+									window.location.href = '/admin/menu/readLogs/viewLogs/' + log.log_date + '/' + log.log_index;                 
+								});
+								buttonCell.append(button);
+								row.append(buttonCell);
+								$('#logTable').append(row);
 							});
-							buttonCell.append(button);
-							row.append(buttonCell);
-							$('#logTable').append(row);
-						});
-						$('#page-num').text(currentPage + '번 페이지');
+							$('#page-num').text(currentPage + '번 페이지');
+						}
 					}
 				});
 			}
@@ -214,6 +218,7 @@
 			$("#src_ip").val('any');
 			$("#src_port").val('any');
 			$("#dst_ip").val('any');
+			$("#detected_name").val('any');
 			$("#level").val('-1');
 			$("#action").val('-1');
 			$("#startDate").val(today);
@@ -234,8 +239,8 @@
 		</div>
 	</header>
 	<div class="log-list-filter">
+		<h2>필터</h2>
 		<form th:action="@{/admin/menu/readLogs}" id="logForm" method="get" onsubmit="return validateForm()">
-			<h2>필터</h2>
 			<div class="lft">
 				<div class="input-group">
 					<label for="src_ip">출발지 IP:</label>
@@ -253,6 +258,11 @@
 				</div>
 			</div>
 			<div class="cen">
+				<div class="input-group">
+					<label for="detected_name">탐지명:</label>
+					<input class="custom-input-group" type="text" id="detected_name" name="detected_name" th:value="${detected_name!=null}?${detected_name}:'any'">
+				</div>
+				
 				<div class="input-group">
 					<label for="level">위험등급:</label>
 					<select id="level" name="level" class="custom-input-group">

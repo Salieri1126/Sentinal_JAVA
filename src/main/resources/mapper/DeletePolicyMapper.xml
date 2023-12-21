@@ -7,4 +7,13 @@
 		WHERE 
 			detected_no = #{detected_no}
 	</delete>
+	
+	<select id="getPolicyEnableStatusById" resultType="int" parameterType="int">
+	    SELECT 
+	    	enable
+	    FROM 
+	    	ips_policy
+	    WHERE
+	    	detected_no = #{detected_no}
+	</select>
 </mapper>

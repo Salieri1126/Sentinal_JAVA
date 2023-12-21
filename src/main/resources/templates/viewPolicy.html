@@ -50,13 +50,15 @@
 			</div>
 			<div class="section" name="r_section">
 				<span class="label">출발지 IP:</span>
-				<input type="text" id="src_ip" name="src_ip" th:value="${viewPolicy.src_ip}" readonly
-					style="background-color: #f2f2f2;">
+				<input type="text" id="src_ip" name="src_ip" 
+					th:value="${viewPolicy.src_ip == 'any' ? 'any' : (viewPolicy.to_sip == '0' ? viewPolicy.src_ip : viewPolicy.src_ip + '-' + viewPolicy.to_sip)}"
+					readonly style="background-color: #f2f2f2;">
+					
 				<span class="label">출발지 Port:</span>
-				<input type="text" id="src_port" name="src_port" th:value="${viewPolicy.src_port}" readonly
-					style="background-color: #f2f2f2;">
+				<input type="text" id="src_port" name="src_port" 
+					th:value="${viewPolicy.src_port == 'any' ? 'any' : (viewPolicy.to_sp == '0' ? viewPolicy.src_port : viewPolicy.src_port + '-' + viewPolicy.to_sp)}"
+					readonly style="background-color: #f2f2f2;">
 			</div>
-
 
 			<div class="hline">
 				<h3>정책 동작</h3>

@@ -1,8 +1,13 @@
 package com.example.demo.service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +36,27 @@ public class PolicyService {
     public void updateEnableStatus() {
         updatePolicyMapper.updateEnableStatus();
     }
+    
+	public String[] isSplit(String portRange) {
+	    return portRange.split("~");
+	}
+    
+	public void sendUDP() {
+	    final String RECEIVER_HOST = "192.168.1.14";
+	    final int RECEIVER_PORT = 9999;
+	    final String MESSAGE = "test";
+
+	    try {
+	        InetAddress receiverAddress = InetAddress.getByName(RECEIVER_HOST);
+	        try (DatagramSocket socket = new DatagramSocket()) {
+	            byte[] buffer = MESSAGE.getBytes();
+	            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, receiverAddress, RECEIVER_PORT);
+	            socket.send(packet);
+	        }
+	    } catch (UnknownHostException e) {
+	        System.err.println("호스트를 찾을 수 없습니다: " + e.getMessage());
+	    } catch (IOException e) {
+	        System.err.println("I/O 예외가 발생했습니다: " + e.getMessage());
+	    }
+	}
 }

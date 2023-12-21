@@ -13,6 +13,9 @@
 	        <if test="dst_ip != null and dst_ip != ''">
 	            AND dst_ip = #{dst_ip}
 	        </if>
+	        <if test="detected_name != null and detected_name != ''">
+	            AND detected_name = #{detected_name}
+	        </if>
 	        <if test="level != null">
 	            AND level = #{level}
 	        </if>

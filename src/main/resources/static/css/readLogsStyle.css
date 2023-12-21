@@ -19,47 +19,128 @@ h1 {
 
 /* 필터 */
 .log-list-filter {
-   border: 1px solid #e0e0e0;
+   border: 3px solid #e0e0e0;
    border-radius: 5px;
    padding: 20px;
-   height: 30%;
+   height: 35%;
    width: 100%;
-   display: flex;
+   float: flex;
+   overflow : hidden;
    flex-direction: row;
    box-sizing: border-box;
    font-size: 16px;
    font-weight: bold;
-   justify-content: space-between;
+   margin-bottom: 15px;
+   
 }
 
 h2 {
-   margin-bottom: 15px;
+	margin-bottom: 10px;
 }
 
-.lft {
-   flex: 1;
+.log-list-filter form{
+   display: flex; 
+   justify-content: space-between;
+   align-items: flex-start;  
 }
 
-.cen {
-   margin-left: 30px;
-   flex: 1;
+.lft {   
+    flex:1;  
+    box-sizing: border-box;   
+}
+
+.cen {    
+    flex:1;   
+    box-sizing: border-box;   
 }
 
 .rft {
-   margin-left: 30px;
-   flex: 1;
+    flex:1;    
+    box-sizing: border-box;  
 }
 
 .input-group {
-   margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.input-group label {
+  margin-right: 10px;
+  width: 100px;
+  margin-bottom: 5px;
 }
 
 .input-group input {
-   width: 180px;
-   height: 30px;
-   margin-left: 10px;
-   border-radius: 5px;
-   border: 1px solid #ccc;
+  width:  100px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 5px;
+}
+
+.lft .input-group input { 
+	font-size: 16px;
+  	width: 200px;
+  	margin-bottom: 5px;
+}
+
+.cen .input-group {
+  display: flex;
+  flex-direction: row;
+  
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.cen .input-group label {
+  width: 80px;
+  margin-right: 5px;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.cen .input-group input {
+  font-size: 16px;
+  padding: 2px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  width: 200px;
+  margin-bottom: 5px;
+}
+
+.cen .input-group select {
+  font-size: 16px;
+  padding: 2px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  width: 200px;
+  margin-bottom: 5px;
+}
+
+.rft .input-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: left;
+  margin-bottom: 5px;
+}
+
+.rft .input-group label { 
+  font-size: 16px;
+  width: 120px;
+  margin-bottom: 5px;  
+}
+
+.rft .input-group input {
+  font-size: 16px;
+  padding: 2px;
+  border-radius: 3px;
+  border: 1px solid #ccc;  
+  margin-right: 15px;
+  width: 95px;
+  margin-bottom: 5px;
 }
 
 .custom-input-group {
@@ -73,7 +154,6 @@ h2 {
 .datepicker {
    display: flex;
    flex-direction: row;
-   margin-bottom: 10px;
 }
 
 .datepicker label {
@@ -81,17 +161,17 @@ h2 {
 }
 
 .button-group {
-   display: flex;
-   justify-content: flex-end;
+	display: flex;
+	justify-content: right; 
 }
 
 .button-group label {
-   margin-right: 10px;
+   margin: 0px 15px;   
 }
 
 .button2 {
-   width: 65px;
-   height: 30px;
+   width: 80px;
+   height: 40px;
    border: none;
    color: white;
    border-radius: 5px;
@@ -101,7 +181,7 @@ h2 {
    font-size: 13px;
    font-weight: bold;
    margin: 0px 5px;
-   cursor: pointer;
+   cursor: pointer;   
 }
 
 .applyB {
@@ -109,7 +189,7 @@ h2 {
 }
 
 .resetB {
-   margin-left: 10px;
+   margin-right: 15px;
    background-color: #5e5e5e;
 }
 
@@ -118,9 +198,9 @@ h2 {
     width: 100%;
     margin-top: 15px;
     background-color: #f9f9f9;
-    height: 70%;
+    height: 80%;
     /* 높이 설정 */
-    border: 1px solid #e0e0e0;
+    border: 3px solid #e0e0e0;
 }
 
 .logListBox table {
@@ -179,7 +259,7 @@ thead th {
    display: inline-block;
    font-size: 14px;
    font-weight: bond;
-   margin: 0px 5px;
+   margin: 5px 5px;
    cursor: pointer;
    background-color: #3498db;
 }
@@ -195,7 +275,7 @@ thead th {
    display: inline-block;
    font-size: 14px;
    font-weight: bond;
-   margin: 0px 5px;
+   margin: 5px 5px;
    cursor: pointer;
    background-color: #3498db;
 }

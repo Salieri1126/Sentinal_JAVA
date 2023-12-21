@@ -46,6 +46,7 @@ public class LogController {
             @RequestParam(name = "src_ip", required = false) String src_ip,
             @RequestParam(name = "src_port", required = false) String src_port,
             @RequestParam(name = "dst_ip", required = false) String dst_ip,
+            @RequestParam(name = "detected_name", required = false) String detected_name,
             @RequestParam(name = "level", required = false, defaultValue = "-1") Integer level,
             @RequestParam(name = "action", required = false, defaultValue = "-1") Integer action,
             @RequestParam(name = "startDate", required = false) String startDateStr,
@@ -54,37 +55,45 @@ public class LogController {
             @RequestParam(name = "endTime", required = false) String endTimeStr,
             @RequestParam(name = "page", required = true) Integer page,
             @RequestParam(name = "numPerPage", required = true) Integer numPerPage) {
-    	
-        if ("".equalsIgnoreCase(src_ip) || "any".equalsIgnoreCase(src_ip) || src_ip.isEmpty()) src_ip = null;
-        if ("".equalsIgnoreCase(src_port) || "any".equalsIgnoreCase(src_port) || src_port.isEmpty()) src_port = null;
-        if ("".equalsIgnoreCase(dst_ip) || "any".equalsIgnoreCase(dst_ip) || dst_ip.isEmpty()) dst_ip = null;
-        if (level == -1) level = null;
-        if (action == -1) action = null;
 
+        final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
+        
+        detected_name = logService.validateParam(detected_name);
+        src_ip = logService.validateParam(src_ip);
+        src_port = logService.validateParam(src_port);
+        dst_ip = logService.validateParam(dst_ip);
+        level = logService.validateParam(level, -1);
+        action = logService.validateParam(action, -1);
+        
         LocalDateTime startDate = null;
         if (startDateStr != null && !startDateStr.isEmpty() && startTimeStr != null && !startTimeStr.isEmpty()) {
-            startDate = LocalDateTime.parse(startDateStr + " " + startTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            startDate = LocalDateTime.parse(startDateStr + " " + startTimeStr, formatter);
         }
         LocalDateTime endDate = null;
         if (endDateStr != null && !endDateStr.isEmpty() && endTimeStr != null && !endTimeStr.isEmpty()) {
-            endDate = LocalDateTime.parse(endDateStr + " " + endTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            endDate = LocalDateTime.parse(endDateStr + " " + endTimeStr, formatter);
+        } else {
+            endDate = LocalDateTime.now();
         }
 
         List<ReadLogsEntity> allLogs = new ArrayList<>();
-        LocalDate start = startDate.toLocalDate();
-        LocalDate end = endDate.toLocalDate();
-        for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
-            String tableName = "log_" + date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        LocalDate tempDate = startDate.toLocalDate();
+        while (!tempDate.isAfter(endDate.toLocalDate())) {
+            String tableName = "log_" + tempDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
             try {
-            	allLogs.addAll(readLogsMapper.findFilteredLogs(tableName, src_ip, src_port, dst_ip, level, action, startDate, endDate));
+                allLogs.addAll(readLogsMapper.findFilteredLogs(tableName, src_ip, src_port, dst_ip, detected_name, level, action, startDate, endDate));
             } catch (DataAccessException e) {
-            	if (e.getRootCause() instanceof SQLSyntaxErrorException) {
-            		System.out.println("========== <" + tableName + "> 해당 로그 테이블이 존재하지 않습니다. ==========");
-            	} else {
-            		e.printStackTrace();
-            	}
+                if (e.getRootCause() instanceof SQLSyntaxErrorException) {
+                    System.out.println("========== <" + tableName + "> 해당 로그 테이블이 존재하지 않습니다. ==========");
+                } else {
+                    System.out.println("========== <" + tableName + "> 처리 중 예외가 발생했습니다. ==========");
+                    e.printStackTrace();
+                }
             }
+            tempDate = tempDate.plusDays(1);
         }
+        
         List<ReadLogsEntity> readLogs = allLogs.stream()
             .sorted(Comparator.comparing(ReadLogsEntity::getTime).thenComparing(ReadLogsEntity::getLog_index))
             .skip((long)(page-1) * numPerPage)
