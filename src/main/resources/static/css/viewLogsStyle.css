@@ -115,12 +115,32 @@ h3 {
 	height: 100%;
 }
 .attackBody tr{
+	font-size:14px;
+	font-weight: 600;
 	border: 1px solid #5e5e5e;
+	padding:5px;
+	height: 40px;
+}
+.detailTextB{
+	
 }
 .attackBody tr td{
+	padding:0 10px;
 	border: 1px solid #5e5e5e;
 }
-
+/*표 간격*/
+.w15{
+	width:15%;
+}
+.w35{
+	width: 35%;
+}
+.w85{
+	width:85%;
+}
+.h40{
+	height:100px;
+}
 
 /* 돌아가기 버튼 */
 .buttonbox {
