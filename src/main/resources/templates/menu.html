@@ -47,27 +47,27 @@
 	</div>
 	<div class="sidebar">
 		<div class="menubox">
-			<a href="#" class="menu-item" onclick="loadContent('/admin/home')">
-				<div class="icon" style="background-image: url('/img/home.png');"></div>
-				홈
+			<a href="#" class="menu-item" onclick="loadContent('/admin/home')" >
+				<div class="icon" style="background-image: url('/img/homeicon.png');"></div>
+				<p style="margin-left: 35%;">홈</p>
 			</a>
 		</div>
 		<div class="menubox">
 			<a href="#" class="menu-item" onclick="loadContent('/admin/menu/readPolicy')">
-				<div class="icon" style="background-image: url('/img/policy.png');"></div>
-				정책 구성
+				<div class="icon" style="background-image: url('/img/policyicon.png');"></div>
+				<p>정책구성</p>
 			</a>
 		</div>
 		<div class="menubox">
 			<a href="#" class="menu-item" onclick="loadContent('/admin/menu/readLogs')">
-				<div class="icon" style="background-image: url('/img/logs.png');"></div>
-				로그 조회
+				<div class="icon" style="background-image: url('/img/logicon.png');"></div>
+				<p>로그조회</p>
 			</a>
 		</div>
 		<div class="menubox">
 			<a href="#" class="menu-item" onclick="loadContent('/admin/menu/setup')">
-				<div class="icon" style="background-image: url('/img/settings.png');"></div>
-				설정
+				<div class="icon" style="background-image: url('/img/settingsicon.png');"></div>
+				<p style="letter-spacing: 3px;">설정</p>
 			</a>
 		</div>
 	</div>
@@ -78,10 +78,24 @@
 
 	<script>
 		function loadContent(url) {
+			// 모든 메뉴 아이템에 대해 selected 클래스 제거
+            var menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(function (menuItem) {
+                menuItem.classList.remove('selected');
+            });
+
+            // 현재 메뉴에 selected 클래스 추가
+            var currentMenuItem = document.querySelector('[onclick="loadContent(\'' + url + '\')"]');
+            currentMenuItem.classList.add('selected');
+            
+            //Frame로드하는 부분
 			document.getElementById("contentFrame").src = url;
 		}
 		
 		window.onload = function () {
+			// 초기에 홈 메뉴에 대한 스타일을 적용
+		    var homeMenuItem = document.querySelector('[onclick="loadContent(\'/admin/home\')"]');
+		    homeMenuItem.classList.add('selected');
 			loadContent('/admin/home');
 		};
 	</script>

@@ -5,7 +5,7 @@
 }
 
 html, body {
-	height: 100%;
+	min-height: 100%;
 }
 
 body {
@@ -13,12 +13,14 @@ body {
 	color: #444;
 	font: 16px "맑은 고딕", sans-serif;
 	font-weight: 700;
+	width: 100%;
+	height: 100%;
 }
 
 /* 헤더 */
 .header {
 	background-color: #447294;
-	height: 60px;
+	height: 7%;
 }
 
 .logo {
@@ -44,23 +46,22 @@ body {
 	display: flex;
 	flex-direction: column;
 }
-
+.menu-box{
+	width: 100%;
+	height: 100%;;
+}
 .icon {
 	width: 30px;
-	/* 아이콘 크기 조정 */
 	height: 30px;
-	/* 아이콘 크기 조정 */
-	margin-right: 5px;
-	/* 아이콘과 텍스트 사이 여백 조정 */
 	cursor: pointer;
 	background-size: cover;
 }
 
 .menu-item {
-	padding: 3px 15px;
-	color: #153450;
+	padding: 5% 15%;
+	color: #214d6d;
 	text-align: center;
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: 700;
 	text-decoration: none;
 	display: flex;
@@ -69,33 +70,29 @@ body {
 	/* 세로 중앙 정렬 */
 	position: relative;
 	line-height: 70px;
+	border-bottom: 2px solid #e1e1e1;
+}
+.menu-item p {
+	margin-left: 3px;
+	letter-spacing: 5px;
 }
 
-.selected {
-	background-color: #6ec0f8;
-	color: white;
-	width: 100%;
+/* 마우스 오버 효과 */
+.menu-item:hover {
+    background-color:   #4aabed; /* 마우스 오버 시 배경색 */
+    color: #fff; /* 마우스 오버 시 글자색 */
 }
+/* 메뉴 선택시 옵션 */
+.menu-item.selected {
+	background-color: #4aabed;
+	color: #fff;
 
-.menu-item.active {
-	background-color: #6ec0f8;
-}
-
-.menu-item::after {
-	content: '';
-	display: block;
-	width: 100%;
-	height: 1px;
-	background-color: white;
-	position: absolute;
-	bottom: 0;
-	left: 0;
 }
 
 /* 컨텐츠 화면 iframe  */
 .content {
 	background-color: white;
-	height: 93%;
+	height: 92%;
 	width: 85%;
 	float: right;
 }
