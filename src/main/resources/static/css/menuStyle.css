@@ -83,9 +83,7 @@ body {
 	margin-left: 3px;
 	letter-spacing: 3px;
 }
-.menu-item .setting {
-	letter-spacing: 29px;
-}
+
 /* 마우스 오버 효과 */
 .menu-item:hover {
     background-color:   #4aabed; /* 마우스 오버 시 배경색 */
