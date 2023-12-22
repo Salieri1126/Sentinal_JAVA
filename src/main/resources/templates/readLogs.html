@@ -98,32 +98,6 @@
 				}
 			});
 		});
-
-		function isValidIp(ip) {
-			var pattern = new RegExp(/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/);
-			return pattern.test(ip) || ip === "" || ip === "0" || ip.toLowerCase() === "any";
-		}
-		
-		function isValidPort(port) {
-			var pattern = new RegExp(/^[0-9]{1,5}$/);
-			return pattern.test(port) && (0 <= port && port <= 65535) || port.toLowerCase() === "any";
-		}
-
-		function validateForm() {
-			var srcIp = document.getElementById("src_ip").value;
-			var srcPort = document.getElementById("src_port").value;
-			var dstIp = document.getElementById("dst_ip").value;
-				
-			if (!isValidIp(srcIp) || !isValidIp(dstIp)) {
-				alert("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
-				return false;
-			}
-			if (!isValidPort(srcPort)) {
-				alert("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
-				return false;
-			}
-			return true;
-		}
 		
 		$(function () {
 			var currentPage = 1;
@@ -142,7 +116,7 @@
         				$('.log-count').text('검색된 로그는 총  ' + totalLogCount + '개 입니다.');
 						
 						if (data.length === 0) {
-							$('#logTable').append('<tr><td colspan="8" style="text-align: center; color: gray; font-size: 26px;">해당 날짜의 로그 데이터가 없습니다.</td></tr>');
+							$('#logTable').append('<tr><td colspan="8" style="text-align: center; color: gray; font-size: 26px;">검색 결과가 없습니다.</td></tr>');
 						} else {
 							logs.forEach(function (log) {
 								var row = $('<tr>');
@@ -206,12 +180,44 @@
 			
 			leadLogs(currentPage);
 			
-			$('form').on('submit', function (e) {
-				e.preventDefault();
-				currentPage = 1;
-				leadLogs(currentPage);
-			});
+			$('#logForm').on('submit', function (e) {
+			    e.preventDefault();
+			    currentPage = 1;
 			
+			    if (!$('#src_ip').val()) {
+			        $('#src_ip').val('any');
+			    }
+			    if (!$('#src_port').val()) {
+			        $('#src_port').val('any');
+			    }
+			    if (!$('#dst_ip').val()) {
+			        $('#dst_ip').val('any');
+			    }
+			    if (!$('#detected_name').val()) {
+			        $('#detected_name').val('any');
+			    }
+			    if ($('#level').val() === null) {
+			        $('#level').val('-1');
+			    }
+			    if ($('#action').val() === null) {
+			        $('#action').val('-1');
+			    }
+			    if (!$('#startDate').val()) {
+			        $('#startDate').val('${today}');
+			    }
+			    if (!$('#startTime').val()) {
+			        $('#startTime').val('00:00:00');
+			    }
+			    if (!$('#endDate').val()) {
+			        $('#endDate').val('${today}');
+			    }
+			    if (!$('#endTime').val()) {
+			        $('#endTime').val('23:59:59');
+			    }
+			
+			    leadLogs(currentPage);
+			});
+
 			$('.nextB').on('click', function () {
 		        currentPage += 1;
 		        leadLogs(currentPage);
@@ -252,7 +258,7 @@
 	</header>
 	<div class="log-list-filter">
 		<h2>필터</h2>
-		<form th:action="@{/admin/menu/readLogs}" id="logForm" method="get" onsubmit="return validateForm()">
+		<form th:action="@{/admin/menu/readLogs}" id="logForm" method="get">
 			<div class="lft">
 				<div class="input-group">
 					<label for="src_ip">출발지 IP:</label>

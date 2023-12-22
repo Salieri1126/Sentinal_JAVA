@@ -22,7 +22,7 @@ h1 {
    border: 3px solid #e0e0e0;
    border-radius: 5px;
    padding: 20px;
-   height: 35%;
+   height: 30%;
    width: 100%;
    float: flex;
    overflow : hidden;
@@ -31,7 +31,6 @@ h1 {
    font-size: 16px;
    font-weight: bold;
    margin-bottom: 15px;
-   
 }
 
 h2 {
@@ -163,6 +162,7 @@ h2 {
 .button-group {
 	display: flex;
 	justify-content: right; 
+	padding: 9px;
 }
 
 .button-group label {
