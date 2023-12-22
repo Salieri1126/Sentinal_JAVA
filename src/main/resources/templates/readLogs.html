@@ -135,10 +135,16 @@
 					data: $('form').serialize() + '&page=' + currentPage + '&numPerPage=' + numPerPage,
 					success: function (data) {
 						$('#logTable').empty();
-						if(data.length === 0) {
+						
+						var totalLogCount = data.totalLogCount;
+        				var logs = data.readLogs;
+        				
+        				$('.log-count').text('검색된 로그는 총  ' + totalLogCount + '개 입니다.');
+						
+						if (data.length === 0) {
 							$('#logTable').append('<tr><td colspan="8" style="text-align: center; color: gray; font-size: 26px;">해당 날짜의 로그 데이터가 없습니다.</td></tr>');
 						} else {
-							data.forEach(function (log) {
+							logs.forEach(function (log) {
 								var row = $('<tr>');
 								row.append($('<td>').text(log.log_index));
 								row.append($('<td>').text(log.log_date));
@@ -188,6 +194,12 @@
 							});
 							$('#page-num').text(currentPage + '번 페이지');
 						}
+						
+						if (currentPage * numPerPage >= totalLogCount) {
+				            $('.nextB').hide();
+				        } else {
+				            $('.nextB').show();
+				        }
 					}
 				});
 			}
@@ -326,6 +338,9 @@
 				<!-- 여기에 로그가 동적으로 추가됨 -->
 			</tbody>
 		</table>
+		<div class="log-count">
+		    <!-- 검색된 로그의 총 개수가 여기에 출력됨 -->
+		</div>
 		<div id="pagination">
 	        <button class="prevB">이전</button>
 	        <span id="page-num"></span>

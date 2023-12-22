@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -64,11 +65,11 @@ public class LogController {
      * @param endTimeStr     조회 종료 시간 문자열
      * @param page           페이지 번호
      * @param numPerPage     페이지당 로그 수
-     * @return 필터링된 로그 리스트
+     * @return 필터링된 로그 리스트와 로그의 개수를 담은 Map
      */
     @GetMapping("/admin/menu/readLogs/api/getLogList")
     @ResponseBody
-    public List<ReadLogsEntity> getLogList(
+    public Map<String, Object> getLogList(
             @RequestParam(name = "src_ip", required = false) String src_ip,
             @RequestParam(name = "src_port", required = false) String src_port,
             @RequestParam(name = "dst_ip", required = false) String dst_ip,
@@ -126,7 +127,13 @@ public class LogController {
                 .limit(numPerPage)
                 .collect(Collectors.toList());
         readLogs.forEach(ReadLogsEntity::setLogdateFromTime);
-        return readLogs;
+        
+        int totalLogCount = allLogs.size();
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("readLogs", readLogs);
+        result.put("totalLogCount", totalLogCount);
+        return result;
     }
 
     /**
