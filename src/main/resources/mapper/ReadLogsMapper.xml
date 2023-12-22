@@ -53,5 +53,4 @@
    		</where>
     	ORDER BY log_index DESC
 	</select>
-
 </mapper>

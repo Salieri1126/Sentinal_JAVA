@@ -25,7 +25,7 @@ import com.example.demo.repository.policy.UpdatePolicyMapper;
 @Service
 @EnableScheduling
 public class PolicyService {
-
+	
     @Autowired
     private UpdatePolicyMapper updatePolicyMapper;
     private volatile boolean isPolicyUpdated = false;
@@ -67,7 +67,7 @@ public class PolicyService {
      * @return 포트 범위를 나타내는 문자열 배열 [시작포트, 종료포트]
      */
     public String[] isSplit(String portRange) {
-        return portRange.split("~");
+        return portRange.split("-");
     }
     
     /**

@@ -44,13 +44,26 @@
 
     <script>
         function confirmSubmit() {
+			var dbNIC = document.getElementById('dbNIC').value;
+			var dbIP = document.getElementById('dbIP').value;
+			var dbPORT = document.getElementById('dbPORT').value;
+						
+			if (dbNIC === '' || dbIP === '' || dbPORT === '') {
+		        alert("설정 입력창이 비어있습니다. 설정하실 내용을 입력해주세요.");
+		        return false;
+		    }
             return confirm("설정을 적용하시겠습니까?");
         }
         
         function confirmPasswordChange() {
+			var currentPassword = document.getElementById('currentPassword').value;
 	        var newPassword = document.getElementById('newPassword').value;
 	        var confirmPassword = document.getElementById('confirmPassword').value;
 	        
+	        if (currentPassword === '' || newPassword === '' || confirmPassword === '') {
+		        alert("비밀번호 입력창이 비어있습니다. 비밀번호를 입력해주세요.");
+		        return false;
+		    }
 	        if (newPassword != confirmPassword) {
 	            alert("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
 	            return false;
