@@ -82,7 +82,7 @@ h3 {
 .b_top {
 	display: flex;
 	justify-content: space-between;
-	margin: 10px 0;
+	margin: 5px 0;
 }
 
 .secT {
@@ -185,7 +185,7 @@ h8 {
 	background-color: #5e5e5e;
 }
 /* 디테일 박스 */
-.detailbox{
+.detailbox {
 	display: flex;
 }
 

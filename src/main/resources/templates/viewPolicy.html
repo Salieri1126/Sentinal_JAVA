@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="/css/changePolicyStyle.css">
 	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
 	<link rel="manifest" href="/json/manifest.json">
-		
+	
 	<title>Sentinel</title>
 </head>
 
@@ -114,12 +114,10 @@
             </div>            
          </div>
          	<div class="hline">
-				<h3>탐지 내용</h3>
+				<h3>탐지 내용 설명</h3>
 			</div>
 			<div class="r_section">
-                  <div class="detailbox">설명:
-                     <!-- 설명 추가 어떻게 할지 의논후 수정 -->
-                  </div>
+                  <div class="detailbox"></div>
                   <div>
 				      <textarea id="detail" name="detail" th:text="${viewPolicy.detail}" style="background-color: #f2f2f2; resize: none;" disabled></textarea>
 				  </div>

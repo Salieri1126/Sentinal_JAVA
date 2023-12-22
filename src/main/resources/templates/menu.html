@@ -41,7 +41,7 @@
 		<a href="#">
 			<img src="/img/logo.png" alt="로고" class="logo" onclick="loadContent('/admin/home')">
 		</a>
-		<a href="/logout">
+		<a href="/logout" onclick="return confirmLogout();">
 			<img src="/img/logouticon.png" alt="로그아웃" class="logout">
 		</a>
 	</div>
@@ -91,6 +91,10 @@
             //Frame로드하는 부분
 			document.getElementById("contentFrame").src = url;
 		}
+		
+		function confirmLogout() {
+        	return confirm('로그아웃 하시겠습니까?');
+    	}
 		
 		window.onload = function () {
 			// 초기에 홈 메뉴에 대한 스타일을 적용

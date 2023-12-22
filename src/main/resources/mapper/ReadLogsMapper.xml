@@ -5,13 +5,13 @@
 	    SELECT * FROM ${tableName}
 	    <where>
 	        <if test="src_ip != null and src_ip != null">
-	            AND src_ip = #{src_ip}
+	            AND src_ip LIKE CONCAT('%', #{src_ip}, '%')
 	        </if>
 	        <if test="src_port != null and src_port != null">
-	            AND src_port = #{src_port}
+	            AND src_port LIKE CONCAT('%', #{src_port}, '%')
 	        </if>
 	        <if test="dst_ip != null and dst_ip != null">
-	            AND dst_ip = #{dst_ip}
+	            AND dst_ip LIKE CONCAT('%', #{dst_ip}, '%')
 	        </if>
 			<if test="detected_name != null and detected_name != ''">
 				AND detected_name LIKE CONCAT('%', #{detected_name}, '%')
