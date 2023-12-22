@@ -16,7 +16,14 @@ body {
 	width: 100%;
 	height: 100%;
 }
-
+.header p{
+	font-size: 50px;
+	color: #339900;
+}
+.header p:hover{
+	font-size: 50px;
+	color: #ff0099;
+}
 /* 헤더 */
 .header {
 	background-color: #447294;
@@ -51,8 +58,8 @@ body {
 	height: 100%;;
 }
 .icon {
-	width: 30px;
-	height: 30px;
+	width: 30%;
+	height: 30%;
 	cursor: pointer;
 	background-size: cover;
 }
@@ -86,8 +93,53 @@ body {
 .menu-item.selected {
 	background-color: #4aabed;
 	color: #fff;
-
 }
+/* 각메뉴별 아이콘 */
+#homeIcon{
+	background-image: url('/img/homeicon.png'); 
+	width: 40px; 
+	height: 40px;
+}
+#policyIcon{
+	background-image: url('/img/policyicon.png');
+	width: 30px; 
+	height: 30px;
+}
+#logIcon{
+	background-image: url('/img/logicon.png'); 
+	width: 30px; 
+	height: 30px;
+}
+#settingsIcon{
+	background-image: url('/img/settingsicon.png'); 
+	width: 30px; 
+	height: 30px;
+}
+
+/* 각메뉴별 호버시 바뀌는 아이콘 */
+.menu-item:hover #homeIcon{
+	background-image: url('/img/hover_homeicon.png'); 
+	width: 30px; 
+	height: 30px;
+}
+.menu-item:hover #policyIcon{
+	background-image: url('/img/hover_policyicon.png');
+	width: 30px; 
+	height: 30px;
+}
+.menu-item:hover #logIcon{
+	background-image: url('/img/hover_logicon.png'); 
+	width: 30px; 
+	height: 30px;
+}
+.menu-item:hover #settingsIcon{
+	background-image: url('/img/hover_settingsicon.png'); 
+	width: 30px; 
+	height: 30px;
+}
+
+
+
 
 /* 컨텐츠 화면 iframe  */
 .content {

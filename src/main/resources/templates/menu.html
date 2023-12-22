@@ -41,6 +41,7 @@
 		<a href="#">
 			<img src="/img/logo.png" alt="로고" class="logo" onclick="loadContent('/admin/home')">
 		</a>
+		<p>@</p>
 		<a href="/logout">
 			<img src="/img/logout.png" alt="로그아웃" class="logout">
 		</a>
@@ -48,26 +49,26 @@
 	<div class="sidebar">
 		<div class="menubox">
 			<a href="#" class="menu-item" onclick="loadContent('/admin/home')" >
-				<div class="icon" style="background-image: url('/img/homeicon.png');"></div>
-				<p style="margin-left: 35%;">홈</p>
+				<div class="icon" id="homeIcon"></div>
+				<p>홈</p>
 			</a>
 		</div>
 		<div class="menubox">
 			<a href="#" class="menu-item" onclick="loadContent('/admin/menu/readPolicy')">
-				<div class="icon" style="background-image: url('/img/policyicon.png');"></div>
+				<div class="icon" id="policyIcon"></div>
 				<p>정책구성</p>
 			</a>
 		</div>
 		<div class="menubox">
 			<a href="#" class="menu-item" onclick="loadContent('/admin/menu/readLogs')">
-				<div class="icon" style="background-image: url('/img/logicon.png');"></div>
+				<div class="icon" id="logIcon"></div>
 				<p>로그조회</p>
 			</a>
 		</div>
 		<div class="menubox">
 			<a href="#" class="menu-item" onclick="loadContent('/admin/menu/setup')">
-				<div class="icon" style="background-image: url('/img/settingsicon.png');"></div>
-				<p style="letter-spacing: 3px;">설정</p>
+				<div class="icon" id="settingsIcon"></div>
+				<p>설정</p>
 			</a>
 		</div>
 	</div>
