@@ -41,23 +41,22 @@ h2 {
 /*원형 차트*/
 .bottomChart {
    margin-top: 35px;
+   width: 100%;
+   height: 40%;
    display: flex;
 }
 
 /* 로그테이블 */
 .logListBox {
    margin-left: 40px;
-    width: 60%;
+   margin-right: 30px;
     background-color: #f9f9f9;
-    height: 40%;
     /* 높이 설정 */
     border: 1px solid #e0e0e0;
 }
 
 .logListBox table {
    border-collapse: collapse;
-   height: 100%;
-   width: 100%;
    text-align: center;
 }
 
