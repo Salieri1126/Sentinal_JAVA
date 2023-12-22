@@ -22,7 +22,7 @@ body {
 }
 .header p:hover{
 	font-size: 50px;
-	color: #ff0099;
+	color: #CC0033;
 }
 /* 헤더 */
 .header {
@@ -81,9 +81,11 @@ body {
 }
 .menu-item p {
 	margin-left: 3px;
-	letter-spacing: 5px;
+	letter-spacing: 3px;
 }
-
+.menu-item .setting {
+	letter-spacing: 29px;
+}
 /* 마우스 오버 효과 */
 .menu-item:hover {
     background-color:   #4aabed; /* 마우스 오버 시 배경색 */
@@ -97,30 +99,34 @@ body {
 /* 각메뉴별 아이콘 */
 #homeIcon{
 	background-image: url('/img/homeicon.png'); 
-	width: 40px; 
-	height: 40px;
+	width: 35px; 
+	height: 35px;
+	margin-right: 25%;
 }
 #policyIcon{
 	background-image: url('/img/policyicon.png');
 	width: 30px; 
 	height: 30px;
+	margin-right: 5%;
 }
 #logIcon{
 	background-image: url('/img/logicon.png'); 
 	width: 30px; 
 	height: 30px;
+	margin-right: 5%;
 }
 #settingsIcon{
 	background-image: url('/img/settingsicon.png'); 
 	width: 30px; 
 	height: 30px;
+	margin-right: 5%;
 }
 
 /* 각메뉴별 호버시 바뀌는 아이콘 */
 .menu-item:hover #homeIcon{
 	background-image: url('/img/hover_homeicon.png'); 
-	width: 30px; 
-	height: 30px;
+	width: 35px; 
+	height: 35px;
 }
 .menu-item:hover #policyIcon{
 	background-image: url('/img/hover_policyicon.png');
