@@ -1,0 +1,145 @@
+@charset "UTF-8";
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+body {
+	padding: 30px;
+	height: 100%;
+	width: 100%;
+}
+/* 큰틀 비율*/
+.header {
+	height: 5%;	
+}
+
+/* 글자앞 |  */
+.hline {
+	border-bottom: 1px solid #5e5e5e;
+	background: #447294;
+	padding: 6px 0;
+	color: #fff;
+	font-size: 16px;
+	width: 100%;
+	height: 12%;
+}
+
+h2{
+	margin-left: 10px;
+}
+
+h3 {
+	margin-left: 10px;
+}
+
+.hline1 {
+	border-left: 5px solid #447294;
+}
+
+/* 로그상세보기 제일 바깥영역 */
+.log_InfoBox{
+	margin-top: 20px;
+	border: 1px solid #5e5e5e;
+	border-radius: 5px;
+	padding: 20px;
+	height: 85%;
+}
+.packetAllBox {
+	display: flex;
+	height: 45%;
+}
+/*********************************************** 왼쪽 */
+.left_Headers{
+	margin-top: 20px;
+	border: 1px solid #5e5e5e;
+	overflow-y: scroll;
+	height: 100%;
+	width: 47%;
+}
+
+.left_Headers p{
+	padding: 4px 10px;
+	font-weight: 600;
+}
+
+/******************************************** 오른쪽 */
+.ringht_packetInfo {
+	margin-top: 20px;
+	margin-left: 6%;
+	border: 1px solid #5e5e5e;
+	height: 100%;
+	width: 47%;
+}
+.packetInfo_Box {
+	display: flex;
+	width: 100%;
+	overflow-y: scroll;
+	height: 88%;
+}
+.left_packetInfo{
+	width: 50%;
+	height: 100%;
+	padding: 4px 10px;
+	border-right: 1px solid #5e5e5e;
+}
+
+
+.right_packetInfo{
+	width: 50%;
+}
+
+/* 아래 attackInfo 공격정보 */
+
+.attackInfo{
+	margin-top: 3%;
+	border: 1px solid #5e5e5e;
+	height: 40%;
+	width: 100%;
+}
+.attackHeader{
+	background: #447294;
+	color: #fff;
+	padding: 5px 0;
+	width: 100%;
+	height: 15%;
+	font-size: 16px;
+}
+.attackBody{
+	width: 100%;
+	height: 90%;
+	padding: 15px;
+}
+.attackBody table{
+	width: 100%;
+	height: 100%;
+}
+.attackBody tr{
+	border: 1px solid #5e5e5e;
+}
+.attackBody tr td{
+	border: 1px solid #5e5e5e;
+}
+
+
+/* 돌아가기 버튼 */
+.buttonbox {
+	float: right;
+	height: 3%;
+	margin-top: 1%;
+}
+
+.buttonbox button {
+	margin-right: 10px;
+	padding: 7px 18px;
+ 	cursor: pointer;
+ 	border: none;
+ 	border-radius: 5px;
+ 	font-weight: bold;
+ 	text-transform: uppercase;
+}
+
+.btn {
+	background-color: #5e5e5e;
+	color: white;
+}
