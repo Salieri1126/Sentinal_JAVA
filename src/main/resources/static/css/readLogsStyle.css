@@ -78,7 +78,7 @@ h2 {
 }
 
 .input-group input {
-  width:  100px;
+  width:  50px;
   height: 30px;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -94,7 +94,6 @@ h2 {
 .cen .input-group {
   display: flex;
   flex-direction: row;
-  
   align-items: center;
   margin-bottom: 5px;
 }

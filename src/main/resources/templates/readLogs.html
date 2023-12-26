@@ -43,31 +43,35 @@
 		});
 
 		$(function () {
-			$("#startDate").datepicker({
-				dateFormat: "yy-mm-dd",
-				onSelect: function (selectedDate) {
-					$("#endDate").datepicker("option", "minDate", selectedDate);
-				},
-				onClose: function (selectedDate) {
-					if (new Date(selectedDate) > new Date($("#endDate").val())) {
-						alert("시작 날짜는 종료 날짜보다 이후일 수 없습니다.");
-						$("#startDate").datepicker("setDate", $("#endDate").val());
-					}
-				}
-			});
-
-			$("#endDate").datepicker({
-				dateFormat: "yy-mm-dd",
-				onSelect: function (selectedDate) {
-					$("#startDate").datepicker("option", "maxDate", selectedDate);
-				},
-				onClose: function (selectedDate) {
-					if (new Date(selectedDate) < new Date($("#startDate").val())) {
-						alert("종료 날짜는 시작 날짜보다 이전일 수 없습니다.");
-						$("#endDate").datepicker("setDate", $("#startDate").val());
-					}
-				}
-			});
+		    var today = new Date();
+		
+		    $("#startDate").datepicker({
+		        dateFormat: "yy-mm-dd",
+		        maxDate: today,
+		        onSelect: function (selectedDate) {
+		            $("#endDate").datepicker("option", "minDate", selectedDate);
+		        },
+		        onClose: function (selectedDate) {
+		            if (new Date(selectedDate) > new Date($("#endDate").val())) {
+		                alert("시작 날짜는 종료 날짜보다 이후일 수 없습니다.");
+		                $("#startDate").datepicker("setDate", $("#endDate").val());
+		            }
+		        }
+		    });
+		
+		    $("#endDate").datepicker({
+		        dateFormat: "yy-mm-dd",
+		        maxDate: today,
+		        onSelect: function (selectedDate) {
+		            $("#startDate").datepicker("option", "maxDate", selectedDate);
+		        },
+		        onClose: function (selectedDate) {
+		            if (new Date(selectedDate) < new Date($("#startDate").val())) {
+		                alert("종료 날짜는 시작 날짜보다 이전일 수 없습니다.");
+		                $("#endDate").datepicker("setDate", $("#startDate").val());
+		            }
+		        }
+		    });
 
 			$.timepicker.setDefaults($.timepicker.regional['ko']);
 
@@ -308,17 +312,17 @@
 				<div class="input-group datepicker">
 					<label for="startDate">시작 지점 날짜:</label>
 					<input type="text" id="startDate" name="startDate" class="datepicker"
-						th:value="${startDate!=null}?${startDate}:${today}">
+						th:value="${startDate!=null}?${startDate}:${today}" readonly>
 					<input type="text" id="startTime" name="startTime" class="timepicker"
-						th:value="${startTime!=null}?${startTime}:'00:00:00'">
+						th:value="${startTime!=null}?${startTime}:'00:00:00'" readonly>
 				</div>
 
 				<div class="input-group datepicker">
 					<label for="endDate">종료 지점 날짜:</label>
 					<input type="text" id="endDate" name="endDate" class="datepicker"
-						th:value="${endDate!=null}?${endDate}:${today}">
+						th:value="${endDate!=null}?${endDate}:${today}" readonly>
 					<input type="text" id="endTime" name="endTime" class="timepicker"
-						th:value="${endTime!=null}?${endTime}:'23:59:59'">
+						th:value="${endTime!=null}?${endTime}:'23:59:59'" readonly>
 				</div>
 
 				<div class="button-group">

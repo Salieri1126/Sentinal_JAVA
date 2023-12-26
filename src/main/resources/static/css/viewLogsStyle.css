@@ -11,7 +11,7 @@ body {
 }
 /* 큰틀 비율*/
 .header {
-	height: 5%;	
+	height: 5%;
 }
 
 /* 글자앞 |  */
@@ -162,4 +162,8 @@ h3 {
 .btn {
 	background-color: #5e5e5e;
 	color: white;
+}
+
+.highlight {
+  background-color: #447294;
 }

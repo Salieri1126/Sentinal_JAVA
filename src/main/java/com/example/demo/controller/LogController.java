@@ -178,7 +178,7 @@ public class LogController {
         // 패킷 데이터 및 헤더 정보 모델에 추가
         String binaryData = logService.getPacket(log);
         String asciiData = logService.toASCII(binaryData);
-        List<Map<String, String>> packetHeader = logService.getHeader(log);
+        List<Object> packetHeader = logService.getHeader(log);
         model.addAttribute("binaryData", binaryData);
         model.addAttribute("asciiData", asciiData);
         model.addAttribute("packetHeader", packetHeader);
