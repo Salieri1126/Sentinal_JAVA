@@ -1,6 +1,9 @@
 package com.example.demo.controller;
 
+import java.beans.PropertyEditorSupport;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -319,5 +324,25 @@ public class PolicyController {
         }
         model.addAttribute("viewPolicy", viewPolicy);
         return "viewPolicy";
+    }
+    /**
+     * 달력 입력처리부분
+     * 
+     * @param binder
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(LocalDate.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException{
+                text = text.replace(" ", "").replace("-", "");
+                setValue(LocalDate.parse(text, DateTimeFormatter.ofPattern("yyyyMMdd")));
+            }
+
+            @Override
+            public String getAsText() throws IllegalArgumentException {
+                return DateTimeFormatter.ofPattern("yyyy-MM-dd").format((LocalDate) getValue());
+            }
+        });
     }
 }
