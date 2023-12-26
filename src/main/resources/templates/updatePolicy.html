@@ -45,7 +45,7 @@
 				<div class="section">
 					<span class="label">탐지명:</span>
 					<input type="text" id="detected_name" name="detected_name" th:value="${policyDetails.detected_name}"
-						style="border: 1px solid #ff0000;">
+						style="border: 1px solid #ff0000;" oninput="blockKoreanInput()">
 	
 					<span class="label">유효기간:</span>
 					<input class="datepicker" type="text" id="end_time" name="end_time" th:value="${policyDetails.end_time}">
@@ -165,7 +165,7 @@
 <!-- 경고창 Test -->
 	<section class="modal modal-section type-alert">
 			<div class="topHeader">
-				<button class="close-btn">&times;</button>
+				<!--<button class="close-btn">&times;</button>-->
 			</div>
 			<div class="modalBody">
 	            <div class="enroll_box">
@@ -176,6 +176,21 @@
 	            </div>
             </div>
     </section>
+    <!-- Confirm 창-->
+	<section class="modal modal-section type-confirm">
+		<div class="topHeader">
+			<!--<button class="close-btn">&times;</button>-->
+		</div>
+		<div class="modalBody">
+			<div class="enroll_box">
+				<p class="menu_msg"></p>
+			</div>
+			<div class="enroll_btn">
+				<button class="btn blue_btn btn_ok">확인</button>
+				<button class="btn gray_btn modal_close">취소</button>
+			</div>
+		</div>
+	</section>
 
 	<script>
 		$.datepicker.setDefaults({
@@ -193,6 +208,14 @@
 			weekHeader: "주",
 			yearSuffix: '년'
 		});
+		function isValidDate(dateString) {
+		    var regEx = /^\d{4}-\d{2}-\d{2}$/;
+		    if(!dateString.match(regEx)) return 'invalid';  // Invalid format
+		    var d = new Date(dateString);
+		    var dNum = d.getTime();
+		    if(!dNum && dNum !== 0) return 'invalid'; // NaN value, Invalid date
+		    return d.toISOString().slice(0,10) === dateString ? 'valid' : 'invalid';
+		}
 		
 		$(function () {
 		    var existingDate = $("#end_time").val();
@@ -215,13 +238,52 @@
 		                $("#end_time").datepicker("setDate", today); // 오늘 날짜로 설정
 		            }
 		        }
-		    });
+		    }).on('change', function () {
+			        let inputValue = $(this).val();
+			        if (/^\d{4}\d{2}\d{2}$/.test(inputValue)) {
+			            inputValue = inputValue.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+			            $(this).val(inputValue);
+			        }
+			        if (/^\d{4}\s\d{2}\s\d{2}$/.test(inputValue)) {
+			 			inputValue = inputValue.replace(/(\d{4})\s(\d{2})\s(\d{2})/, '$1-$2-$3');
+			            $(this).val(inputValue);
+			        }
+			        const dateCheck = isValidDate(inputValue);
+			        if (dateCheck === "invalid") {
+			            showModal("유효하지 않은 날짜 형식입니다.");
+			            $(this).val("");
+			            if (existingDate) {
+			                $("#end_time").datepicker("setDate", existingDate); // 기존에 설정된 값으로 설정
+			            } else {
+			                $("#end_time").datepicker("setDate", today); // 오늘 날짜로 설정
+			            }
+			        }
+			        else if (dateCheck === "past") {
+			            showModal("오늘보다 이전인 날은 선택할 수 없습니다.");
+			            $(this).val("");
+			            if (existingDate) {
+			                $("#end_time").datepicker("setDate", existingDate); // 기존에 설정된 값으로 설정
+			            } else {
+			                $("#end_time").datepicker("setDate", today); // 오늘 날짜로 설정
+			            }
+			        }
+			    });
 		
 		    if (existingDate) { // 기존에 설정된 값이 있을 경우
 		        $("#end_time").datepicker("setDate", existingDate); // 해당 날짜를 기본값으로 설정
 		    }
 		});
 		
+		$(document).ready(function(){
+		    $("#src_ip, #src_port").on('change', function () {
+		        let inputValue = $(this).val();
+		        // 앞뒤 공백 제거
+		        inputValue = inputValue.trim();
+		        // 가운데 공백 제거
+		        inputValue = inputValue.replace(/\s+/g, '');
+		        $(this).val(inputValue);
+		    });
+		});
 		function isValidIp(ip) {
 			var pattern = new RegExp(/^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$/);
 			return pattern.test(ip) || ip === "0" || ip.toLowerCase() === "any";
@@ -235,6 +297,15 @@
 		function isPositiveNumber(num) {
 			return Number(num) >= 0;
 		}
+				function blockKoreanInput() {
+		    var detectedName = document.getElementById("detected_name");
+		    var regExp = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+		
+		    if(regExp.test(detectedName.value)) {
+		        showModal("한글은 입력하실 수 없습니다. 다시 입력해주세요.");
+		        detectedName.value = detectedName.value.replace(regExp, '');
+		    }
+		}
 
 		function validateForm() {
 			var detectedName = document.getElementById("detected_name").value;
@@ -245,7 +316,8 @@
 			var baseTime = document.getElementById("base_time").value;
 			var baseLimit = document.getElementById("base_limit").value;
 			var endTime = document.getElementById("end_time").value;
-
+			var detail = document.getElementById("detail").value;
+			
 			if (detectedName.trim() === "") {
 				showModal("탐지명은 필수 입력 항목입니다.");
 				return false;
@@ -324,11 +396,21 @@
 				return false;
 			}
 			if (contentInput.value.trim() !== "") {
-				var confirmResult = confirm("입력한 내용이 추가되지 않았습니다. 그래도 적용하시겠습니까?");
-				if (confirmResult === false) {
-					return false;
-				}
-			}
+		        showConfirmationModal("입력한 내용이 추가되지 않았습니다. 그래도 적용하시겠습니까?", function () {
+		            document.forms["policyForm"].submit(); // 폼 제출 예시
+		        }, function () {
+		            showModal("취소되었습니다."); // 예시로 경고창 표시
+		        });
+		        return false; // 확인 모달에서 확인 버튼을 누르면 진행되지 않도록 반환값을 false로 설정
+		    }
+			if (detectedName.trim().length > 50) {
+		        showModal("탐지명은 50자 이하여야 합니다.");
+		        return false;
+		    }
+		    if (detail.trim().length > 200) {
+		        showModal("탐지명은 200자 이하여야 합니다.");
+		        return false;
+		    }
 
 			var originalDetectedName = document.getElementById("detected_name").defaultValue;
 
@@ -362,6 +444,11 @@
 				showModal("정책을 입력하세요.");
 				return;
 			}
+			// 입력 내용이 200자를 초과하면 경고 메시지를 표시합니다.
+		    if (content.trim().length > 200) {
+		        showModal("내용은 최대 200자까지 입력 가능합니다.");
+		        return;
+		    }
 
 			var contentT = document.getElementById("result");
 			var table = contentT.querySelector("table");
@@ -493,32 +580,90 @@
 			window.location.href = "/admin/menu/readPolicy";
 		}
 		
-		//Alert 디자인 바꾼거 적용
-		function showModal(message) {
-		    // 메시지 설정
-		    document.querySelector('.modal-section.type-alert .menu_msg').textContent = message;
-		    // 모달 표시
-		    document.querySelector('.modal-section.type-alert').style.display = 'block';
+//Alert 디자인 바꾼거 적용
+		function showModal(message, isConfirm = false) {
+			const modalType = isConfirm ? 'type-confirm' : 'type-alert';
+
+			// 메시지 설정
+			document.querySelector(`.modal-section.${modalType} .menu_msg`).textContent = message;
+			// 모달 표시
+			document.querySelector(`.modal-section.${modalType}`).style.display = 'block';
 		}
 
-		function hideModal() {
-		    // 모달 숨기기
-		    document.querySelector('.modal-section.type-alert').style.display = 'none';
+		function hideModal(isConfirm = false) {
+			const modalType = isConfirm ? 'type-confirm' : 'type-alert';
+
+			// 모달 숨기기
+			document.querySelector(`.modal-section.${modalType}`).style.display = 'none';
 		}
-		
+
 		// 모달 닫기 버튼 이벤트 리스너 설정
-		document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function() {
-		    hideModal();
+		document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function () {
+			hideModal();
 		});
-		document.querySelector('.close-btn').addEventListener('click', function() {
-		    document.querySelector('.modal-section.type-alert').style.display = 'none';
+
+		document.querySelector('.close-btn').addEventListener('click', function () {
+			hideModal();
 		});
-		document.addEventListener('DOMContentLoaded', function() {
-		    // 모달 닫기 버튼 이벤트 리스너 설정
-		    document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function() {
-		        hideModal();
-		    });
+
+		document.querySelector('.modal-section.type-confirm .modal_close').addEventListener('click', function () {
+			hideModal(true);
 		});
+
+		document.querySelector('.modal-section.type-confirm .btn_ok').addEventListener('click', function () {
+			// 확인 버튼 클릭 시 실행할 동작 추가
+			hideModal(true);
+		});
+
+		document.querySelector('.modal-section.type-confirm .btn.gray_btn').addEventListener('click', function () {
+			// 취소 버튼 클릭 시 실행할 동작 추가
+			hideModal(true);
+		});
+
+		document.addEventListener('DOMContentLoaded', function () {
+			// 모달 닫기 버튼 이벤트 리스너 설정
+			document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function () {
+				hideModal();
+			});
+
+			document.querySelector('.modal-section.type-confirm .modal_close').addEventListener('click', function () {
+				hideModal(true);
+			});
+
+			document.querySelector('.modal-section.type-confirm .btn_ok').addEventListener('click', function () {
+				// 확인 버튼 클릭 시 실행할 동작 추가
+				hideModal(true);
+			});
+
+			document.querySelector('.modal-section.type-confirm .btn.gray_btn').addEventListener('click', function () {
+				// 취소 버튼 클릭 시 실행할 동작 추가
+				hideModal(true);
+			});
+		});
+		function showConfirmationModal(message, onConfirm, onCancel) {
+			const modalType = 'type-confirm';
+			const modalSection = document.querySelector(`.modal-section.${modalType}`);
+			const modalMessage = modalSection.querySelector('.menu_msg');
+			const btnOk = modalSection.querySelector('.btn_ok');
+			const btnCancel = modalSection.querySelector('.btn.gray_btn');
+
+			// 메시지 설정
+			modalMessage.textContent = message;
+
+			// 모달 표시
+			modalSection.style.display = 'block';
+
+			// 확인 및 취소 작업 처리
+			btnOk.addEventListener('click', function () {
+				hideModal(true);
+				if (onConfirm) onConfirm();
+			});
+
+			btnCancel.addEventListener('click', function () {
+				hideModal(true);
+				if (onCancel) onCancel();
+			});
+		}
 	</script>
 </body>
 

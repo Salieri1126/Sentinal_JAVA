@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="/css/alertStyle.css">
 	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
 	<link rel="manifest" href="/json/manifest.json">
-	
+
 	<title>Sentinel</title>
 </head>
 
@@ -20,14 +20,19 @@
 			<h1>정책현황</h1>
 		</div>
 	</header>
-	<div class="buttonbox1">
-		<button class="add-btn" id="activate-button">활성화</button>
-		<button class="edit-btn" id="deactivate-button">비활성화</button>
-	</div>
-	<div class="buttonbox">
-		<button class="add-btn" onclick="location.href='/admin/menu/readPolicy/insertPolicy'">추가</button>
-		<button class="edit-btn" onclick="updatePolicy()">수정</button>
-		<button class="delete-btn" onclick="deletePolicy()">삭제</button>
+	<div class="topGroup">
+		<div class="buttonbox1">
+			<button class="add-btn" id="activate-button">활성화</button>
+			<button class="edit-btn" id="deactivate-button">비활성화</button>
+		</div>
+		<div class="viewPolicyInfo">
+			<p>※각 정책의 이름을 클릭시 상세보기로 이동</p>
+		</div>
+		<div class="buttonbox">
+			<button class="add-btn" onclick="location.href='/admin/menu/readPolicy/insertPolicy'">추가</button>
+			<button class="edit-btn" onclick="updatePolicy()">수정</button>
+			<button class="delete-btn" onclick="deletePolicy()">삭제</button>
+		</div>
 	</div>
 
 	<main class="box2">
@@ -35,118 +40,138 @@
 			<table>
 				<thead>
 					<tr>
-						<th><input class="click" onclick="toggleAllCheckboxes()" type="checkbox"></th>
-						<th>No</th>
-						<th>이름</th>
-						<th>적용</th>
-						<th>위험등급</th>
-						<th>출발지 IP</th>
-						<th>출발지 Port</th>
-						<th>기준 초</th>
-						<th>쿼리 수</th>
-						<th>탐지 문구 1</th>
-						<th>탐지 문구 2</th>
-						<th>탐지 문구 3</th>
-						<th>동작</th>
+						<th style="width: 60px;"><input class="click" onclick="toggleAllCheckboxes()" type="checkbox">
+						</th>
+						<th style="width: 100px;">No</th>
+						<th style="width: 150px;">이름</th>
+						<th style="width: 80px;">적용</th>
+						<th style="width: 100px;">위험등급</th>
+						<th style="width: 260px;">출발지IP[-도착지IP]</th>
+						<th style="width: 260px;">출발지Port[-도착지Port]</th>
+						<th style="width: 80px;">기준 초</th>
+						<th style="width: 80px;">쿼리 수</th>
+						<th style="width: 160px;">탐지 문구 1</th>
+						<th style="width: 160px;">탐지 문구 2</th>
+						<th style="width: 160px;">탐지 문구 3</th>
+						<th style="width: 100px;">동작</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="policy : ${readPolicies}">
 						<th>
-							<input type="checkbox" class="selectedPolicy" name="selectedPolicy" th:value="${policy.detected_no}"
-								style="display:inline;">
+							<input type="checkbox" class="selectedPolicy" name="selectedPolicy"
+								th:value="${policy.detected_no}" style="display:inline;">
 						</th>
 
 						<th><span th:text="${policy.detected_no}" class="detected_no"></span></th>
 
-						<th class="click" onclick="view()">
-							<span th:text="${policy.detected_name}"></span>
+						<th class="click" onclick="view()" title="상세보기">
+							<span th:text="${policy.detected_name}" class="clickName"></span>
 						</th>
 
 						<th>
-						    <label class="switch-button">
-						        <input type="checkbox" th:checked="${policy.enable == 1}" class="individual-switch">
-						        <span class="onoff-switch"></span>
-						    </label>
+							<label class="switch-button">
+								<input type="checkbox" th:checked="${policy.enable == 1}" class="individual-switch">
+								<span class="onoff-switch"></span>
+							</label>
 						</th>
-						
+
 						<th><span th:text="${policy.level}" class="level"></span></th>
-						
-						<th><span th:text="${policy.src_ip == 'any' ? 'any' : (policy.to_sip == '0' ? policy.src_ip : policy.src_ip + '-' + policy.to_sip)}"></span></th>
-						<th><span th:text="${policy.src_port == 'any' ? 'any' : (policy.to_sp == '0' ? policy.src_port : policy.src_port + '-' + policy.to_sp)}"></span></th>
+
+						<th><span
+								th:text="${policy.src_ip == 'any' ? 'any' : (policy.to_sip == '0' ? policy.src_ip : policy.src_ip + '-' + policy.to_sip)}"></span>
+						</th>
+						<th><span
+								th:text="${policy.src_port == 'any' ? 'any' : (policy.to_sp == '0' ? policy.src_port : policy.src_port + '-' + policy.to_sp)}"></span>
+						</th>
 
 
 						<th><span th:text="${policy.base_time}"></span></th>
 
 						<th><span th:text="${policy.base_limit}"></span></th>
-						
-						<th><span th:text="${policy.content1}"></span></th>
+
+						<th style="width: 100px;"><span th:text="${policy.content1}"></span></th>
 						<th><span th:text="${policy.content2}"></span></th>
 						<th><span th:text="${policy.content3}"></span></th>
-						
+
 						<th><span th:text="${policy.action}" class="action"></span></th>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</main>
-	<!-- 경고창 Test -->
+	<!-- Alert 창 -->
 	<section class="modal modal-section type-alert">
-			<div class="topHeader">
-				<button class="close-btn">&times;</button>
+		<div class="topHeader">
+			<!--<button class="close-btn">&times;</button>-->
+		</div>
+		<div class="modalBody">
+			<div class="enroll_box">
+				<p class="menu_msg"></p>
 			</div>
-			<div class="modalBody">
-	            <div class="enroll_box">
-	                <p class="menu_msg"></p>
-	            </div>
-	            <div class="enroll_btn">
-	                <button class="btn blue_btn modal_close">확인</button>
-	            </div>
-            </div>
-    </section>
-	
+			<div class="enroll_btn">
+				<button class="btn blue_btn modal_close">확인</button>
+			</div>
+		</div>
+	</section>
+	<!-- Confirm 창-->
+	<section class="modal modal-section type-confirm">
+		<div class="topHeader">
+			<!--<button class="close-btn">&times;</button>-->
+		</div>
+		<div class="modalBody">
+			<div class="enroll_box">
+				<p class="menu_msg"></p>
+			</div>
+			<div class="enroll_btn">
+				<button class="btn blue_btn btn_ok">확인</button>
+				<button class="btn gray_btn modal_close">취소</button>
+			</div>
+		</div>
+	</section>
+
 	<!-- Add Script -->
 	<script>
-		window.onload = function() {
-		    var levelElements = document.getElementsByClassName('level');
-		    var actionElements = document.getElementsByClassName('action');
-		    for(var i = 0; i < levelElements.length; i++) {
-		        var levelValue = levelElements[i].innerText;
-		        var actionValue = actionElements[i].innerText;
-		        var levelText = '';
-		        var actionText = '';
-		
-		        // level value에 따른 문자열 변환
-		        switch(levelValue) {
-		            case '0':
-		                levelText = '하';
-		                break;
-		            case '1':
-		                levelText = '중';
-		                break;
-		            case '2':
-		                levelText = '상';
-		                break;
-		            case '3':
-		                levelText = '최상';
-		                break;
-		        }
-		
-		        // action value에 따른 문자열 변환
-		        switch(actionValue) {
-		            case '0':
-		                actionText = '로그';
-		                break;
-		            case '1':
-		                actionText = '로그+차단';
-		                break;
-		        }
-		
-		        levelElements[i].innerText = levelText;
-		        actionElements[i].innerText = actionText;
-		    }
+		window.onload = function () {
+			var levelElements = document.getElementsByClassName('level');
+			var actionElements = document.getElementsByClassName('action');
+			for (var i = 0; i < levelElements.length; i++) {
+				var levelValue = levelElements[i].innerText;
+				var actionValue = actionElements[i].innerText;
+				var levelText = '';
+				var actionText = '';
+
+				// level value에 따른 문자열 변환
+				switch (levelValue) {
+					case '0':
+						levelText = '하';
+						break;
+					case '1':
+						levelText = '중';
+						break;
+					case '2':
+						levelText = '상';
+						break;
+					case '3':
+						levelText = '최상';
+						break;
+				}
+
+				// action value에 따른 문자열 변환
+				switch (actionValue) {
+					case '0':
+						actionText = '로그';
+						break;
+					case '1':
+						actionText = '로그+차단';
+						break;
+				}
+
+				levelElements[i].innerText = levelText;
+				actionElements[i].innerText = actionText;
+			}
 		}
-		
+
 		function updatePolicy() {
 			const selectedChecks = document.querySelectorAll('input[name="selectedPolicy"]:checked');
 
@@ -161,140 +186,208 @@
 		}
 
 		function deletePolicy() {
-		    const selectedChecks = document.querySelectorAll('input[name="selectedPolicy"]:checked');
-		
-		    if (selectedChecks.length > 0) {
-		        const isConfirmed = confirm("선택된 정책을 모두 삭제하시겠습니까?");
-		        if (isConfirmed) {
-		            // 선택된 모든 체크박스의 값을 배열로 변환
-		            const detected_nos = Array.from(selectedChecks).map(check => parseInt(check.value));
-		
-		            // 서버에 JSON 형태로 삭제할 ID 목록을 전송
-		            fetch('/admin/menu/readPolicy/deletePolicies', {
-		                method: 'POST',
-		                headers: {
-		                    'Content-Type': 'application/json',
-		                },
-		                body: JSON.stringify({ ids: detected_nos })
-		            })
-		            .then(response => {
-		                if (!response.ok) {
-		                    throw new Error('네트워크 응답 없음.');
-		                }
-		                return response.json();
-		            })
-		            .then(data => {
-		                window.location.href = "/admin/menu/readPolicy";
-		            })
-		            .catch(error => {
-		                console.error('fetch 작업 중 문제가 발생했습니다:', error);
-		            });
-		        }
-		    } else {
-		        showModal("정책을 선택하세요.")
-		    }
+			const selectedChecks = document.querySelectorAll('input[name="selectedPolicy"]:checked');
+
+			if (selectedChecks.length > 0) {
+				showConfirmationModal("선택된 정책을 모두 삭제하시겠습니까?", function () {
+					// 확인 버튼 클릭 시 실행할 동작 추가
+					const detected_nos = Array.from(selectedChecks).map(check => parseInt(check.value));
+
+					fetch('/admin/menu/readPolicy/deletePolicies', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({ids: detected_nos})
+					})
+						.then(response => {
+							if (!response.ok) {
+								throw new Error('네트워크 응답 없음.');
+							}
+							return response.json();
+						})
+						.then(data => {
+							window.location.href = "/admin/menu/readPolicy";
+						})
+						.catch(error => {
+							console.error('fetch 작업 중 문제가 발생했습니다:', error);
+						});
+				});
+			} else {
+				showModal("정책을 선택하세요.")
+			}
 		}
 
 		function toggleAllCheckboxes() {
-		    const enableSwitches = document.querySelectorAll('.selectedPolicy');
-		    let isAllChecked = true;
-		
-		    enableSwitches.forEach((switchInput) => {
-		        if (!switchInput.checked) {
-		            isAllChecked = false;
-		        }
-		    });
-		
-		    enableSwitches.forEach((switchInput) => {
-		        switchInput.checked = isAllChecked ? false : true;
-		    });
+			const enableSwitches = document.querySelectorAll('.selectedPolicy');
+			const isAllChecked = enableSwitches[0].checked;
+
+			enableSwitches.forEach((switchInput) => {
+				switchInput.checked = !isAllChecked;
+			});
+			const headerCheckbox = document.querySelector('thead .click');
+			headerCheckbox.checked = !isAllChecked;
 		}
-		
+
 		document.querySelectorAll('.individual-switch').forEach((switchInput) => {
-		    switchInput.addEventListener('click', (e) => {
-		        e.preventDefault();
-		        showModal('정책의 활성화 여부를 설정 하려면\n수정 할 정책을 체크한 후 "활성화" 또는 "비활성화" 버튼을 사용해주세요.');
-		    });
+			switchInput.addEventListener('click', (e) => {
+				e.preventDefault();
+				showModal('정책의 활성화 여부를 설정 하려면\n수정 할 정책을 체크한 후 "활성화" 또는 "비활성화" 버튼을 사용해주세요.');
+			});
 		});
-		
-		document.querySelector('#activate-button').addEventListener('click', function() {
-		    if (confirm('정말로 선택한 항목들을 활성화하시겠습니까?')) {
-		        updateSelectedPolicies(1);
-		    }
+
+		document.querySelector('#activate-button').addEventListener('click', function () {
+			showConfirmationModal('정말로 선택한 항목들을 활성화하시겠습니까?', function () {
+				updateSelectedPolicies(1);
+			});
 		});
-		
-		document.querySelector('#deactivate-button').addEventListener('click', function() {
-		    if (confirm('정말로 선택한 항목들을 비활성화하시겠습니까?')) {
-		        updateSelectedPolicies(0);
-		    }
+
+		document.querySelector('#deactivate-button').addEventListener('click', function () {
+			showConfirmationModal('정말로 선택한 항목들을 비활성화하시겠습니까?', function () {
+				updateSelectedPolicies(0);
+			});
 		});
-		
+
+
 		function updateSelectedPolicies(enableValue) {
-		    const selectedSwitches = document.querySelectorAll('.selectedPolicy:checked');
-		    
-		    if (selectedSwitches.length === 0) {
-		        showModal('선택된 항목이 없습니다.\n활성화 또는 비활성화할 항목을 선택하세요.');
-		        return;
-		    }
-		
-		    selectedSwitches.forEach((switchInput) => {
-		        const detected_no = switchInput.closest('tr').querySelector('.detected_no').textContent;
-		        const enable = enableValue;
-		
-		        fetch(`/admin/menu/readPolicy/updatePolicyEnable`, {
-		            method: 'POST',
-		            headers: {
-		                'Content-Type': 'application/json',
-		            },
-		            body: JSON.stringify({
-		                detected_no,
-		                enable,
-		            }),
-		        })
-		        .then(() => {
-		            const switchButton = switchInput.closest('tr').querySelector('.individual-switch');
-		            switchButton.checked = !!enableValue;
-		            switchInput.checked = false;
-		        });
-		    });
-		
-		    //alert(`${selectedSwitches.length}개의 항목이 성공적으로 ${enableValue ? '활성화' : '비활성화'}되었습니다.`);
-		    showModal(`${selectedSwitches.length}개의 항목이 성공적으로 ${enableValue ? '활성화' : '비활성화'}되었습니다.`);
+			const selectedSwitches = document.querySelectorAll('.selectedPolicy:checked');
+
+			if (selectedSwitches.length === 0) {
+				showModal('선택된 항목이 없습니다.\n활성화 또는 비활성화할 항목을 선택하세요.');
+				return;
+			}
+
+			selectedSwitches.forEach((switchInput) => {
+				const detected_no = switchInput.closest('tr').querySelector('.detected_no').textContent;
+				const enable = enableValue;
+
+				fetch(`/admin/menu/readPolicy/updatePolicyEnable`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						detected_no,
+						enable,
+					}),
+				})
+					.then(() => {
+						const switchButton = switchInput.closest('tr').querySelector('.individual-switch');
+						switchButton.checked = !!enableValue;
+						switchInput.checked = false;
+
+						// 추가된 부분: 비활성화 후 체크박스가 자동으로 풀리도록 함
+						const headerCheckbox = document.querySelector('thead .click');
+						headerCheckbox.checked = false;
+					});
+			});
+
+			showModal(`${selectedSwitches.length}개의 항목이 성공적으로 ${enableValue ? '활성화' : '비활성화'}되었습니다.`);
 		}
-		
+
 		function view() {
 			// 각 정책에 대한 상세보기 페이지로 이동
 			const target = event.target.closest('tr').querySelector('th input').value;
 			window.location.href = "/admin/menu/readPolicy/viewPolicy?id=" + target;
 		}
-		
-		
+
+
 		//Alert 디자인 바꾼거 적용
-		function showModal(message) {
-		    // 메시지 설정
-		    document.querySelector('.modal-section.type-alert .menu_msg').textContent = message;
-		    // 모달 표시
-		    document.querySelector('.modal-section.type-alert').style.display = 'block';
+		function showModal(message, isConfirm = false) {
+			const modalType = isConfirm ? 'type-confirm' : 'type-alert';
+
+			// 메시지 설정
+			document.querySelector(`.modal-section.${modalType} .menu_msg`).textContent = message;
+			// 모달 표시
+			document.querySelector(`.modal-section.${modalType}`).style.display = 'block';
 		}
 
-		function hideModal() {
-		    // 모달 숨기기
-		    document.querySelector('.modal-section.type-alert').style.display = 'none';
+		function hideModal(isConfirm = false) {
+			const modalType = isConfirm ? 'type-confirm' : 'type-alert';
+
+			// 모달 숨기기
+			document.querySelector(`.modal-section.${modalType}`).style.display = 'none';
 		}
-		
+
 		// 모달 닫기 버튼 이벤트 리스너 설정
-		document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function() {
-		    hideModal();
+		document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function () {
+			hideModal();
 		});
-		document.querySelector('.close-btn').addEventListener('click', function() {
-		    document.querySelector('.modal-section.type-alert').style.display = 'none';
+
+		document.querySelector('.close-btn').addEventListener('click', function () {
+			hideModal();
 		});
-		document.addEventListener('DOMContentLoaded', function() {
-		    // 모달 닫기 버튼 이벤트 리스너 설정
-		    document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function() {
-		        hideModal();
-		    });
+
+		document.querySelector('.modal-section.type-confirm .modal_close').addEventListener('click', function () {
+			hideModal(true);
 		});
+
+		document.querySelector('.modal-section.type-confirm .btn_ok').addEventListener('click', function () {
+			// 확인 버튼 클릭 시 실행할 동작 추가
+			hideModal(true);
+		});
+
+		document.querySelector('.modal-section.type-confirm .btn.gray_btn').addEventListener('click', function () {
+			// 취소 버튼 클릭 시 실행할 동작 추가
+			hideModal(true);
+		});
+
+		document.addEventListener('DOMContentLoaded', function () {
+			// 모달 닫기 버튼 이벤트 리스너 설정
+			document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function () {
+				hideModal();
+			});
+
+			document.querySelector('.modal-section.type-confirm .modal_close').addEventListener('click', function () {
+				hideModal(true);
+			});
+
+			document.querySelector('.modal-section.type-confirm .btn_ok').addEventListener('click', function () {
+				// 확인 버튼 클릭 시 실행할 동작 추가
+				hideModal(true);
+			});
+
+			document.querySelector('.modal-section.type-confirm .btn.gray_btn').addEventListener('click', function () {
+				// 취소 버튼 클릭 시 실행할 동작 추가
+				hideModal(true);
+			});
+			// topHeader의 close-btn에 이벤트 리스너 추가
+			document.querySelector('.topHeader .close-btn').addEventListener('click', function () {
+				hideModal();
+			});
+
+			// 만약 여러 모달이 있고 각각에 close-btn이 있다면, 각각에 대해 이벤트 리스너 추가
+			document.querySelectorAll('.modal-section .close-btn').forEach(function (closeBtn) {
+				closeBtn.addEventListener('click', function () {
+					hideModal();
+				});
+			});
+		});
+		function showConfirmationModal(message, onConfirm, onCancel) {
+			const modalType = 'type-confirm';
+			const modalSection = document.querySelector(`.modal-section.${modalType}`);
+			const modalMessage = modalSection.querySelector('.menu_msg');
+			const btnOk = modalSection.querySelector('.btn_ok');
+			const btnCancel = modalSection.querySelector('.btn.gray_btn');
+
+			// 메시지 설정
+			modalMessage.textContent = message;
+
+			// 모달 표시
+			modalSection.style.display = 'block';
+
+			// 확인 및 취소 작업 처리
+			btnOk.addEventListener('click', function () {
+				hideModal(true);
+				if (onConfirm) onConfirm();
+			});
+
+			btnCancel.addEventListener('click', function () {
+				hideModal(true);
+				if (onCancel) onCancel();
+			});
+		}
+
 
 
 	</script>
