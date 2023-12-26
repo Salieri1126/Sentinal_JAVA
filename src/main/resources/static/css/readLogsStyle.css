@@ -261,7 +261,7 @@ thead th {
    font-weight: bond;
    margin: 5px 5px;
    cursor: pointer;
-   background-color: #3498db;
+   background-color: #5e5e5e;
 }
 
 .nextB {
@@ -279,3 +279,12 @@ thead th {
    cursor: pointer;
    background-color: #3498db;
 }
+
+/* 로그바텀 하단 페이지버튼위치*/
+.logBottom {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 15px;
+}
+
+

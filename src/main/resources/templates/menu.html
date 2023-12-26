@@ -42,7 +42,7 @@
 			<img src="/img/logo.png" alt="로고" class="logo" onclick="loadContent('/admin/home')">
 		</a>
 		<a href="/logout" onclick="return confirmLogout();">
-			<img src="/img/logouticon.png" alt="로그아웃" class="logout">
+			<img src="/img/logout.png" alt="로그아웃" class="logout">
 		</a>
 	</div>
 	<div class="sidebar">
@@ -78,19 +78,20 @@
 
 	<script>
 		function loadContent(url) {
-			// 모든 메뉴 아이템에 대해 selected 클래스 제거
-            var menuItems = document.querySelectorAll('.menu-item');
-            menuItems.forEach(function (menuItem) {
-                menuItem.classList.remove('selected');
-            });
+    var menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(function (menuItem) {
+        menuItem.classList.remove('selected');
+    });
 
-            // 현재 메뉴에 selected 클래스 추가
-            var currentMenuItem = document.querySelector('[onclick="loadContent(\'' + url + '\')"]');
-            currentMenuItem.classList.add('selected');
-            
-            //Frame로드하는 부분
-			document.getElementById("contentFrame").src = url;
-		}
+    // 이전 선택된 메뉴 아이템에 대한 쿼리 수정
+    var currentMenuItem = document.querySelector('.menu-item[onclick*="' + url.replace(/'/g, "\\'") + '"]');
+    if(currentMenuItem) {
+        currentMenuItem.classList.add('selected');
+    }
+
+    document.getElementById("contentFrame").src = url;
+}
+
 		
 		function confirmLogout() {
         	return confirm('로그아웃 하시겠습니까?');
@@ -99,8 +100,10 @@
 		window.onload = function () {
 			// 초기에 홈 메뉴에 대한 스타일을 적용
 		    var homeMenuItem = document.querySelector('[onclick="loadContent(\'/admin/home\')"]');
+		    if(homeMenuItem){
 		    homeMenuItem.classList.add('selected');
 			loadContent('/admin/home');
+			}
 		};
 	</script>
 </body>
