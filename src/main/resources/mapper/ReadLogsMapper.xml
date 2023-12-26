@@ -34,6 +34,11 @@
 	    WHERE log_index = #{log_index}
 	</select>
 	
+	<select id="findByDetectedName" resultType="com.example.demo.model.log.ReadLogsEntity">
+        SELECT detected_name FROM ${tableName}
+        WHERE log_index = #{log_index}
+    </select>
+	
 	<select id="getLastLogs" resultType="com.example.demo.model.log.ReadLogsEntity">
 	    SELECT * FROM ${tableName}
 	    <where>
