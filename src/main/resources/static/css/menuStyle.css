@@ -89,11 +89,7 @@ body {
     background-color:   #4aabed; /* 마우스 오버 시 배경색 */
     color: #fff; /* 마우스 오버 시 글자색 */
 }
-/* 메뉴 선택시 옵션 */
-.menu-item.selected {
-	background-color: #4aabed;
-	color: #fff;
-}
+
 /* 각메뉴별 아이콘 */
 #homeIcon{
 	background-image: url('/img/homeicon.png'); 
@@ -142,7 +138,32 @@ body {
 	height: 30px;
 }
 
+/* 메뉴 선택시 옵션 */
+.menu-item.selected {
+	background-color: #4aabed;
+	color: #fff;
+}
 
+.menu-item.selected #homeIcon{
+	background-image: url('/img/hover_homeicon.png'); 
+	width: 35px; 
+	height: 35px;
+}
+.menu-item.selected #policyIcon{
+	background-image: url('/img/hover_policyicon.png');
+	width: 30px; 
+	height: 30px;
+}
+.menu-item.selected #logIcon{
+	background-image: url('/img/hover_logicon.png'); 
+	width: 30px; 
+	height: 30px;
+}
+.menu-item.selected #settingsIcon{
+	background-image: url('/img/hover_settingsicon.png'); 
+	width: 30px; 
+	height: 30px;
+}
 
 
 /* 컨텐츠 화면 iframe  */

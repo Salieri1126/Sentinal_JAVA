@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/commonStyle.css">
 	<link rel="stylesheet" href="/css/readPolicyStyle.css">
+	<link rel="stylesheet" href="/css/alertStyle.css">
 	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
 	<link rel="manifest" href="/json/manifest.json">
 	
@@ -89,7 +90,22 @@
 			</table>
 		</div>
 	</main>
-
+	<!-- 경고창 Test -->
+	<section class="modal modal-section type-alert">
+			<div class="topHeader">
+				<button class="close-btn">&times;</button>
+			</div>
+			<div class="modalBody">
+	            <div class="enroll_box">
+	                <p class="menu_msg"></p>
+	            </div>
+	            <div class="enroll_btn">
+	                <button class="btn blue_btn modal_close">확인</button>
+	            </div>
+            </div>
+    </section>
+	
+	<!-- Add Script -->
 	<script>
 		window.onload = function() {
 		    var levelElements = document.getElementsByClassName('level');
@@ -135,12 +151,12 @@
 			const selectedChecks = document.querySelectorAll('input[name="selectedPolicy"]:checked');
 
 			if (selectedChecks.length > 1) {
-				alert("수정은 한 개씩만 가능합니다.");
+				showModal("수정은 한 개씩만 가능합니다.");
 			} else if (selectedChecks.length === 1) {
 				const detected_no = selectedChecks[0].value;
 				window.location.href = "/admin/menu/readPolicy/updatePolicy?id=" + detected_no;
 			} else {
-				alert("정책을 선택하세요.");
+				showModal("정책을 선택하세요.");
 			}
 		}
 
@@ -175,7 +191,7 @@
 		            });
 		        }
 		    } else {
-		        alert("정책을 선택하세요.");
+		        showModal("정책을 선택하세요.")
 		    }
 		}
 
@@ -197,7 +213,7 @@
 		document.querySelectorAll('.individual-switch').forEach((switchInput) => {
 		    switchInput.addEventListener('click', (e) => {
 		        e.preventDefault();
-		        alert('정책의 활성화 여부를 설정 하려면\n수정 할 정책을 체크한 후 "활성화" 또는 "비활성화" 버튼을 사용해주세요.');
+		        showModal('정책의 활성화 여부를 설정 하려면\n수정 할 정책을 체크한 후 "활성화" 또는 "비활성화" 버튼을 사용해주세요.');
 		    });
 		});
 		
@@ -217,7 +233,7 @@
 		    const selectedSwitches = document.querySelectorAll('.selectedPolicy:checked');
 		    
 		    if (selectedSwitches.length === 0) {
-		        alert('선택된 항목이 없습니다.\n활성화 또는 비활성화할 항목을 선택하세요.');
+		        showModal('선택된 항목이 없습니다.\n활성화 또는 비활성화할 항목을 선택하세요.');
 		        return;
 		    }
 		
@@ -242,7 +258,8 @@
 		        });
 		    });
 		
-		    alert(`${selectedSwitches.length}개의 항목이 성공적으로 ${enableValue ? '활성화' : '비활성화'}되었습니다.`);
+		    //alert(`${selectedSwitches.length}개의 항목이 성공적으로 ${enableValue ? '활성화' : '비활성화'}되었습니다.`);
+		    showModal(`${selectedSwitches.length}개의 항목이 성공적으로 ${enableValue ? '활성화' : '비활성화'}되었습니다.`);
 		}
 		
 		function view() {
@@ -250,6 +267,36 @@
 			const target = event.target.closest('tr').querySelector('th input').value;
 			window.location.href = "/admin/menu/readPolicy/viewPolicy?id=" + target;
 		}
+		
+		
+		//Alert 디자인 바꾼거 적용
+		function showModal(message) {
+		    // 메시지 설정
+		    document.querySelector('.modal-section.type-alert .menu_msg').textContent = message;
+		    // 모달 표시
+		    document.querySelector('.modal-section.type-alert').style.display = 'block';
+		}
+
+		function hideModal() {
+		    // 모달 숨기기
+		    document.querySelector('.modal-section.type-alert').style.display = 'none';
+		}
+		
+		// 모달 닫기 버튼 이벤트 리스너 설정
+		document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function() {
+		    hideModal();
+		});
+		document.querySelector('.close-btn').addEventListener('click', function() {
+		    document.querySelector('.modal-section.type-alert').style.display = 'none';
+		});
+		document.addEventListener('DOMContentLoaded', function() {
+		    // 모달 닫기 버튼 이벤트 리스너 설정
+		    document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function() {
+		        hideModal();
+		    });
+		});
+
+
 	</script>
 </body>
 

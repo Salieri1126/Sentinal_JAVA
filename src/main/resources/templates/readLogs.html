@@ -255,6 +255,9 @@
 		<div class="hline">
 			<h1>로그조회</h1>
 		</div>
+		<div class="log-count">
+			   <!-- 검색된 로그의 총 개수가 여기에 출력됨 -->
+		</div>
 	</header>
 	<div class="log-list-filter">
 		<h2>필터</h2>
@@ -344,13 +347,15 @@
 				<!-- 여기에 로그가 동적으로 추가됨 -->
 			</tbody>
 		</table>
-		<div class="log-count">
-		    <!-- 검색된 로그의 총 개수가 여기에 출력됨 -->
-		</div>
-		<div id="pagination">
-	        <button class="prevB">이전</button>
-	        <span id="page-num"></span>
-	        <button class="nextB">다음</button>
+		<div class="logBottom">
+			<div>
+			    <!-- 검색된 로그의 총 개수가 여기에 출력됨 -->
+			</div>
+			<div id="pagination">
+		        <button class="prevB">이전</button>
+		        <span id="page-num"></span>
+		        <button class="nextB">다음</button>
+		    </div>
 	    </div>
 	</div>
 </body>
