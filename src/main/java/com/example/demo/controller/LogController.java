@@ -1,10 +1,12 @@
 package com.example.demo.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLSyntaxErrorException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.model.log.ReadLogsEntity;
+import com.example.demo.model.policy.ViewPolicyEntity;
 import com.example.demo.repository.log.ReadLogsMapper;
+import com.example.demo.repository.policy.ViewPolicyMapper;
 import com.example.demo.service.LogService;
+import com.example.demo.service.PolicyService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,9 +36,11 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class LogController {
-
-    private final ReadLogsMapper readLogsMapper;
+	
+	private final ReadLogsMapper readLogsMapper;
+	private final ViewPolicyMapper viewPolicyMapper;
     private final LogService logService;
+    private final PolicyService policyService;
 
     /**
      * 로그 목록 화면을 보여주는 메서드
@@ -142,20 +149,67 @@ public class LogController {
      * @param log_date  로그 날짜
      * @param log_index 로그 인덱스
      * @param model     Model 객체
-     * @return 바이너리 데이터 템플릿 이름
+     * @return 로그 상세 조회 템플릿 이름
+     * @throws UnsupportedEncodingException 
      */
     @GetMapping("/admin/menu/readLogs/viewLogs/{log_date}/{log_index}")
-    public String showBinaryData(@PathVariable String log_date, @PathVariable int log_index, Model model) {
+    public String showBinaryData(
+            @PathVariable String log_date,
+            @PathVariable int log_index,
+            Model model) throws UnsupportedEncodingException {
+        // 로그 데이터 가져오기
         LocalDateTime dateTime = LocalDateTime.parse(log_date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String formattedDate = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String tableName = "log_" + formattedDate;
+        
+        // 로그 데이터 조회
         ReadLogsEntity log = readLogsMapper.getBinaryData(tableName, log_index);
+        if (log == null) {
+            model.addAttribute("binaryData", "");
+            model.addAttribute("asciiData", "");
+            model.addAttribute("packetHeader", Collections.emptyList());
+            model.addAttribute("policyDetectedName", "");
+            model.addAttribute("policyDetail", "");
+            model.addAttribute("policyAction", "");
+            model.addAttribute("policyLevel", "");
+            return "viewLogs";
+        }
+        
+        // 패킷 데이터 및 헤더 정보 모델에 추가
         String binaryData = logService.getPacket(log);
         String asciiData = logService.toASCII(binaryData);
         List<Map<String, String>> packetHeader = logService.getHeader(log);
         model.addAttribute("binaryData", binaryData);
         model.addAttribute("asciiData", asciiData);
         model.addAttribute("packetHeader", packetHeader);
+        
+        // 로그 데이터의 detected_name을 사용하여 정책 데이터 조회
+        ReadLogsEntity logDetail = readLogsMapper.findByDetectedName(tableName, log_index);
+        if (logDetail == null) {
+            model.addAttribute("policyDetectedName", "");
+            model.addAttribute("policyDetail", "");
+            model.addAttribute("policyAction", "");
+            model.addAttribute("policyLevel", "");
+            return "viewLogs";
+        }
+        
+        String target = logDetail.getDetected_name();
+        ViewPolicyEntity policy = viewPolicyMapper.findByDetectedName(target);
+        if (policy == null) {
+            model.addAttribute("policyDetectedName", "");
+            model.addAttribute("policyDetail", "");
+            model.addAttribute("policyAction", "");
+            model.addAttribute("policyLevel", "");
+            return "viewLogs";
+        }
+        
+        String detail = policyService.decodingContent(policy.getDetail().toString().trim());
+        
+        model.addAttribute("policyDetectedName", policy.getDetected_name());
+        model.addAttribute("policyDetail", detail);
+        model.addAttribute("policyAction", policy.getAction());
+        model.addAttribute("policyLevel", policy.getLevel());
+        
         return "viewLogs";
     }
 }
