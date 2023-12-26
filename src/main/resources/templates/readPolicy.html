@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/commonStyle.css">
 	<link rel="stylesheet" href="/css/readPolicyStyle.css">
+	<link rel="stylesheet" href="/css/alertStyle.css">
 	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
 	<link rel="manifest" href="/json/manifest.json">
 	
@@ -150,13 +151,11 @@
 			const selectedChecks = document.querySelectorAll('input[name="selectedPolicy"]:checked');
 
 			if (selectedChecks.length > 1) {
-				//alert("수정은 한 개씩만 가능합니다.");
 				showModal("수정은 한 개씩만 가능합니다.");
 			} else if (selectedChecks.length === 1) {
 				const detected_no = selectedChecks[0].value;
 				window.location.href = "/admin/menu/readPolicy/updatePolicy?id=" + detected_no;
 			} else {
-				//alert("정책을 선택하세요.");
 				showModal("정책을 선택하세요.");
 			}
 		}
@@ -192,7 +191,6 @@
 		            });
 		        }
 		    } else {
-		        //alert("정책을 선택하세요.");
 		        showModal("정책을 선택하세요.")
 		    }
 		}
@@ -215,7 +213,6 @@
 		document.querySelectorAll('.individual-switch').forEach((switchInput) => {
 		    switchInput.addEventListener('click', (e) => {
 		        e.preventDefault();
-		        //alert('정책의 활성화 여부를 설정 하려면\n수정 할 정책을 체크한 후 "활성화" 또는 "비활성화" 버튼을 사용해주세요.');
 		        showModal('정책의 활성화 여부를 설정 하려면\n수정 할 정책을 체크한 후 "활성화" 또는 "비활성화" 버튼을 사용해주세요.');
 		    });
 		});
@@ -236,7 +233,6 @@
 		    const selectedSwitches = document.querySelectorAll('.selectedPolicy:checked');
 		    
 		    if (selectedSwitches.length === 0) {
-		        //alert('선택된 항목이 없습니다.\n활성화 또는 비활성화할 항목을 선택하세요.');
 		        showModal('선택된 항목이 없습니다.\n활성화 또는 비활성화할 항목을 선택하세요.');
 		        return;
 		    }
@@ -273,7 +269,7 @@
 		}
 		
 		
-		//Alert Test
+		//Alert 디자인 바꾼거 적용
 		function showModal(message) {
 		    // 메시지 설정
 		    document.querySelector('.modal-section.type-alert .menu_msg').textContent = message;

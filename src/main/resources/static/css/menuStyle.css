@@ -149,7 +149,7 @@ body {
 	width: 35px; 
 	height: 35px;
 }
-.menu-item:hover #policyIcon{
+.menu-item.selected #policyIcon{
 	background-image: url('/img/hover_policyicon.png');
 	width: 30px; 
 	height: 30px;

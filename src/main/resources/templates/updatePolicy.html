@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/commonStyle.css">
 	<link rel="stylesheet" href="/css/changePolicyStyle.css">
+	<link rel="stylesheet" href="/css/alertStyle.css">
 	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
 	<link rel="manifest" href="/json/manifest.json">
 	
@@ -34,125 +35,147 @@
 	<form class="container" id="policyForm" action="/admin/menu/readPolicy/updatePolicy" method="post"
 		onsubmit="return validateForm()">
 		<div class="left">
-			<div class="hline">
-				<h3>탐지 정책 기본 정보 수정</h3>
+			<div class="h35">
+				<div class="hline">
+					<h3>탐지 정책 기본 정보 수정</h3>
+				</div>
+	
+				<input type="hidden" id="detected_no" name="id" th:value="${policyDetails.detected_no}">
+	
+				<div class="section">
+					<span class="label">탐지명:</span>
+					<input type="text" id="detected_name" name="detected_name" th:value="${policyDetails.detected_name}"
+						style="border: 1px solid #ff0000;">
+	
+					<span class="label">유효기간:</span>
+					<input class="datepicker" type="text" id="end_time" name="end_time" th:value="${policyDetails.end_time}">
+	
+					<span class="label">위험등급:</span>
+					<select id="level" name="level">
+						<option value=0 th:selected="${policyDetails.level == 0}">하</option>
+						<option value=1 th:selected="${policyDetails.level == 1}">중</option>
+						<option value=2 th:selected="${policyDetails.level == 2}">상</option>
+						<option value=3 th:selected="${policyDetails.level == 3}">최상</option>
+					</select>
+				</div>
 			</div>
-
-			<input type="hidden" id="detected_no" name="id" th:value="${policyDetails.detected_no}">
-
-			<div class="section">
-				<span class="label">탐지명:</span>
-				<input type="text" id="detected_name" name="detected_name" th:value="${policyDetails.detected_name}"
-					style="border: 1px solid #ff0000;">
-
-				<span class="label">유효기간:</span>
-				<input class="datepicker" type="text" id="end_time" name="end_time" th:value="${policyDetails.end_time}">
-
-				<span class="label">위험등급:</span>
-				<select id="level" name="level">
-					<option value=0 th:selected="${policyDetails.level == 0}">하</option>
-					<option value=1 th:selected="${policyDetails.level == 1}">중</option>
-					<option value=2 th:selected="${policyDetails.level == 2}">상</option>
-					<option value=3 th:selected="${policyDetails.level == 3}">최상</option>
-				</select>
+			<div class="h30">
+				<div class="hline">
+					<h3>세션 정보</h3>
+				</div>
+				<div class="section">
+				    <span class="label">출발지IP[-도착지IP]</span>
+				    <input type="text" id="src_ip" name="src_ip"
+				        th:value="${policyDetails.src_ip == 'any' ? 'any' : (policyDetails.to_sip == '0' ? policyDetails.src_ip : policyDetails.src_ip + '-' + policyDetails.to_sip)}"
+				        style="border: 1px solid #ff0000;">
+				
+				    <span class="label">출발지Port[-도착지Port]</span>
+				    <input type="text" id="src_port" name="src_port"
+				        th:value="${policyDetails.src_port == 'any' ? 'any' : (policyDetails.to_sp == '0' ? policyDetails.src_port : policyDetails.src_port + '-' + policyDetails.to_sp)}"
+				        style="border: 1px solid #ff0000;">
+				</div>
 			</div>
-
-			<div class="hline">
-				<h3>세션 정보</h3>
-			</div>
-			<div class="section">
-			    <span class="label">출발지 IP:</span>
-			    <input type="text" id="src_ip" name="src_ip"
-			        th:value="${policyDetails.src_ip == 'any' ? 'any' : (policyDetails.to_sip == '0' ? policyDetails.src_ip : policyDetails.src_ip + '-' + policyDetails.to_sip)}"
-			        style="border: 1px solid #ff0000;">
-			
-			    <span class="label">출발지 Port:</span>
-			    <input type="text" id="src_port" name="src_port"
-			        th:value="${policyDetails.src_port == 'any' ? 'any' : (policyDetails.to_sp == '0' ? policyDetails.src_port : policyDetails.src_port + '-' + policyDetails.to_sp)}"
-			        style="border: 1px solid #ff0000;">
-			</div>
-			<div class="hline">
-				<h3>정책 동작</h3>
-			</div>
-			<div class="section">
-				<span class="label">동작설정:</span>
-				<select id="action" name="action">
-					<option value=0 th:selected="${policyDetails.action == 0}">로그</option>
-					<option value=1 th:selected="${policyDetails.action == 1}">로그+차단</option>
-				</select>
+			<div class="h25">
+				<div class="hline">
+					<h3>정책 동작</h3>
+				</div>
+				<div class="section">
+					<span class="label">동작설정:</span>
+					<select id="action" name="action">
+						<option value=0 th:selected="${policyDetails.action == 0}">로그</option>
+						<option value=1 th:selected="${policyDetails.action == 1}">로그+차단</option>
+					</select>
+				</div>
 			</div>
 
 		</div>
 
 		<div class="right">
-			<div class="hline">
-				<h3>탐지 패턴</h3>
-			</div>
-			<div class="r_section">
-				<div class="b_top">
-					<div class="label1">기준횟수:
-						<input type="text" id="base_time" name="base_time" class="secT"
-							th:value="${policyDetails.base_time}">
-						초 동안
-						<input type="text" id="base_limit" name="base_limit" class="numT"
-							th:value="${policyDetails.base_limit}">
-						회 발생
-					</div>
+			<div class="h50">
+				<div class="hline">
+					<h3>탐지 패턴</h3>
 				</div>
-
-				<div class="label">
-					<h8>패턴정의<h8>
-						<div class="pattenbox">
-							<div class="cont_label">내 용:
-								<input class="de_gray" type="text" id="contentInput" placeholder="content를 입력하세요.">
-								<div>
-									<button type="button" class="addB"
-										onclick="addContent(); updateDeleteButton()">추가</button>
+				<div class="r_section">
+					<div class="b_top">
+						<div class="label1">기준횟수:
+							<input type="text" id="base_time" name="base_time" class="secT"
+								th:value="${policyDetails.base_time}">
+							초 동안
+							<input type="text" id="base_limit" name="base_limit" class="numT"
+								th:value="${policyDetails.base_limit}">
+							회 발생
+						</div>
+					</div>
+	
+					<div class="label">
+						<h8>패턴정의<h8>
+							<div class="pattenbox">
+								<div class="cont_label">내 용:
+									<input class="de_gray" type="text" id="contentInput" placeholder="content를 입력하세요.">
+									<div>
+										<button type="button" class="addB"
+											onclick="addContent(); updateDeleteButton()">추가</button>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="contentT" id='result'>
-							<table>
-								<tr id="content1" th:if="${policyDetails.content1 != null}">
-									<td><span name="label_content1">content1 : </span><input type="text"
-											name="content1" th:value="${policyDetails.content1}" readonly /><button
-											type="button"
-											onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
-								</tr>
-								<tr id="content2" th:if="${policyDetails.content2 != null}">
-									<td><span name="label_content2">content2 : </span><input type="text"
-											name="content2" th:value="${policyDetails.content2}" readonly /><button
-											type="button"
-											onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
-								</tr>
-								<tr id="content3" th:if="${policyDetails.content3 != null}">
-									<td><span name="label_content3">content3 : </span><input type="text"
-											name="content3" th:value="${policyDetails.content3}" readonly /><button
-											type="button"
-											onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
-								</tr>
-							</table>
-						</div>
+							<div class="contentT" id='result'>
+								<table>
+									<tr id="content1" th:if="${policyDetails.content1 != null}">
+										<td><span name="label_content1">content1 : </span><input type="text"
+												name="content1" th:value="${policyDetails.content1}" readonly /><button
+												type="button"
+												onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
+									</tr>
+									<tr id="content2" th:if="${policyDetails.content2 != null}">
+										<td><span name="label_content2">content2 : </span><input type="text"
+												name="content2" th:value="${policyDetails.content2}" readonly /><button
+												type="button"
+												onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
+									</tr>
+									<tr id="content3" th:if="${policyDetails.content3 != null}">
+										<td><span name="label_content3">content3 : </span><input type="text"
+												name="content3" th:value="${policyDetails.content3}" readonly /><button
+												type="button"
+												onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
+									</tr>
+								</table>
+							</div>
+					</div>
 				</div>
 			</div>
-			
-			<div class="hline">
-				<h3>탐지 내용 설명</h3>
-			</div>
-			<div class="r_section">
-                  <div class="detailbox"></div>
-                  <div>
-				      <textarea id="detail" name="detail" th:text="${policyDetails.detail}" style="resize: none;"></textarea>
-				  </div>
+			<div class="h40">
+				<div class="hline">
+					<h3>탐지 내용 설명</h3>
+				</div>
+				<div class="r_section">
+	                  <div class="detailbox"></div>
+	                  <div>
+					      <textarea id="detail" name="detail" th:text="${policyDetails.detail}" style="resize: none;"></textarea>
+					  </div>
+				</div>
 			</div>
 		</div>
-
 		<div class="b_se">
 			<button class="button1" type="submit">완료</button>
 			<button class="button2" type="button" onclick="cancel()">취소</button>
 		</div>
 
 	</form>
+
+<!-- 경고창 Test -->
+	<section class="modal modal-section type-alert">
+			<div class="topHeader">
+				<button class="close-btn">&times;</button>
+			</div>
+			<div class="modalBody">
+	            <div class="enroll_box">
+	                <p class="menu_msg"></p>
+	            </div>
+	            <div class="enroll_btn">
+	                <button class="btn blue_btn modal_close">확인</button>
+	            </div>
+            </div>
+    </section>
 
 	<script>
 		$.datepicker.setDefaults({
@@ -188,7 +211,7 @@
 		        onClose: function (selectedDate) {
 		            let selected = new Date(selectedDate);
 		            if (selected < today) {
-		                alert("오늘보다 이전인 날은 선택할 수 없습니다.");
+		                showModal("오늘보다 이전인 날은 선택할 수 없습니다.");
 		                $("#end_time").datepicker("setDate", today); // 오늘 날짜로 설정
 		            }
 		        }
@@ -224,29 +247,29 @@
 			var endTime = document.getElementById("end_time").value;
 
 			if (detectedName.trim() === "") {
-				alert("탐지명은 필수 입력 항목입니다.");
+				showModal("탐지명은 필수 입력 항목입니다.");
 				return false;
 			}
 			if (endTime.trim() === "") {
-				alert("유효기간을 입력해 주세요.");
+				showModal("유효기간을 입력해 주세요.");
 				return false;
 			}
 		    if (srcIP.includes('-')) {
 			    var ipParts = srcIP.split('-');
 			    if (ipParts.length !== 2 || !isValidIp(ipParts[0]) || !isValidIp(ipParts[1])) {
-			        alert("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
+			        showModal("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
 			        return false;
 			    }
 			    var octets1 = ipParts[0].split(".");
 			    var octets2 = ipParts[1].split(".");
 			    for (var i = 0; i < 3; i++) {
 			        if (octets1[i] !== octets2[i]) {
-			            alert("IP 주소의 세번째 옥텟까지는 동일해야 합니다.");
+			            showModal("IP 주소의 세번째 옥텟까지는 동일해야 합니다.");
 			            return false;
 			        }
 			    }
 			    if (parseInt(ipParts[1].replace(/\./g, "")) < parseInt(ipParts[0].replace(/\./g, ""))) {
-			        alert("뒤의 IP 주소는 앞의 IP 주소보다 커야 합니다.");
+			        showModal("뒤의 IP 주소는 앞의 IP 주소보다 커야 합니다.");
 			        return false;
 			    }
 			    else if (ipParts[0] === ipParts[1]) {
@@ -262,17 +285,17 @@
 			    srcIP = 'any';
 			}
 			else if (!isValidIp(srcIP)) {
-			    alert("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
+			    showModal("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
 			    return false;
 			}
 			if (srcPort.includes('-')) {
 		        var portParts = srcPort.split('-');
 		        if (portParts.length !== 2 || !isValidPort(portParts[0]) || !isValidPort(portParts[1])) {
-		            alert("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
+		            showModal("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
 		            return false;
 		        }
 		        if (parseInt(portParts[1]) < parseInt(portParts[0])) {
-		            alert("뒤의 Port 번호는 앞의 Port 번호보다 커야 합니다.");
+		            showModal("뒤의 Port 번호는 앞의 Port 번호보다 커야 합니다.");
 		            return false;
 		        }
 		        else if (portParts[0] === portParts[1]) {
@@ -289,15 +312,15 @@
 		        to_sp = 0;
 		    }
 		    else if (!isValidPort(srcPort)) {
-		        alert("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
+		        showModal("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
 		        return false;
 		    }
 			if (!isPositiveNumber(baseTime)) {
-				alert("행동 탐지 기준 초는 양수만 입력 가능합니다. ");
+				showModal("행동 탐지 기준 초는 양수만 입력 가능합니다. ");
 				return false;
 			}
 			if (!isPositiveNumber(baseLimit)) {
-				alert("행동 탐지 기준 쿼리 개수는 양수만 입력 가능합니다.");
+				showModal("행동 탐지 기준 쿼리 개수는 양수만 입력 가능합니다.");
 				return false;
 			}
 			if (contentInput.value.trim() !== "") {
@@ -314,16 +337,16 @@
 					.then(response => response.text())
 					.then(function (result) {
 						if (result === 'EXIST') {
-							alert('동일한 탐지명이 이미 존재합니다.');
+							showModal('동일한 탐지명이 이미 존재합니다.');
 						} else if (result === 'NOT_EXIST') {
-							alert('정책 수정 작업이 완료되었습니다.');
+							showModal('정책 수정 작업이 완료되었습니다.');
 							document.getElementById('policyForm').submit();
 						} else {
-							alert('예상치 못한 서버 응답입니다.');
+							showModal('예상치 못한 서버 응답입니다.');
 						}
 					});
 			} else {
-				alert('정책 수정 작업이 완료되었습니다.');
+				showModal('정책 수정 작업이 완료되었습니다.');
 				document.getElementById('policyForm').submit();
 			}
 
@@ -336,7 +359,7 @@
 
 			// 아무것도 입력하고 버튼누르면 입력하라는창
 			if (content.trim() === "") {
-				alert("정책을 입력하세요.");
+				showModal("정책을 입력하세요.");
 				return;
 			}
 
@@ -350,7 +373,7 @@
 
 			if (table.rows.length < 3) {
 				if (existingContent) {
-					alert("동일한 내용이 이미 존재합니다.");
+					showModal("동일한 내용이 이미 존재합니다.");
 				} else {
 					var newRow = table.insertRow(-1);
 					var cell = newRow.insertCell(0);
@@ -378,7 +401,7 @@
 					contentInput.value = ""; // 입력 창 초기화
 				}
 			} else {
-				alert("내용은 최대 3개까지 추가 가능합니다.");
+				showModal("내용은 최대 3개까지 추가 가능합니다.");
 			}
 		}
 
@@ -469,6 +492,33 @@
 		function cancel() {
 			window.location.href = "/admin/menu/readPolicy";
 		}
+		
+		//Alert 디자인 바꾼거 적용
+		function showModal(message) {
+		    // 메시지 설정
+		    document.querySelector('.modal-section.type-alert .menu_msg').textContent = message;
+		    // 모달 표시
+		    document.querySelector('.modal-section.type-alert').style.display = 'block';
+		}
+
+		function hideModal() {
+		    // 모달 숨기기
+		    document.querySelector('.modal-section.type-alert').style.display = 'none';
+		}
+		
+		// 모달 닫기 버튼 이벤트 리스너 설정
+		document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function() {
+		    hideModal();
+		});
+		document.querySelector('.close-btn').addEventListener('click', function() {
+		    document.querySelector('.modal-section.type-alert').style.display = 'none';
+		});
+		document.addEventListener('DOMContentLoaded', function() {
+		    // 모달 닫기 버튼 이벤트 리스너 설정
+		    document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function() {
+		        hideModal();
+		    });
+		});
 	</script>
 </body>
 

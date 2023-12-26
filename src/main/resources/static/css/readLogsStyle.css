@@ -17,6 +17,12 @@ h1 {
    margin-left: 10px;
 }
 
+/* 검색된로그수 위치 */
+.log-count{
+	float: right;
+	margin-bottom: 10px;
+}
+
 /* 필터 */
 .log-list-filter {
    border: 3px solid #e0e0e0;
