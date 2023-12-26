@@ -29,14 +29,18 @@
 					<h3>Ethernet Header</h3>
 				</div>
 				<p th:each="entry : ${packetHeader[0]}" th:text="${entry.key} + ': ' + ${entry.value}"></p>
+				
 				<div class="hline" style="margin-top: 10px;">
 					<h3>IP Header</h3>
 				</div>
 				<p th:each="entry : ${packetHeader[1]}" th:text="${entry.key} + ': ' + ${entry.value}"></p>
-				<div class="hline" style="margin-top: 10px;">
-					<h3>TCP Header</h3>
-				</div>
-				<p th:each="entry : ${packetHeader[2]}" th:text="${entry.key} + ': ' + ${entry.value}"></p>
+
+				<th:block th:if="${#lists.size(packetHeader) > 2}">
+					<div class="hline" style="margin-top: 10px;">
+						<h3>TCP Header</h3>
+					</div>
+					<p th:each="entry : ${packetHeader[2]}" th:text="${entry.key} + ': ' + ${entry.value}"></p>
+				</th:block>
 			</div>
 
 			<div class="ringht_packetInfo">
@@ -49,11 +53,10 @@
 							<span th:text="${binaryData}"></span>
 						</th>
 					</div>
-					<div class="right_packetInfo"><!-- 페이로드 -->
-						<div class="">
-							
-							
-						</div>
+					<div class="right_packetInfo">
+						<th>
+							<span th:text="${asciiData}"></span>
+						</th>
 					</div>
 				</div>
 			</div>
@@ -78,7 +81,9 @@
 						<td colspan="4"><span>내용</span></td>
 					</tr>
 					<tr class="detailTextB">
-						<td class="h40" colspan="4"><spane id="detail" name="detail" value=""></spane></td>
+						<td class="h40" colspan="4">
+							<spane id="detail" name="detail" value=""></spane>
+						</td>
 					</tr>
 				</table>
 			</div>
