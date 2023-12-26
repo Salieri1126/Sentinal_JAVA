@@ -54,7 +54,7 @@ public class LogService {
     }
 
     /**
-     * 바이너리 데이터를 가공 후 패킷 데이터를 생성하는 메서드
+     * 이진 데이터를 가공 후 패킷 데이터를 생성하는 메서드
      *
      * @param binaryData 가공할 바이너리 데이터
      * @return 생성된 패킷 데이터
@@ -69,7 +69,28 @@ public class LogService {
         }
         return packetData.trim();
     }
-
+    
+    /**
+     * 이진 데이터를 ASCII 문자열로 변환하는 메서드
+     *
+     * @param binaryData 이진 데이터
+     * @return ASCII 문자열
+     */
+    public String toASCII(String binaryData) {
+        StringBuilder payload = new StringBuilder();
+        String binaryDataTrim = binaryData.replace(" ", "");
+        for (int i = 0; i < binaryDataTrim.length(); i += 2) {
+            String str = binaryDataTrim.substring(i, i + 2);
+            int intValue = Integer.parseInt(str, 16);
+            if (intValue >= 32 && intValue <= 126) {
+                payload.append((char) intValue);
+            } else {
+                payload.append(".");
+            }
+        }
+        return payload.toString();
+    }
+    
     /**
      * 헤더 추출 메서드
      *
@@ -96,14 +117,12 @@ public class LogService {
         int index = 0;
         String packetData = "";
 
-        // 이진 데이터를 2자리씩 자르고 각 부분을 공백과 함께 문자열로 만듭니다.
         while (index < binaryData.length()) {
             String packet = binaryData.substring(index, Math.min(index + 2, binaryData.length()));
             packetData += packet + " ";
             index += 2;
         }
-
-        // 가공된 헤더 데이터를 파싱하는 메서드 호출
+        
         return parseHeader(packetData.trim());
     }
 

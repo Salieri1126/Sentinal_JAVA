@@ -137,7 +137,7 @@ public class LogController {
     }
 
     /**
-     * 바이너리 데이터를 보여주는 메서드
+     * 상세 로그를 보여주는 메서드
      *
      * @param log_date  로그 날짜
      * @param log_index 로그 인덱스
@@ -151,8 +151,10 @@ public class LogController {
         String tableName = "log_" + formattedDate;
         ReadLogsEntity log = readLogsMapper.getBinaryData(tableName, log_index);
         String binaryData = logService.getPacket(log);
+        String asciiData = logService.toASCII(binaryData);
         List<Map<String, String>> packetHeader = logService.getHeader(log);
         model.addAttribute("binaryData", binaryData);
+        model.addAttribute("asciiData", asciiData);
         model.addAttribute("packetHeader", packetHeader);
         return "viewLogs";
     }
