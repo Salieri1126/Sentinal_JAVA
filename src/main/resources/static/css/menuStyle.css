@@ -38,10 +38,18 @@ body {
 }
 
 .logout {
+	background-image: url('/img/logout.png');
 	float: right;
-	height: 100%;
-	padding: 10px;
-	vertical-align: middle;
+	width: 40px;
+	height: 50px;
+	margin-top: 7px;
+	margin-right: 10px;
+}
+.logout:hover{
+	background-image: url('/img/Wlogout.png');
+	float: right;
+	width: 40px;
+	height: 50px;
 }
 
 /* 메뉴 */
