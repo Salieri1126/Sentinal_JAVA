@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SetupEntity {
-    private String dbNIC;   // 데이터베이스 NIC
-    private String dbIP;    // 데이터베이스 IP
-    private String dbPORT;  // 데이터베이스 포트
+    private String SNIFF_NIC;   // 데이터베이스 NIC
+    private String DB_IP;    // 데이터베이스 IP
+    private String DB_PORT;  // 데이터베이스 포트
 }

@@ -15,43 +15,45 @@
 </head>
 
 <body>
-	<header>
-		<div class="hline">
-			<h2>Setup</h2>
-		</div>
-	</header>
-
-	<div class="button-group">
-		<button class="button applyA" type="submit">설정</button>
-	</div>
 	<div class="applying-setup-option">
-		<form action="/admin/menu/setup" method="post" onsubmit="return confirmSubmit()">
-			<div class="input-group">
-				<label for="dbNIC">DB NIC: </label>
-				<input type="text" id="dbNIC" name="dbNIC"><br>
-			</div>
-			<div class="input-group">
-				<label for="dbIP">DB IP: </label>
-				<input type="text" id="dbIP" name="dbIP"><br>
-			</div>
-			<div class="input-group">
-				<label for="dbPORT">DB Port: </label>
-				<input type="text" id="dbPORT" name="dbPORT"><br>
-			</div>
-		</form>
+	    <form action="/admin/menu/setup/changeSetting" method="post" onsubmit="return confirmSubmit()">
+			<header style="display: flex; justify-content: space-between; width: 100%;">
+				<div class="hline">
+					<h2>파일 설정</h2>
+				</div>
+				
+				<div class="button-group-conf">
+	           		<button class="button applyA" type="submit">설정</button>
+	        	</div>
+			</header>
+	        
+	        <div class="input-group">
+	            <label for="SNIFF_NIC">DB NIC: </label>
+	            <input type="text" id="SNIFF_NIC" name="SNIFF_NIC" th:value="${SNIFF_NIC}"><br>
+	        </div>
+	        <div class="input-group">
+	            <label for="DB_IP">DB IP: </label>
+	            <input type="text" id="DB_IP" name="DB_IP" th:value="${DB_IP}"><br>
+	        </div>
+	        <div class="input-group">
+	            <label for="DB_PORT">DB Port: </label>
+	            <input type="text" id="DB_PORT" name="DB_PORT" th:value="${DB_PORT}"><br>
+	        </div>
+	    </form>
 	</div>
-
-	<header>
-		<div class="hline">
-			<h2>비밀번호 변경</h2>
-		</div>
-	</header>
-
-	<div class="button-group2">
-		<button class="button2 applyB" type="submit">비밀번호 변경</button>
-	</div>
+	
 	<div class="changing-key-word">
 		<form action="/admin/menu/changePassword" method="post" onsubmit="return confirmPasswordChange()">
+			<header style="display: flex; justify-content: space-between; width: 100%;">
+				<div class="hline">
+					<h2>비밀번호 변경</h2>
+				</div>
+				
+				<div class="button-group-pw">
+					<button class="button2 applyB" type="submit">비밀번호 변경</button>
+				</div>
+			</header>
+			
 			<div class="input-group">
 				<label for="currentPassword">현재 비밀번호: </label>
 				<input type="password" id="currentPassword" name="currentPassword"><br>
@@ -68,16 +70,34 @@
 	</div>
 
 	<script>
-		function confirmSubmit() {
-			var dbNIC = document.getElementById('dbNIC').value;
-			var dbIP = document.getElementById('dbIP').value;
-			var dbPORT = document.getElementById('dbPORT').value;
+		function isValidIp(ip) {
+			var pattern = new RegExp(/^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$/);
+			return pattern.test(ip) || ip === "0";
+		}
 
-			if (dbNIC === '' || dbIP === '' || dbPORT === '') {
-				alert("설정 입력창이 비어있습니다. 설정하실 내용을 입력해주세요.");
-				return false;
-			}
-			return confirm("설정을 적용하시겠습니까?");
+		function isValidPort(port) {
+			var pattern = new RegExp(/^[0-9]{1,5}$/);
+			return pattern.test(port) && (0 <= port && port <= 65535);
+		}
+		
+		function confirmSubmit() {
+		    var SNIFF_NIC = document.getElementById('SNIFF_NIC').value;
+		    var DB_IP = document.getElementById('DB_IP').value;
+		    var DB_PORT = document.getElementById('DB_PORT').value;
+		    
+		    if (SNIFF_NIC === '' || DB_IP === '' || DB_PORT === '') {
+		        alert("설정 입력창이 비어있습니다. 설정하실 내용을 입력해주세요.");
+		        return false;
+		    }
+		    if (!isValidIp(DB_IP)) {
+		        alert("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
+		        return false;
+		    }
+		    if (!isValidPort(DB_PORT)) {
+		        alert("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
+		        return false;
+		    }
+		    return confirm("설정을 적용하시겠습니까?");
 		}
 
 		function confirmPasswordChange() {
@@ -97,12 +117,22 @@
 		}
 
 		window.onload = function () {
-			const urlParams = new URLSearchParams(window.location.search);
-			const changePassword = urlParams.get('changePassword');
-			if (changePassword === 'false') {
-				alert('비밀번호 변경에 실패하였습니다.');
-			} else if (changePassword === 'true') {
-				alert('비밀번호 변경에 성공하였습니다.');
+		    const urlParams = new URLSearchParams(window.location.search);
+		    const changePassword = urlParams.get('changePassword');
+		    const changeSetting = urlParams.get('changeSetting');
+		    
+		    if (changePassword === 'false') {
+		        alert('비밀번호 변경에 실패하였습니다.');
+		    } else if (changePassword === 'true') {
+		        alert('비밀번호 변경에 성공하였습니다.');
+		    }
+		    
+			if (changeSetting === 'false') {
+			    alert('설정 변경에 실패하였습니다.');
+			} else if (changeSetting === 'same') {
+			    alert('입력된 정보와 기존 정보가 동일하여\n변경 사항이 적용되지 않았습니다.');
+			} else if (changeSetting === 'true') {
+			    alert('설정 변경에 성공하였습니다.');
 			}
 		}
 	</script>

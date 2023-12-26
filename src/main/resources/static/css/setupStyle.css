@@ -6,13 +6,9 @@ body {
    margin-left : 150px;   
 }
 
-header {
-   padding: 5px;
-}
-
-
 /* 제목앞에 파란색 라인 */
 .hline {
+   width: 300px;
    border-left: 7px solid #447294;
 }
 
@@ -25,8 +21,8 @@ h2 {
 .applying-setup-option {
    border: 3px solid #e0e0e0;
    border-radius: 5px;
-   padding: 20px;
-   height: 35%;
+   padding: 40px;
+   height: 40%;
    width: 835px;
    display: flex;
    overflow : hidden;  
@@ -44,7 +40,6 @@ h2 {
   align-items: center;
   margin-top: 15px;
   margin-bottom: 15px;
-  
 }
 
 .input-group label {
@@ -63,12 +58,11 @@ h2 {
   margin-bottom: 15px;
 }
 
-
 .changing-key-word {
    border: 3px solid #e0e0e0;
    border-radius: 5px;
-   padding: 20px;
-   height: 35%;
+   padding: 40px;
+   height: 40%;
    width: 835px;
    display: flex;
    overflow : hidden;
@@ -80,14 +74,14 @@ h2 {
    clear: both;
 }
 
-.button-group {
+.button-group-conf {
    width: 835px;
-   margin-left :764px;   
+   margin-left :380px;
 }
 
-.button-group2 {
+.button-group-pw {
    width: 835px;
-   margin-left :713px;   
+   margin-left :330px;  
 }
 
 .button {
