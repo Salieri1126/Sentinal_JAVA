@@ -166,5 +166,11 @@ h3 {
 
 /* Payload 하이라이트 */
 .highlight {
-  background-color: #447294;
+  background-color: #4aabed;
+  color: #fff;
+}
+
+p:hover{
+  background-color: #4aabed;
+  color: #fff;
 }
