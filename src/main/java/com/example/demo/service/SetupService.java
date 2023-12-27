@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,7 +19,7 @@ import com.example.demo.model.file.SetupEntity;
 public class SetupService {
     
     // 설정 파일 경로
-    final String PATH = "C:\\Users\\chlru\\Desktop\\Study\\Project\\dbms_ips_manager.conf";
+    final String PATH = "/home/rocky/manager/dbms_ips_manager.conf";
     final File FILE = new File(PATH);
 
     /**
@@ -41,7 +42,13 @@ public class SetupService {
                 }
             }
         } catch (IOException e) {
-            System.err.println("파일 읽는 중 에러 발생: " + e.getMessage());
+        	if (e.getCause() instanceof FileNotFoundException) {
+        		System.out.println("========== 설정 파일을 찾을 수 없습니다. 지정된 경로를 다시 확인하세요. ==========");
+            } else if (e instanceof IOException) {
+            	System.out.println("========== 설정 파일을 읽어오는 중 오류가 발생했습니다. 지정된 경로를 다시 확인하세요. ==========");
+            } else {
+            	System.out.println("========== 설정 파일을 처리 중 오류가 발생했습니다. ==========");
+            }
         }
         return currentSetup;
     }
@@ -54,7 +61,6 @@ public class SetupService {
      *              -1: 파일 생성이나 변경 중 에러가 발생했음을 의미
      *              0: 입력된 정보와 기존 정보가 동일하여 파일 변경이 일어나지 않았음을 의미 
      *              1: 파일 생성이나 변경이 성공적으로 이루어졌음을 의미
-     * @throws IOException
      */
     public int makeConfFile(SetupEntity setupEntity) {
         final File BACKUP_FILE = new File(PATH + "_backup");
@@ -87,12 +93,16 @@ public class SetupService {
                     writer.write(line + "\n");
                 }
             } catch (IOException e) {
-                System.err.println("백업 파일 읽어오는 중 에러 발생: " + e.getMessage());
-                return -1;
+                if (e.getCause() instanceof FileNotFoundException) {
+            		System.out.println("========== 백업 파일 읽어오는 중 오류가 발생했습니다. ==========");
+            		return -1;
+                }
             }
         } catch (IOException e) {
-            System.err.println("파일 생성 중 에러 발생: " + e.getMessage());
-            return -1;
+        	if (e.getCause() instanceof FileNotFoundException) {
+        		System.out.println("========== 백업 파일 생성 중 오류가 발생했습니다. ==========");
+        		return -1;
+            }
         }
         return 1;
     }

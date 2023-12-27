@@ -310,7 +310,7 @@
 			        }
 			    }
 			    if (parseInt(ipParts[1].replace(/\./g, "")) < parseInt(ipParts[0].replace(/\./g, ""))) {
-			        alert("뒤의 IP 주소는 앞의 IP 주소보다 커야 합니다.");
+			        alert("뒤쪽의 IP 주소는 앞의 IP 주소보다 커야 합니다.");
 			        return false;
 			    }
 			    else if (ipParts[0] === ipParts[1]) {
@@ -336,7 +336,7 @@
 		            return false;
 		        }
 		        if (parseInt(portParts[1]) < parseInt(portParts[0])) {
-		            alert("뒤의 Port 번호는 앞의 Port 번호보다 커야 합니다.");
+		            alert("뒤쪽의 Port 번호는 앞의 Port 번호보다 커야 합니다.");
 		            return false;
 		        }
 		        else if (portParts[0] === portParts[1]) {

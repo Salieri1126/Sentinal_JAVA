@@ -23,17 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 
     private final MemberService memberService;
-
-    /**
-     * 루트 경로로 리다이렉트하는 메서드
-     *
-     * @return 관리자 페이지로의 리다이렉트
-     */
-    @GetMapping("/")
-    public String showLoginForm_1() {
-        return "redirect:/admin";
-    }
-
+    
     /**
      * 로그인 화면을 보여주는 메서드
      *
@@ -43,14 +33,20 @@ public class MemberController {
     public String showLoginForm_2() {
         return "login";
     }
-
-    /**
-     * 루트 경로로 리다이렉트하는 메서드
-     *
-     * @return 관리자 페이지로의 리다이렉트
-     */
+    @GetMapping("/")
+    public String showLoginForm_1() {
+        return "redirect:/admin";
+    }
     @GetMapping("/admin/")
     public String showLoginForm_3() {
+        return "redirect:/admin";
+    }
+    @GetMapping("/login")
+    public String showLoginForm_4() {
+        return "redirect:/admin";
+    }
+    @GetMapping("/login/")
+    public String showLoginForm_5() {
         return "redirect:/admin";
     }
 
