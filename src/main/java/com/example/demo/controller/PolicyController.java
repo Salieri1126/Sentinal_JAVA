@@ -232,7 +232,8 @@ public class PolicyController {
     }
     
     /**
-     * ReadPolicyEntity의 활성화 상태를 업데이트하고 정책 업데이트를 트리거하는 메서드
+     * ReadPolicyEntity의 활성화 상태를 업데이트하고
+     * 엔진에게 UDP 신호를 전송하는 메서드
      *
      * @param policy 업데이트할 정보를 포함하는 ReadPolicyEntity
      * @return 성공적인 업데이트를 나타내는 내용의 ResponseEntity
