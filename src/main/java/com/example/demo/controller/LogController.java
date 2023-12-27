@@ -184,8 +184,8 @@ public class LogController {
         model.addAttribute("asciiData", asciiData);
         model.addAttribute("packetHeader", packetHeader);
         
-        // 로그 데이터의 detected_name을 사용하여 정책 데이터 조회
-        ReadLogsEntity logDetail = readLogsMapper.findByDetectedName(tableName, log_index);
+        // 로그 데이터의 detected_no을 사용하여 정책 데이터 조회
+        ReadLogsEntity logDetail = readLogsMapper.findByDetectedNo(tableName, log_index);
         if (logDetail == null) {
             model.addAttribute("policyDetectedName", "");
             model.addAttribute("policyDetail", "");
@@ -194,8 +194,8 @@ public class LogController {
             return "viewLogs";
         }
         
-        String target = logDetail.getDetected_name();
-        ViewPolicyEntity policy = viewPolicyMapper.findByDetectedName(target);
+        Integer target = logDetail.getDetected_no();
+        ViewPolicyEntity policy = viewPolicyMapper.findByDetectedNo(target);
         if (policy == null) {
             model.addAttribute("policyDetectedName", "");
             model.addAttribute("policyDetail", "");

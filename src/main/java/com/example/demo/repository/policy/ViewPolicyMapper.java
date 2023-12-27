@@ -24,5 +24,5 @@ public interface ViewPolicyMapper {
      * @param detectedName 정책 이름
      * @return             정책 이름에 해당하는 정책 정보
      */
-    ViewPolicyEntity findByDetectedName(String detectedName);
+    ViewPolicyEntity findByDetectedNo(Integer detected_no);
 }
