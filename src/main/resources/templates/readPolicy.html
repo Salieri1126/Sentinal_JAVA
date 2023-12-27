@@ -24,10 +24,11 @@
 		<div class="buttonbox1">
 			<button class="add-btn" id="activate-button">활성화</button>
 			<button class="edit-btn" id="deactivate-button">비활성화</button>
+			<div class="viewPolicyInfo">
+				<p>※각 정책의 이름을 클릭시 상세보기로 이동</p>
+			</div>
 		</div>
-		<div class="viewPolicyInfo">
-			<p>※각 정책의 이름을 클릭시 상세보기로 이동</p>
-		</div>
+
 		<div class="buttonbox">
 			<button class="add-btn" onclick="location.href='/admin/menu/readPolicy/insertPolicy'">추가</button>
 			<button class="edit-btn" onclick="updatePolicy()">수정</button>
@@ -189,33 +190,48 @@
 			const selectedChecks = document.querySelectorAll('input[name="selectedPolicy"]:checked');
 
 			if (selectedChecks.length > 0) {
-				showConfirmationModal("선택된 정책을 모두 삭제하시겠습니까?", function () {
-					// 확인 버튼 클릭 시 실행할 동작 추가
-					const detected_nos = Array.from(selectedChecks).map(check => parseInt(check.value));
-
-					fetch('/admin/menu/readPolicy/deletePolicies', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({ids: detected_nos})
-					})
-						.then(response => {
-							if (!response.ok) {
-								throw new Error('네트워크 응답 없음.');
-							}
-							return response.json();
-						})
-						.then(data => {
-							window.location.href = "/admin/menu/readPolicy";
-						})
-						.catch(error => {
-							console.error('fetch 작업 중 문제가 발생했습니다:', error);
-						});
+				let isActivePolicySelected = Array.from(selectedChecks).some(check => {
+					return check.closest('tr').querySelector('.individual-switch').checked;
 				});
+
+				if (isActivePolicySelected) {
+					showConfirmationModal("활성화된 정책이 선택되었습니다. 삭제하시겠습니까?", function () {
+						performDeletion(selectedChecks);
+					});
+				} else {
+					showConfirmationModal("선택된 정책을 모두 삭제하시겠습니까?", function () {
+						performDeletion(selectedChecks);
+					});
+				}
 			} else {
-				showModal("정책을 선택하세요.")
+				showModal("정책을 선택하세요.");
 			}
+		}
+
+		function performDeletion(selectedChecks) {
+			const policyIds = Array.from(selectedChecks).map(check => parseInt(check.value));
+
+			fetch('/admin/menu/readPolicy/deletePolicies', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ids: policyIds})
+			})
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('Network response was not ok.');
+					}
+					return response.json();
+				})
+				.then(data => {
+					showModal(`${data.deletedCount}개의 정책이 성공적으로 삭제되었습니다.`);
+					window.location.reload();
+				})
+				.catch(error => {
+					console.error('There has been a problem with your fetch operation:', error);
+					showModal('삭제 중 오류가 발생했습니다.');
+				});
 		}
 
 		function toggleAllCheckboxes() {
@@ -237,7 +253,7 @@
 		});
 
 		document.querySelector('#activate-button').addEventListener('click', function () {
-			showConfirmationModal('정말로 선택한 항목들을 활성화하시겠습니까?', function () {
+			showConfirmationModal('정말로 선택한 항목들을\n활성화하시겠습니까?', function () {
 				updateSelectedPolicies(1);
 			});
 		});
@@ -279,6 +295,9 @@
 						// 추가된 부분: 비활성화 후 체크박스가 자동으로 풀리도록 함
 						const headerCheckbox = document.querySelector('thead .click');
 						headerCheckbox.checked = false;
+					})
+					.catch(error => {
+						console.error('fetch 작업 중 문제가 발생했습니다:', error);
 					});
 			});
 

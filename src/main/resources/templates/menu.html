@@ -46,7 +46,7 @@
 	</div>
 	<div class="sidebar">
 		<div class="menubox">
-			<a href="#" class="menu-item" onclick="loadContent('/admin/home')" >
+			<a href="#" class="menu-item" onclick="loadContent('/admin/home')">
 				<div class="icon" id="homeIcon"></div>
 				<p>홈</p>
 			</a>
@@ -77,31 +77,31 @@
 
 	<script>
 		function loadContent(url) {
-    var menuItems = document.querySelectorAll('.menu-item');
-    menuItems.forEach(function (menuItem) {
-        menuItem.classList.remove('selected');
-    });
+			var menuItems = document.querySelectorAll('.menu-item');
+			menuItems.forEach(function (menuItem) {
+				menuItem.classList.remove('selected');
+			});
 
-    // 이전 선택된 메뉴 아이템에 대한 쿼리 수정
-    var currentMenuItem = document.querySelector('.menu-item[onclick*="' + url.replace(/'/g, "\\'") + '"]');
-    if(currentMenuItem) {
-        currentMenuItem.classList.add('selected');
-    }
+			// 이전 선택된 메뉴 아이템에 대한 쿼리 수정
+			var currentMenuItem = document.querySelector('.menu-item[onclick*="' + url.replace(/'/g, "\\'") + '"]');
+			if (currentMenuItem) {
+				currentMenuItem.classList.add('selected');
+			}
 
-    document.getElementById("contentFrame").src = url;
-}
+			document.getElementById("contentFrame").src = url;
+		}
 
-		
+
 		function confirmLogout() {
-        	return confirm('로그아웃 하시겠습니까?');
-    	}
-		
+			return confirm('로그아웃 하시겠습니까?');
+		}
+
 		window.onload = function () {
 			// 초기에 홈 메뉴에 대한 스타일을 적용
-		    var homeMenuItem = document.querySelector('[onclick="loadContent(\'/admin/home\')"]');
-		    if(homeMenuItem){
-		    homeMenuItem.classList.add('selected');
-			loadContent('/admin/home');
+			var homeMenuItem = document.querySelector('[onclick="loadContent(\'/admin/home\')"]');
+			if (homeMenuItem) {
+				homeMenuItem.classList.add('selected');
+				loadContent('/admin/home');
 			}
 		};
 	</script>
