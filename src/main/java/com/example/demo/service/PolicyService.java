@@ -51,15 +51,7 @@ public class PolicyService {
     public String decodingContent(String content) throws UnsupportedEncodingException {
         return URLDecoder.decode(content, StandardCharsets.UTF_8.toString());
     }
-
-    /**
-     * 주기적으로 실행되는 메서드로, 정책 업데이트를 수행하여 활성화 상태를 업데이트합니다.
-     */
-    @Scheduled(cron = "0 0 0 * * *")
-    public void updateEnableStatus() {
-        updatePolicyMapper.updateEnableStatus();
-    }
-
+    
     /**
      * 주어진 포트 범위를 "~"를 기준으로 분리하는 메서드
      *
@@ -68,6 +60,15 @@ public class PolicyService {
      */
     public String[] isSplit(String portRange) {
         return portRange.split("-");
+    }
+
+    /**
+     * 주기적으로 실행되는 메서드로, 정책 업데이트를 수행하여 활성화 상태를 업데이트합니다.
+     */
+    @Scheduled(cron = "0 0 0 * * *")
+    public void updateEnableStatus() {
+        updatePolicyMapper.updateEnableStatus();
+        triggerPolicyUpdate();
     }
     
     /**
@@ -78,7 +79,7 @@ public class PolicyService {
     }
 
     /**
-     * 주기적으로 실행되며 정책이 업데이트되었을 때 UDP 신호를 전송하는 메서드
+     * 주기적으로 실행되며 정책의 유효기간이 지나 비활성화되었을 때 UDP 신호를 전송하는 메서드
      * 업데이트 후 플래그를 다시 false로 설정하여 중복 전송을 방지합니다.
      *
      * @throws IOException UDP 신호 전송 중 발생할 수 있는 입출력 예외입니다.
@@ -98,7 +99,7 @@ public class PolicyService {
      */
     public void sendUDP() {
         final String RECEIVER_HOST = "192.168.1.14";
-        final int RECEIVER_PORT = 9999;
+        final int RECEIVER_PORT = 21113;
         final String MESSAGE = "updatePolicy";
 
         try {
