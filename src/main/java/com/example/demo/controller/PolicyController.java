@@ -240,30 +240,38 @@ public class PolicyController {
     @PostMapping("/admin/menu/readPolicy/updatePolicyEnable")
     public ResponseEntity<Void> updatePolicyEnable(@RequestBody ReadPolicyEntity policy) {
         readPolicyMapper.updatePolicyEnable(policy.getDetected_no(), policy.getEnable());
-        policyService.triggerPolicyUpdate();
+        policyService.sendUDP();
         return ResponseEntity.ok().build();
     }
     
     /**
-     * 제공된 ID 목록을 기반으로 정책을 삭제하고 엔진에게 UDP 신호를 전송하는 메서드
+     * 제공된 ID 목록을 기반으로 정책을 삭제하고, enable 상태가 1인 정책이 삭제되었을 경우
+     * 엔진에게 UDP 신호를 전송하는 메서드
      *
      * @param payload "ids" 키 아래에 정책 ID 목록을 포함하는 Map
      * @return 응답 본문에 성공 지표가 포함된 ResponseEntity
      */
     @PostMapping("/admin/menu/readPolicy/deletePolicies")
     @Transactional
-    public ResponseEntity<?> deletePolicies(@RequestBody Map<String, List<Integer>> policy) {
-        List<Integer> detected_ids = policy.get("ids");
+    public ResponseEntity<?> deletePolicies(@RequestBody Map<String, List<Integer>> payload) {
+        List<Integer> detected_ids = payload.get("ids");
+        boolean sendUdpSignal = false;
 
         for (int detected_no : detected_ids) {
+            // 삭제 전에 enable 상태를 확인
+            int enableStatus = readPolicyMapper.getPolicyEnableStatusById(detected_no);
+            if (enableStatus == 1) {
+                sendUdpSignal = true;
+            }
             deletePolicyMapper.deletePolicyById(detected_no);
         }
 
-        policyService.sendUDP();
+        if (sendUdpSignal) {
+            policyService.sendUDP();
+        }
 
         return ResponseEntity.ok(Map.of("success", true));
     }
-
     
     /**
      * 정책 이름 중복을 체크하는 메서드

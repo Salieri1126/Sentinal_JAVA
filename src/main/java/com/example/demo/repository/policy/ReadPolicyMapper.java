@@ -35,4 +35,13 @@ public interface ReadPolicyMapper {
      * @param enable      활성 상태 (1: 활성, 0: 비활성)
      */
     void updatePolicyEnable(@Param("detected_no") Integer detected_no, @Param("enable") Integer enable);
+    
+    /**
+     * 주어진 검출 번호(detected_no)에 해당하는 정책의 활성화 상태(enable)를 조회합니다.
+     * 활성화 상태는 정수 형태로 반환되며, 1은 활성화, 0은 비활성화를 나타냅니다.
+     *
+     * @param detected_no 조회할 정책의 고유 검출 번호
+     * @return 해당 정책의 활성화 상태를 나타내는 정수 (1 또는 0)
+     */
+	int getPolicyEnableStatusById(int detected_no);
 }
