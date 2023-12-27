@@ -7,7 +7,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/commonStyle.css">
 	<link rel="stylesheet" href="/css/changePolicyStyle.css">
-	<link rel="stylesheet" href="/css/alertStyle.css">
 	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
 	<link rel="manifest" href="/json/manifest.json">
 	
@@ -135,35 +134,6 @@
 			<button class="button2" type="button" onclick="cancel()">취소</button>
 		</div>
 	</form>
-<!-- 경고창 Test -->
-	<section class="modal modal-section type-alert">
-			<div class="topHeader">
-				<!--<button class="close-btn">&times;</button>-->
-			</div>
-			<div class="modalBody">
-	            <div class="enroll_box">
-	                <p class="menu_msg"></p>
-	            </div>
-	            <div class="enroll_btn">
-	                <button class="btn blue_btn modal_close">확인</button>
-	            </div>
-            </div>
-    </section>
-    <!-- Confirm 창-->
-	<section class="modal modal-section type-confirm">
-		<div class="topHeader">
-			<!--<button class="close-btn">&times;</button>-->
-		</div>
-		<div class="modalBody">
-			<div class="enroll_box">
-				<p class="menu_msg"></p>
-			</div>
-			<div class="enroll_btn">
-				<button class="btn blue_btn btn_ok">확인</button>
-				<button class="btn gray_btn modal_close">취소</button>
-			</div>
-		</div>
-	</section>
     
 	<script>
 		$.datepicker.setDefaults({
@@ -181,6 +151,7 @@
 			weekHeader: "주",
 			yearSuffix: '년'
 		});
+		
 		function isValidDate(dateString) {
 		    var regEx = /^\d{4}-\d{2}-\d{2}$/;
 		    if(!dateString.match(regEx)) return 'invalid';  // Invalid format
@@ -207,12 +178,12 @@
 			    }
 			    const dateCheck = isValidDate(inputValue);
 			    if (dateCheck === "invalid") {
-			        showModal("유효하지 않은 날짜 형식입니다.");
+			        alert("유효하지 않은 날짜 형식입니다.");
 			        $(this).val("");
 			        $("#end_time").datepicker("setDate", nextMonth);
 			    }
 			    else if (dateCheck === "past") {
-			        showModal("오늘보다 이전인 날은 선택할 수 없습니다.");
+			        alert("오늘보다 이전인 날은 선택할 수 없습니다.");
 			        $(this).val("");
 			        $("#end_time").datepicker("setDate", nextMonth);
 			    }
@@ -224,7 +195,7 @@
 		        beforeShow: function (input, inst) {
 		            let inputValue = $(input).val();
 		            if (!isValidDate(inputValue)) {
-		                showModal("오늘보다 이전인 날은 선택할 수 없습니다.");
+		                alert("오늘보다 이전인 날은 선택할 수 없습니다.");
 		                $(input).val("");
 		                $("#end_time").datepicker("setDate", nextMonth);
 		                return false;
@@ -267,7 +238,7 @@
 		    var regExp = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 		
 		    if(regExp.test(detectedName.value)) {
-		        showModal("한글은 입력하실 수 없습니다. 다시 입력해주세요.");
+		        alert("한글은 입력하실 수 없습니다. 다시 입력해주세요.");
 		        detectedName.value = detectedName.value.replace(regExp, '');
 		    }
 		}
@@ -285,29 +256,29 @@
 			var detail = document.getElementById("detail").value;
 
 			if (detectedName.trim() === "") {
-				showModal("탐지명은 필수 입력 항목입니다.");
+				alert("탐지명은 필수 입력 항목입니다.");
 				return false;
 			}
 			if (endTime.trim() === "") {
-				showModal("유효기간을 입력해 주세요.");
+				alert("유효기간을 입력해 주세요.");
 				return false;
 			}
 		    if (srcIP.includes('-')) {
 			    var ipParts = srcIP.split('-');
 			    if (ipParts.length !== 2 || !isValidIp(ipParts[0]) || !isValidIp(ipParts[1])) {
-			        showModal("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
+			        alert("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
 			        return false;
 			    }
 			    var octets1 = ipParts[0].split(".");
 			    var octets2 = ipParts[1].split(".");
 			    for (var i = 0; i < 3; i++) {
 			        if (octets1[i] !== octets2[i]) {
-			            showModal("IP 주소의 세번째 옥텟까지는 동일해야 합니다.");
+			            alert("IP 주소의 세번째 옥텟까지는 동일해야 합니다.");
 			            return false;
 			        }
 			    }
 			    if (parseInt(ipParts[1].replace(/\./g, "")) < parseInt(ipParts[0].replace(/\./g, ""))) {
-			        showModal("뒤의 IP 주소는 앞의 IP 주소보다 커야 합니다.");
+			        alert("뒤의 IP 주소는 앞의 IP 주소보다 커야 합니다.");
 			        return false;
 			    }
 			    else if (ipParts[0] === ipParts[1]) {
@@ -323,17 +294,17 @@
 			    srcIP = 'any';
 			}
 			else if (!isValidIp(srcIP)) {
-			    showModal("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
+			    alert("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
 			    return false;
 			}
 			if (srcPort.includes('-')) {
 		        var portParts = srcPort.split('-');
 		        if (portParts.length !== 2 || !isValidPort(portParts[0]) || !isValidPort(portParts[1])) {
-		            showModal("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
+		            alert("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
 		            return false;
 		        }
 		        if (parseInt(portParts[1]) < parseInt(portParts[0])) {
-		            showModal("뒤의 Port 번호는 앞의 Port 번호보다 커야 합니다.");
+		            alert("뒤의 Port 번호는 앞의 Port 번호보다 커야 합니다.");
 		            return false;
 		        }
 		        else if (portParts[0] === portParts[1]) {
@@ -350,31 +321,31 @@
 		        to_sport = 0;
 		    }
 		    else if (!isValidPort(srcPort)) {
-		        showModal("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
+		        alert("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
 		        return false;
 		    }
 			if (!isPositiveNumber(baseTime)) {
-				showModal("행동 탐지 기준 초는 양수만 입력 가능합니다. ");
+				alert("행동 탐지 기준 초는 양수만 입력 가능합니다. ");
 				return false;
 			}
 			if (!isPositiveNumber(baseLimit)) {
-				showModal("행동 탐지 기준 쿼리 개수는 양수만 입력 가능합니다.");
+				alert("행동 탐지 기준 쿼리 개수는 양수만 입력 가능합니다.");
 				return false;
 			}
 			if (contentInput.value.trim() !== "") {
-		        showConfirmationModal("입력한 내용이 추가되지 않았습니다. 그래도 적용하시겠습니까?", function () {
+		        confirm("입력한 내용이 추가되지 않았습니다. 그래도 적용하시겠습니까?", function () {
 		            document.forms["policyForm"].submit();
 		        }, function () {
-		            showModal("취소되었습니다.");
+		            alert("취소되었습니다.");
 		        });
 		        return false;
 		    }
 			if (detectedName.trim().length > 50) {
-		        showModal("탐지명은 50자 이하여야 합니다.");
+		        alert("탐지명은 50자 이하여야 합니다.");
 		        return false;
 		    }
 		    if (detail.trim().length > 200) {
-		        showModal("탐지명은 200자 이하여야 합니다.");
+		        alert("탐지명은 200자 이하여야 합니다.");
 		        return false;
 		    }
 			
@@ -382,12 +353,12 @@
 				.then(response => response.text())
 				.then(function (result) {
 					if (result === 'EXIST') {
-						showModal('동일한 탐지명이 이미 존재합니다.');
+						alert('동일한 탐지명이 이미 존재합니다.');
 					} else if (result === 'NOT_EXIST') {
 						document.getElementById('policyForm').submit();
-						showModal('정책 추가 작업이 완료되었습니다.');
+						alert('정책 추가 작업이 완료되었습니다.');
 					} else {
-						showModal('예상치 못한 서버 응답입니다.');
+						alert('예상치 못한 서버 응답입니다.');
 					}
 				});
 
@@ -400,13 +371,13 @@
 
 			// 아무것도 입력하지 않으면 경고 메시지 표시
 			if (content.trim() === "") {
-				showModal("정책을 입력하세요.");
+				alert("정책을 입력하세요.");
 				return;
 			}
 			
 			// 입력 내용이 200자를 초과하면 경고 메시지를 표시합니다.
 		    if (content.trim().length > 200) {
-		        showModal("내용은 최대 200자까지 입력 가능합니다.");
+		        alert("내용은 최대 200자까지 입력 가능합니다.");
 		        return;
 		    }
 
@@ -420,7 +391,7 @@
 
 			if (table.rows.length < 3) {
 				if (existingContent) {
-					showModal("동일한 내용이 이미 존재합니다.");
+					alert("동일한 내용이 이미 존재합니다.");
 				} else {
 					var newRow = table.insertRow(-1);
 					var cell = newRow.insertCell(0);
@@ -448,7 +419,7 @@
 					contentInput.value = ""; // 입력 창 초기화
 				}
 			} else {
-				showModal("내용은 최대 3개까지 추가 가능합니다.");
+				alert("내용은 최대 3개까지 추가 가능합니다.");
 			}
 		}
 
@@ -537,91 +508,6 @@
 		function changeScreen(screenId) {
 			// 화면 교체
 			location.href = screenId;
-		}
-		
-//Alert 디자인 바꾼거 적용
-		function showModal(message, isConfirm = false) {
-			const modalType = isConfirm ? 'type-confirm' : 'type-alert';
-
-			// 메시지 설정
-			document.querySelector(`.modal-section.${modalType} .menu_msg`).textContent = message;
-			// 모달 표시
-			document.querySelector(`.modal-section.${modalType}`).style.display = 'block';
-		}
-
-		function hideModal(isConfirm = false) {
-			const modalType = isConfirm ? 'type-confirm' : 'type-alert';
-
-			// 모달 숨기기
-			document.querySelector(`.modal-section.${modalType}`).style.display = 'none';
-		}
-
-		// 모달 닫기 버튼 이벤트 리스너 설정
-		document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function () {
-			hideModal();
-		});
-
-		document.querySelector('.close-btn').addEventListener('click', function () {
-			hideModal();
-		});
-
-		document.querySelector('.modal-section.type-confirm .modal_close').addEventListener('click', function () {
-			hideModal(true);
-		});
-
-		document.querySelector('.modal-section.type-confirm .btn_ok').addEventListener('click', function () {
-			// 확인 버튼 클릭 시 실행할 동작 추가
-			hideModal(true);
-		});
-
-		document.querySelector('.modal-section.type-confirm .btn.gray_btn').addEventListener('click', function () {
-			// 취소 버튼 클릭 시 실행할 동작 추가
-			hideModal(true);
-		});
-
-		document.addEventListener('DOMContentLoaded', function () {
-			// 모달 닫기 버튼 이벤트 리스너 설정
-			document.querySelector('.modal-section.type-alert .modal_close').addEventListener('click', function () {
-				hideModal();
-			});
-
-			document.querySelector('.modal-section.type-confirm .modal_close').addEventListener('click', function () {
-				hideModal(true);
-			});
-
-			document.querySelector('.modal-section.type-confirm .btn_ok').addEventListener('click', function () {
-				// 확인 버튼 클릭 시 실행할 동작 추가
-				hideModal(true);
-			});
-
-			document.querySelector('.modal-section.type-confirm .btn.gray_btn').addEventListener('click', function () {
-				// 취소 버튼 클릭 시 실행할 동작 추가
-				hideModal(true);
-			});
-		});
-		function showConfirmationModal(message, onConfirm, onCancel) {
-			const modalType = 'type-confirm';
-			const modalSection = document.querySelector(`.modal-section.${modalType}`);
-			const modalMessage = modalSection.querySelector('.menu_msg');
-			const btnOk = modalSection.querySelector('.btn_ok');
-			const btnCancel = modalSection.querySelector('.btn.gray_btn');
-
-			// 메시지 설정
-			modalMessage.textContent = message;
-
-			// 모달 표시
-			modalSection.style.display = 'block';
-
-			// 확인 및 취소 작업 처리
-			btnOk.addEventListener('click', function () {
-				hideModal(true);
-				if (onConfirm) onConfirm();
-			});
-
-			btnCancel.addEventListener('click', function () {
-				hideModal(true);
-				if (onCancel) onCancel();
-			});
 		}
 	</script>
 </body>
