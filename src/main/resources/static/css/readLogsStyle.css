@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 body {
-   padding: 30px;
+   padding: 15px 30px;
 }
 
 header {
@@ -28,7 +28,7 @@ h1 {
    border: 3px solid #e0e0e0;
    border-radius: 5px;
    padding: 15px;
-   height: 25%;
+   height: 23%;
    width: 100%;
    overflow : hidden;
    flex-direction: row;
@@ -37,21 +37,17 @@ h1 {
    font-weight: bold;
 }
 
-h2 {
-	
-}
-
 .log-list-filter form{
    display: flex; 
 }
 
 .lft {   
-    width: 30%;
+    width: 28%;
     box-sizing: border-box;   
 }
 
 .cen {    
-    width: 30%;   
+    width: 28%;   
     box-sizing: border-box;   
 }
 
@@ -64,50 +60,28 @@ h2 {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  
+}
+.cen{
+	margin: 0 3%;
 }
 
 .input-group label {
   margin-right: 10px;
-  width: 100px;
   margin-bottom: 5px;
+  font-size: 16px;
+  width: 100px;
 }
 
 .input-group input {
-  width:  50px;
   height: 30px;
   border-radius: 5px;
   border: 1px solid #ccc;
   margin-bottom: 5px;
-}
-
-.lft .input-group input { 
-	font-size: 16px;
-  	width: 200px;
-  	margin-bottom: 5px;
-}
-
-.cen .input-group {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.cen .input-group label {
-  width: 80px;
-  margin-right: 5px;
+  padding: 0 10px;
   font-size: 16px;
-  margin-bottom: 5px;
-}
-
-.cen .input-group input {
-  font-size: 16px;
-  padding: 2px;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-  width: 200px;
-  margin-bottom: 5px;
+  width: 170px;
 }
 
 .cen .input-group select {
@@ -115,16 +89,12 @@ h2 {
   padding: 2px;
   border-radius: 3px;
   border: 1px solid #ccc;
-  width: 200px;
+  width: 190px;
   margin-bottom: 5px;
 }
 
 .rft .input-group {
-  display: flex;
-  flex-direction: row;
   justify-content: flex-end;
-  align-items: left;
-  margin-bottom: 5px;
 }
 
 .rft .input-group label { 
@@ -135,11 +105,11 @@ h2 {
 
 .rft .input-group input {
   font-size: 16px;
-  padding: 2px;
+  padding: 0 10px;
   border-radius: 3px;
   border: 1px solid #ccc;  
   margin-right: 15px;
-  width: 95px;
+  width: 120px;
   margin-bottom: 5px;
 }
 
@@ -163,30 +133,25 @@ h2 {
 .button-group {
 	display: flex;
 	justify-content: right; 
-	padding: 9px;
-}
-
-.button-group label {
-   margin: 0px 15px;   
 }
 
 .button2 {
    width: 80px;
-   height: 40px;
+   height: 35px;
    border: none;
    color: white;
    border-radius: 5px;
    text-align: center;
    text-decoration: none;
    display: inline-block;
-   font-size: 13px;
+   font-size: 14px;
    font-weight: bold;
-   margin: 0px 5px;
    cursor: pointer;   
 }
 
 .applyB {
    background-color: #3498db;
+   margin-right: 10px;
 }
 
 .resetB {
@@ -199,8 +164,7 @@ h2 {
     width: 100%;
     margin-top: 15px;
     background-color: #f9f9f9;
-    height: 65%;
-    /* 높이 설정 */
+    height: 60%;
     border: 3px solid #e0e0e0;
 }
 
@@ -218,6 +182,12 @@ thead th {
    border-top: 0;
    background-clip: padding-box;
    background-color: #e0e0e0;
+   height: 35px;
+   font-size: 16px;
+   font-weight: 600;
+}
+#logTable th{
+	height: 40px;
 }
 
 .logListBox th,

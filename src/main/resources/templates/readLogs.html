@@ -106,6 +106,7 @@
 		$(function () {
 			var currentPage = 1;
     		var numPerPage = 10;
+    		var fixedRowHeight = 40; // 고정할 행의 높이
 			function leadLogs(currentPage) {
 				$.ajax({
 					url: '/admin/menu/readLogs/api/getLogList',
@@ -170,6 +171,18 @@
 								row.append(buttonCell);
 								$('#logTable').append(row);
 							});
+							                    // 현재 페이지의 행 수
+                    var currentPageRowCount = Math.min(numPerPage, logs.length);
+
+                    // 남은 빈 행 수
+                    var remainingEmptyRows = numPerPage - currentPageRowCount;
+
+                    // 빈 행 추가
+                    for (var i = 0; i < remainingEmptyRows; i++) {
+                        var emptyRow = $('<tr>').css('height', fixedRowHeight + 'px');
+                        $('#logTable').append(emptyRow);
+                    }
+							
 							$('#page-num').text(currentPage + '번 페이지');
 						}
 						
@@ -336,15 +349,15 @@
 		<table>
 			<thead>
 				<tr>
-					<th>No</th>
-					<th>시간</th>
-					<th>내용</th>
-					<th>위험등급</th>
-					<th>출발지 IP</th>
-					<th>출발지 Port</th>
-					<th>도착지 IP</th>
-					<th>동작</th>
-					<th> </th>
+					<th style="width: 50px;">No</th>
+					<th style="width: 160px;">시간</th>
+					<th style="width: 120px;">내용</th>
+					<th style="width: 70px;">위험등급</th>
+					<th style="width: 120px;">출발지 IP</th>
+					<th style="width: 90px;">출발지 Port</th>
+					<th style="width: 120px;">도착지 IP</th>
+					<th style="width: 100px;">동작</th>
+					<th style="width: 100px;"> </th>
 				</tr>
 			</thead>
 			<tbody id="logTable">
