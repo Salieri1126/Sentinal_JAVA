@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,26 @@ public class LogService {
      */
     public Integer validateParam(Integer param, Integer defaultValue) {
         return (param == null || param.equals(defaultValue)) ? null : param;
+    }
+    
+    /**
+     * 문자열 파라미터 검증 및 변환 메서드
+     *
+     * @param param 검증 및 변환할 문자열 파라미터
+     * @return 유효한 경우 변환된 파라미터, 그렇지 않은 경우 null
+     * @throws PatternSyntaxException 입력된 문자열에서 패턴 매칭 중 에러가 발생했을 때
+     */
+    public String validateKorean(String param) throws PatternSyntaxException {
+        if (param != null && !param.isEmpty()) {
+            if (param.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")) {
+            	StringBuilder sb = new StringBuilder();
+                for (char ch : param.toCharArray()) {
+                    sb.append((int) ch);
+                }
+                param = sb.toString();
+            }
+        }
+        return param;
     }
 
     /**

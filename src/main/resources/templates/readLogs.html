@@ -43,35 +43,35 @@
 		});
 
 		$(function () {
-		    var today = new Date();
-		
-		    $("#startDate").datepicker({
-		        dateFormat: "yy-mm-dd",
-		        maxDate: today,
-		        onSelect: function (selectedDate) {
-		            $("#endDate").datepicker("option", "minDate", selectedDate);
-		        },
-		        onClose: function (selectedDate) {
-		            if (new Date(selectedDate) > new Date($("#endDate").val())) {
-		                alert("시작 날짜는 종료 날짜보다 이후일 수 없습니다.");
-		                $("#startDate").datepicker("setDate", $("#endDate").val());
-		            }
-		        }
-		    });
-		
-		    $("#endDate").datepicker({
-		        dateFormat: "yy-mm-dd",
-		        maxDate: today,
-		        onSelect: function (selectedDate) {
-		            $("#startDate").datepicker("option", "maxDate", selectedDate);
-		        },
-		        onClose: function (selectedDate) {
-		            if (new Date(selectedDate) < new Date($("#startDate").val())) {
-		                alert("종료 날짜는 시작 날짜보다 이전일 수 없습니다.");
-		                $("#endDate").datepicker("setDate", $("#startDate").val());
-		            }
-		        }
-		    });
+			var today = new Date();
+
+			$("#startDate").datepicker({
+				dateFormat: "yy-mm-dd",
+				maxDate: today,
+				onSelect: function (selectedDate) {
+					$("#endDate").datepicker("option", "minDate", selectedDate);
+				},
+				onClose: function (selectedDate) {
+					if (new Date(selectedDate) > new Date($("#endDate").val())) {
+						alert("시작 날짜는 종료 날짜보다 이후일 수 없습니다.");
+						$("#startDate").datepicker("setDate", $("#endDate").val());
+					}
+				}
+			});
+
+			$("#endDate").datepicker({
+				dateFormat: "yy-mm-dd",
+				maxDate: today,
+				onSelect: function (selectedDate) {
+					$("#startDate").datepicker("option", "maxDate", selectedDate);
+				},
+				onClose: function (selectedDate) {
+					if (new Date(selectedDate) < new Date($("#startDate").val())) {
+						alert("종료 날짜는 시작 날짜보다 이전일 수 없습니다.");
+						$("#endDate").datepicker("setDate", $("#startDate").val());
+					}
+				}
+			});
 
 			$.timepicker.setDefaults($.timepicker.regional['ko']);
 
@@ -102,11 +102,22 @@
 				}
 			});
 		});
-		
+
 		$(function () {
 			var currentPage = 1;
-    		var numPerPage = 10;
-    		var fixedRowHeight = 40; // 고정할 행의 높이
+			var numPerPage = 10;
+			var fixedRowHeight = 40; // 고정할 행의 높이
+
+			function isValidIp(ip) {
+				var pattern = new RegExp(/^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$/);
+				return pattern.test(ip) || ip === "0" || ip.toLowerCase() === "any";
+			}
+
+			function isValidPort(port) {
+				var pattern = new RegExp(/^[0-9]{1,5}$/);
+				return pattern.test(port) && (0 <= port && port <= 65535) || port.toLowerCase() === "any";
+			}
+
 			function leadLogs(currentPage) {
 				$.ajax({
 					url: '/admin/menu/readLogs/api/getLogList',
@@ -114,12 +125,12 @@
 					data: $('form').serialize() + '&page=' + currentPage + '&numPerPage=' + numPerPage,
 					success: function (data) {
 						$('#logTable').empty();
-						
+
 						var totalLogCount = data.totalLogCount;
-        				var logs = data.readLogs;
-        				
-        				$('.log-count').text('검색된 로그는 총  ' + totalLogCount + '개 입니다.');
-						
+						var logs = data.readLogs;
+
+						$('.log-count').text('검색된 로그는 총  ' + totalLogCount + '개 입니다.');
+
 						if (data.length === 0) {
 							$('#logTable').append('<tr><td colspan="8" style="text-align: center; color: gray; font-size: 26px;">검색 결과가 없습니다.</td></tr>');
 						} else {
@@ -129,7 +140,7 @@
 								row.append($('<td>').text(log.log_date));
 								row.append($('<td>').text(log.detected_name));
 								var resultLevel = '';
-								switch(log.level) {
+								switch (log.level) {
 									case -1:
 										resultLevel = '전체';
 										break;
@@ -151,7 +162,7 @@
 								row.append($('<td>').text(log.src_port));
 								row.append($('<td>').text(log.dst_ip));
 								var resultAction = '';
-								switch(log.action) {
+								switch (log.action) {
 									case -1:
 										resultAction = '전체';
 										break;
@@ -165,89 +176,102 @@
 								row.append($('<td>').text(resultAction));
 								var buttonCell = $('<td>');
 								var button = $('<button>').text('상세보기').addClass('infoBt').on('click', function () {
-									window.location.href = '/admin/menu/readLogs/viewLogs/' + log.log_date + '/' + log.log_index;                 
+									window.location.href = '/admin/menu/readLogs/viewLogs/' + log.log_date + '/' + log.log_index;
 								});
 								buttonCell.append(button);
 								row.append(buttonCell);
 								$('#logTable').append(row);
 							});
-							                    // 현재 페이지의 행 수
-                    var currentPageRowCount = Math.min(numPerPage, logs.length);
+							// 현재 페이지의 행 수
+							var currentPageRowCount = Math.min(numPerPage, logs.length);
 
-                    // 남은 빈 행 수
-                    var remainingEmptyRows = numPerPage - currentPageRowCount;
+							// 남은 빈 행 수
+							var remainingEmptyRows = numPerPage - currentPageRowCount;
 
-                    // 빈 행 추가
-                    for (var i = 0; i < remainingEmptyRows; i++) {
-                        var emptyRow = $('<tr>').css('height', fixedRowHeight + 'px');
-                        $('#logTable').append(emptyRow);
-                    }
-							
+							// 빈 행 추가
+							for (var i = 0; i < remainingEmptyRows; i++) {
+								var emptyRow = $('<tr>').css('height', fixedRowHeight + 'px');
+								$('#logTable').append(emptyRow);
+							}
+
 							$('#page-num').text(currentPage + '번 페이지');
 						}
-						
+
 						if (currentPage * numPerPage >= totalLogCount) {
-				            $('.nextB').hide();
-				        } else {
-				            $('.nextB').show();
-				        }
+							$('.nextB').hide();
+						} else {
+							$('.nextB').show();
+						}
 					}
 				});
 			}
-			
+
 			leadLogs(currentPage);
-			
+
 			$('#logForm').on('submit', function (e) {
-			    e.preventDefault();
-			    currentPage = 1;
-			
-			    if (!$('#src_ip').val()) {
-			        $('#src_ip').val('any');
-			    }
-			    if (!$('#src_port').val()) {
-			        $('#src_port').val('any');
-			    }
-			    if (!$('#dst_ip').val()) {
-			        $('#dst_ip').val('any');
-			    }
-			    if (!$('#detected_name').val()) {
-			        $('#detected_name').val('any');
-			    }
-			    if ($('#level').val() === null) {
-			        $('#level').val('-1');
-			    }
-			    if ($('#action').val() === null) {
-			        $('#action').val('-1');
-			    }
-			    if (!$('#startDate').val()) {
-			        $('#startDate').val('${today}');
-			    }
-			    if (!$('#startTime').val()) {
-			        $('#startTime').val('00:00:00');
-			    }
-			    if (!$('#endDate').val()) {
-			        $('#endDate').val('${today}');
-			    }
-			    if (!$('#endTime').val()) {
-			        $('#endTime').val('23:59:59');
-			    }
-			
-			    leadLogs(currentPage);
+				e.preventDefault();
+				currentPage = 1;
+
+				var src_ip = $('#src_ip').val();
+				var src_port = $('#src_port').val();
+				var detected_name = $('#detected_name').val();
+
+				if (!isValidIp(src_ip)) {
+					alert('올바른 IP 형식을 입력해주세요.');
+					return;
+				}
+				if (!isValidPort(src_port)) {
+					alert('올바른 Port 형식을 입력해주세요.');
+					return;
+				}
+				
+				if (!$('#src_ip').val()) {
+					$('#src_ip').val('any');
+				}
+				if (!$('#src_port').val()) {
+					$('#src_port').val('any');
+				}
+				if (!$('#dst_ip').val()) {
+					$('#dst_ip').val('any');
+				}
+				if (!$('#detected_name').val()) {
+					$('#detected_name').val('any');
+				}
+				if ($('#level').val() === null) {
+					$('#level').val('-1');
+				}
+				if ($('#action').val() === null) {
+					$('#action').val('-1');
+				}
+				if (!$('#startDate').val()) {
+					$('#startDate').val('${today}');
+				}
+				if (!$('#startTime').val()) {
+					$('#startTime').val('00:00:00');
+				}
+				if (!$('#endDate').val()) {
+					$('#endDate').val('${today}');
+				}
+				if (!$('#endTime').val()) {
+					$('#endTime').val('23:59:59');
+				}
+
+				leadLogs(currentPage);
 			});
 
 			$('.nextB').on('click', function () {
-		        currentPage += 1;
-		        leadLogs(currentPage);
-		    });
-		
-		    $('.prevB').on('click', function () {
-		        if (currentPage > 1) {
-		            currentPage -= 1;
-		            leadLogs(currentPage);
-		        }
-		    });
+				currentPage += 1;
+				leadLogs(currentPage);
+			});
+
+			$('.prevB').on('click', function () {
+				if (currentPage > 1) {
+					currentPage -= 1;
+					leadLogs(currentPage);
+				}
+			});
 		});
-		
+
 		function resetFilters() {
 			var today = new Date().toISOString().slice(0, 10);
 			$("#src_ip").val('any');
@@ -273,23 +297,26 @@
 			<h1>로그조회</h1>
 		</div>
 		<div class="log-count">
-			   <!-- 검색된 로그의 총 개수가 여기에 출력됨 -->
+			<!-- 검색된 로그의 총 개수가 여기에 출력됨 -->
 		</div>
 	</header>
 	<div class="log-list-filter">
-		<h2>필터</h2>
+		<div class="hline_filter">
+			<h2>필터</h2>
+		</div>
+		
 		<form th:action="@{/admin/menu/readLogs}" id="logForm" method="get">
 			<div class="lft">
 				<div class="input-group">
 					<label for="src_ip">출발지 IP:</label>
 					<input type="text" id="src_ip" name="src_ip" th:value="${src_ip!=null}?${src_ip}:'any'">
 				</div>
-				
+
 				<div class="input-group">
 					<label for="src_port">출발지 Port:</label>
 					<input type="text" id="src_port" name="src_port" th:value="${src_port!=null}?${src_port}:'any'">
 				</div>
-				
+
 				<div class="input-group">
 					<label for="dst_ip">도착지 IP:</label>
 					<input type="text" id="dst_ip" name="dst_ip" th:value="${dst_ip!=null}?${dst_ip}:'any'">
@@ -298,9 +325,10 @@
 			<div class="cen">
 				<div class="input-group">
 					<label for="detected_name">탐지명:</label>
-					<input class="custom-input-group" type="text" id="detected_name" name="detected_name" th:value="${detected_name!=null}?${detected_name}:'any'">
+					<input class="custom-input-group" type="text" id="detected_name" name="detected_name"
+						th:value="${detected_name!=null}?${detected_name}:'any'">
 				</div>
-				
+
 				<div class="input-group">
 					<label for="level">위험등급:</label>
 					<select id="level" name="level" class="custom-input-group">
@@ -339,7 +367,7 @@
 				</div>
 
 				<div class="button-group">
-					<button class="button2 applyB" type="submit">적용</button>
+					<button class="button2 applyB" type="submit">조회</button>
 					<button class="button2 resetB" type="button" onclick="resetFilters()">초기화</button>
 				</div>
 			</div>
@@ -366,14 +394,14 @@
 		</table>
 		<div class="logBottom">
 			<div>
-			    <!-- 검색된 로그의 총 개수가 여기에 출력됨 -->
+				<!-- 검색된 로그의 총 개수가 여기에 출력됨 -->
 			</div>
 			<div id="pagination">
-		        <button class="prevB">이전</button>
-		        <span id="page-num"></span>
-		        <button class="nextB">다음</button>
-		    </div>
-	    </div>
+				<button class="prevB">이전</button>
+				<span id="page-num"></span>
+				<button class="nextB">다음</button>
+			</div>
+		</div>
 	</div>
 </body>
 

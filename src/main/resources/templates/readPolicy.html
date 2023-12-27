@@ -192,7 +192,7 @@
 				alert("선택된 항목이 없습니다.\n삭제할 정책을 선택하세요.");
 			}
 		}
-		
+
 		function toggleAllCheckboxes() {
 			const enableSwitches = document.querySelectorAll('.selectedPolicy');
 			const isAllChecked = enableSwitches[0].checked;
@@ -226,24 +226,24 @@
 				alert('선택된 항목이 없습니다.\n활성화 또는 비활성화할 항목을 선택하세요.');
 				return;
 			}
-			
+
 			const confirmationMessage = `선택한 항목들을 ${enableValue ? '활성화' : '비활성화'}하시겠습니까?`;
 			if (confirm(confirmationMessage)) {
-				selectedSwitches.forEach((switchInput) => {
+				const policies = Array.from(selectedSwitches).map((switchInput) => {
 					const detected_no = switchInput.closest('tr').querySelector('.detected_no').textContent;
 					const enable = enableValue;
+					return {detected_no, enable};
+				});
 
-					fetch(`/admin/menu/readPolicy/updatePolicyEnable`, {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({
-							detected_no,
-							enable,
-						}),
-					})
-						.then(() => {
+				fetch(`/admin/menu/readPolicy/updatePolicyEnable`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(policies),
+				})
+					.then(() => {
+						selectedSwitches.forEach((switchInput) => {
 							const switchButton = switchInput.closest('tr').querySelector('.individual-switch');
 							switchButton.checked = !!enableValue;
 							switchInput.checked = false;
@@ -251,13 +251,13 @@
 							// 추가된 부분: 비활성화 후 체크박스가 자동으로 풀리도록 함
 							const headerCheckbox = document.querySelector('thead .click');
 							headerCheckbox.checked = false;
-						})
-						.catch(error => {
-							console.error('fetch 작업 중 문제가 발생했습니다:', error);
 						});
-				});
 
-				alert(`${selectedSwitches.length}개의 항목이 성공적으로 ${enableValue ? '활성화' : '비활성화'}되었습니다.`);
+						alert(`${selectedSwitches.length}개의 항목이 성공적으로 ${enableValue ? '활성화' : '비활성화'}되었습니다.`);
+					})
+					.catch(error => {
+						console.error('fetch 작업 중 문제가 발생했습니다:', error);
+					});
 			}
 		}
 

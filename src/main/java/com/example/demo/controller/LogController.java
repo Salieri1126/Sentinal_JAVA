@@ -92,7 +92,8 @@ public class LogController {
 
         final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-
+        
+        detected_name = logService.validateKorean(detected_name);
         detected_name = logService.validateParam(detected_name);
         src_ip = logService.validateParam(src_ip);
         src_port = logService.validateParam(src_port);
