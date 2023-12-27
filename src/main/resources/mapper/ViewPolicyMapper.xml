@@ -5,8 +5,8 @@
         SELECT * FROM ips_policy WHERE detected_no = #{detected_no}
     </select>
     
-    <select id="findByDetectedName" resultType="com.example.demo.model.policy.ViewPolicyEntity">
+    <select id="findByDetectedNo" resultType="com.example.demo.model.policy.ViewPolicyEntity">
         SELECT * FROM ips_policy
-        WHERE detected_name = #{detected_name}
+        WHERE detected_no = #{detected_no}
     </select>
 </mapper>

@@ -57,7 +57,7 @@ public interface ReadLogsMapper {
      * @param log_index 로그 인덱스
      * @return          검출 이름에 해당하는 로그 엔티티
      */
-    ReadLogsEntity findByDetectedName(
+    ReadLogsEntity findByDetectedNo(
             @Param("tableName") String tableName,
             @Param("log_index") int log_index);
     
