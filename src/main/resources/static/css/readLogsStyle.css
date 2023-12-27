@@ -27,40 +27,36 @@ h1 {
 .log-list-filter {
    border: 3px solid #e0e0e0;
    border-radius: 5px;
-   padding: 20px;
-   height: 30%;
+   padding: 15px;
+   height: 25%;
    width: 100%;
-   float: flex;
    overflow : hidden;
    flex-direction: row;
    box-sizing: border-box;
    font-size: 16px;
    font-weight: bold;
-   margin-bottom: 15px;
 }
 
 h2 {
-	margin-bottom: 10px;
+	
 }
 
 .log-list-filter form{
    display: flex; 
-   justify-content: space-between;
-   align-items: flex-start;  
 }
 
 .lft {   
-    flex:1;  
+    width: 30%;
     box-sizing: border-box;   
 }
 
 .cen {    
-    flex:1;   
+    width: 30%;   
     box-sizing: border-box;   
 }
 
 .rft {
-    flex:1;    
+    width: 40%;  
     box-sizing: border-box;  
 }
 
@@ -203,7 +199,7 @@ h2 {
     width: 100%;
     margin-top: 15px;
     background-color: #f9f9f9;
-    height: 80%;
+    height: 65%;
     /* 높이 설정 */
     border: 3px solid #e0e0e0;
 }
