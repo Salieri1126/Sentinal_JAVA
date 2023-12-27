@@ -132,6 +132,8 @@
 						$('.log-count').text('검색된 로그는 총  ' + totalLogCount + '개 입니다.');
 
 						if (data.length === 0) {
+							// 이 부분 추후 수정 필요
+							// 검색 결과가 0건이라면 아래와 같은 메세지가 리스트에 출력 되도록 수정
 							$('#logTable').append('<tr><td colspan="8" style="text-align: center; color: gray; font-size: 26px;">검색 결과가 없습니다.</td></tr>');
 						} else {
 							logs.forEach(function (log) {
