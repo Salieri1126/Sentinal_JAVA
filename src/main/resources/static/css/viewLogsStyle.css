@@ -76,19 +76,24 @@ h3 {
 	width: 100%;
 	overflow-y: scroll;
 	height: 88%;
+	padding:5px;
 }
 .left_packetInfo{
-	width: 50%;
+	width: 40%;
 	height: 100%;
 	padding: 4px 10px;
 	border-right: 1px solid #5e5e5e;
 }
-
-
 .right_packetInfo{
 	width: 50%;
+	height: 100%;
 }
-
+.right_packetInfo span{
+	width: 100%;
+	height: 100%;
+	padding: 5px;
+	white-space: pre-wrap;
+}
 /*********************************** 아래 attackInfo 공격정보 */
 .attackInfo{
 	margin-top: 3%;
@@ -119,13 +124,18 @@ h3 {
 	font-size:14px;
 	font-weight: 600;
 	padding:  5px;
-	height: 30px;
 	text-align: left;
+	height: 30px;
 }
+
 .detailTextB{
 	
 }
-
+.linebox {
+    border: 1px solid #ccc; 
+    padding: 5px; 
+    border-radius: 5px;
+}
 /*표 간격*/
 
 .w20{
@@ -133,19 +143,13 @@ h3 {
 	font-weight: 600;
 	font-size: 15px;
 }
-.w35{
-	width: 35%;
+.w33{
+	width: 33%;
 
 }
-.linebox{
-	border: 1px solid #5e5e5e;
-	width: 320px;
-	height: 100%;
-	padding: 10px;
-}
+
 .w80{
 	width: 80%;
-	
 }
 .h20{
 	height: 20px;

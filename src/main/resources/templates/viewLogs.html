@@ -93,12 +93,13 @@
 				<table>
 					<tr>
 						<td class="w20"><span>탐지명 :</span></td>
-						<td class="w80" colspan="3"><span th:text="${policyDetectedName} ?: '정보 없음'"></span></td>
+						<td class="w80 linebox" colspan="3"><span th:text="${policyDetectedName} ?: '정보 없음'"></span></td>
 					</tr>
+					<tr style="height: 10px;"></tr>
 					<tr>
 						<td class="w20"><span>위험등급 :</span></td>
-						<td class="w35">
-							<span th:switch="${policyLevel}" class="linebox">
+						<td class="w33 linebox">
+							<span th:switch="${policyLevel}">
 								<span th:case="0">하</span>
 								<span th:case="1">중</span>
 								<span th:case="2">상</span>
@@ -106,21 +107,22 @@
 								<span th:case="*">정보 없음</span>
 							</span>
 						</td>
-						<td class="w20"><span>처리방법 :</span></td>
-						<td class="w35">
-							<span th:switch="${policyAction}" class="linebox">
+						<td class="w20"><span style="margin-left: 15px;">처리방법 :</span></td>
+						<td class="w33 linebox">
+							<span th:switch="${policyAction}">
 								<span th:case="0">로그</span>
 								<span th:case="1">로그+차단</span>
 								<span th:case="*">정보 없음</span>
 							</span>
 						</td>
 					</tr>
+					<tr style="height: 10px;"></tr>
 					<tr>
 						<td colspan="4" class="h20"><span>내용 :</span></td>
 					</tr>
 					<tr class="detailTextB">
-						<td class="h40" colspan="4">
-							<span th:text="${policyDetail} ?: '해당 정책의 상세 정보가 없습니다.'" class="linebox"></span>
+						<td class="h40 linebox" colspan="4">
+							<span th:text="${policyDetail} ?: '해당 정책의 상세 정보가 없습니다.'"></span>
 						</td>
 					</tr>
 				</table>
