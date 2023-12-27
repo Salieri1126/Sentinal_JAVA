@@ -239,8 +239,10 @@ public class LogService {
         byte typeOfService = bytes[ipStart + 1];
         int datagramLength = ((bytes[ipStart + 2] & 0xFF) << 8) | (bytes[ipStart + 3] & 0xFF);
         int identification = ((bytes[ipStart + 4] & 0xFF) << 8) | (bytes[ipStart + 5] & 0xFF);
-        int fragmentOffset = ((bytes[ipStart + 6] & 0x1F) << 8) | (bytes[ipStart + 7] & 0xFF);
-        byte ttl = bytes[ipStart + 8];
+        int flagsAndFragmentOffset = ((bytes[ipStart + 6] & 0xFF) << 8) | (bytes[ipStart + 7] & 0xFF);
+        int flags = (flagsAndFragmentOffset >> 13) & 0x7;
+        int fragmentOffset = flagsAndFragmentOffset & 0x1FFF;
+        int ttl = bytes[ipStart + 8] & 0xFF;
         byte datagramProtocol = bytes[ipStart + 9];
         int checksum = ((bytes[ipStart + 10] & 0xFF) << 8) | (bytes[ipStart + 11] & 0xFF);
         String sourceIp = (bytes[ipStart + 12] & 0xFF) + "." + (bytes[ipStart + 13] & 0xFF) + "." + (bytes[ipStart + 14] & 0xFF) + "." + (bytes[ipStart + 15] & 0xFF);
@@ -253,6 +255,7 @@ public class LogService {
         ipHeader.setTypeOfService(typeOfService);
         ipHeader.setDatagramLength(datagramLength);
         ipHeader.setIdentification(identification);
+        ipHeader.setFlags(flags);
         ipHeader.setFragmentOffset(fragmentOffset);
         ipHeader.setTtl(ttl);
         ipHeader.setDatagramProtocol(datagramProtocol);

@@ -44,6 +44,7 @@
 				<p id="Type_of_Service" th:text="'Type of Service: ' + ${packetHeader[1].typeOfService}"></p>
 				<p id="Datagram_Length" th:text="'Datagram Length: ' + ${packetHeader[1].datagramLength}"></p>
 				<p id="Identification" th:text="'Identification: ' + ${packetHeader[1].identification}"></p>
+				<p id="Ip_Flags" th:text="'IP Flags: ' + ${packetHeader[1].flags}"></p>
 				<p id="Fragment_Offset" th:text="'Fragment Offset: ' + ${packetHeader[1].fragmentOffset}"></p>
 				<p id="Time_To_Live" th:text="'Time To Live(TTL): ' + ${packetHeader[1].ttl}"></p>
 				<p id="Datagram_Protocol" th:text="'Datagram Protocol: ' + ${packetHeader[1].datagramProtocol}"></p>
@@ -137,10 +138,11 @@
 			"Ethernet_Type": [36, 41],
 			"Version": [42, 43],
 			"Header_Length": [43, 44],
-			"Type_of_Service": [44, 47],
+			"Type_of_Service": [45, 47],
 			"Datagram_Length": [48, 53],
 			"Identification": [54, 59],
-			"Fragment_Offset": [60, 65],
+			"Ip_Flags": [60, 61],
+			"Fragment_Offset": [61, 65],
 			"Time_To_Live": [66, 69],
 			"Datagram_Protocol": [69, 71],
 			"Header_Checksum": [72, 77],
@@ -158,12 +160,17 @@
 			"Urgent_Pointer": [156, 161]
 		};
 
-		for (let field in headers) {
-			let fieldElement = document.getElementById(field);
+		// 각 헤더에 대한 클릭 이벤트를 추가하는 함수
+		function addHeaderClickEvent(headerId, headerRange) {
+			let headerElement = document.getElementById(headerId);
 
-			fieldElement.addEventListener('click', function () {
-				highlightBinaryData(headers[field]);
+			headerElement.addEventListener('click', function () {
+				highlightBinaryData(headerRange);
 			});
+		}
+
+		for (let field in headers) {
+			addHeaderClickEvent(field, headers[field]);
 		}
 
 		// 주어진 범위의 binaryData를 강조하는 함수

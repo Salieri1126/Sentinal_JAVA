@@ -14,6 +14,7 @@ public class IpHeaderEntity {
     private int typeOfService;
     private int datagramLength;
     private int identification;
+    private int flags;
     private int fragmentOffset;
     private int ttl;
     private int datagramProtocol;
