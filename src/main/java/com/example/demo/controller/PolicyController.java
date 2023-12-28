@@ -252,6 +252,10 @@ public class PolicyController {
 		}
 		policy.setDetected_no(detected_no);
 		updatePolicyMapper.updatePolicy(policy);
+		Integer isEnabled = readPolicyMapper.getPolicyEnableStatusById(detected_no);
+		if (isEnabled == 1) {
+			policyService.sendUDP();
+		}
 		return "redirect:/admin/menu/readPolicy";
 	}
 
