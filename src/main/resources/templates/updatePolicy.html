@@ -63,15 +63,20 @@
 					<h3>세션 정보</h3>
 				</div>
 				<div class="section">
-				    <span class="label">출발지IP[-도착지IP]</span>
+				    <span class="label">출발지IP</span>
 				    <input type="text" id="src_ip" name="src_ip"
 				        th:value="${policyDetails.src_ip == 'any' ? 'any' : (policyDetails.to_sip == '0' ? policyDetails.src_ip : policyDetails.src_ip + '-' + policyDetails.to_sip)}"
 				        style="border: 1px solid #ff0000;">
 				
-				    <span class="label">출발지Port[-도착지Port]</span>
+				    <span class="label">출발지Port</span>
 				    <input type="text" id="src_port" name="src_port"
 				        th:value="${policyDetails.src_port == 'any' ? 'any' : (policyDetails.to_sp == '0' ? policyDetails.src_port : policyDetails.src_port + '-' + policyDetails.to_sp)}"
 				        style="border: 1px solid #ff0000;">
+				        
+				    <span>도착지IP</span>
+				    <input>
+				    <span>도착지Port</span>
+				    <input>
 				</div>
 			</div>
 			<div class="h25">
