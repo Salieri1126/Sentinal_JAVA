@@ -15,6 +15,7 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/i18n/datepicker-ko.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<!-- 한국어 지역 설정 추가 -->
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
@@ -73,10 +74,12 @@
 				        th:value="${policyDetails.src_port == 'any' ? 'any' : (policyDetails.to_sp == '0' ? policyDetails.src_port : policyDetails.src_port + '-' + policyDetails.to_sp)}"
 				        style="border: 1px solid #ff0000;">
 				        
-				    <span>도착지IP</span>
-				    <input>
-				    <span>도착지Port</span>
-				    <input>
+					<span class="label">도착지 IP:</span>
+					<input type="text" id="dst_ip" name="dst_ip"
+							>
+					<span class="label">도착지 Port:</span>
+					<input type="text" id="dst_port" name="dst_port"
+							>
 				</div>
 			</div>
 			<div class="h25">
@@ -125,20 +128,23 @@
 							<div class="contentT" id='result'>
 								<table>
 									<tr id="content1" th:if="${policyDetails.content1 != null}">
-										<td><span name="label_content1">content1 : </span><input type="text"
-												name="content1" th:value="${policyDetails.content1}" readonly /><button
+										<td><span name="label_content1">content1 </span>
+										<textarea
+												name="content1" th:text="${policyDetails.content1}" readonly /><button
 												type="button"
 												onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
 									</tr>
 									<tr id="content2" th:if="${policyDetails.content2 != null}">
-										<td><span name="label_content2">content2 : </span><input type="text"
-												name="content2" th:value="${policyDetails.content2}" readonly /><button
+										<td><span name="label_content2">content2 </span>
+										<textarea
+												name="content2" th:text="${policyDetails.content2}" readonly /><button
 												type="button"
 												onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
 									</tr>
 									<tr id="content3" th:if="${policyDetails.content3 != null}">
-										<td><span name="label_content3">content3 : </span><input type="text"
-												name="content3" th:value="${policyDetails.content3}" readonly /><button
+										<td><span name="label_content3">content3 </span>
+										<textarea
+												name="content3" th:text="${policyDetails.content3}" readonly /><button
 												type="button"
 												onclick="deleteRow(this.parentNode.parentNode)">삭제</button></td>
 									</tr>
@@ -152,8 +158,7 @@
 					<h3>탐지 내용 설명</h3>
 				</div>
 				<div class="r_section">
-	                  <div class="detailbox"></div>
-	                  <div>
+	                  <div class="detailbox">
 					      <textarea id="detail" name="detail" th:text="${policyDetails.detail}" style="resize: none;"></textarea>
 					  </div>
 				</div>
@@ -428,7 +433,7 @@
 			var table = contentT.querySelector("table");
 
 			// 이미 있는 값인지 확인
-			var existingContent = Array.from(table.querySelectorAll("td input")).find(function (item) {
+			var existingContent = Array.from(table.querySelectorAll("td textarea")).find(function (item) {
 				return item.value.toLowerCase() === content;
 			});
 
@@ -441,15 +446,15 @@
 
 					// 레이블 추가
 					var label = document.createElement("span");
-					label.innerText = "content" + (table.rows.length) + ": ";
+					label.innerText = "content" + (table.rows.length) + " ";
 					cell.appendChild(label);
 
 					// 값 추가
-					var input = document.createElement("input");
-					input.type = "text";
-					input.name = "content" + (table.rows.length);
-					input.value = content;
-					cell.appendChild(input);
+					var textarea = document.createElement("textarea");
+	
+					textarea.name = "content" + (table.rows.length);
+					textarea.value = content;
+					cell.appendChild(textarea);
 
 					// 삭제 버튼 추가
 					var deleteButton = document.createElement("button");
@@ -460,11 +465,31 @@
 					cell.appendChild(deleteButton);
 
 					contentInput.value = ""; // 입력 창 초기화
+					
+					// 새로 생성된 textarea에 대해 높이를 동적으로 조절하는 코드 적용
+			      $(textarea).each(function () {
+			        this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+			      }).on('input', function () {
+			        this.style.height = 'auto';
+			        this.style.height = (this.scrollHeight) + 'px';
+			      });
 				}
 			} else {
 				alert("내용은 최대 3개까지 추가 가능합니다.");
 			}
 		}
+		$('.contentT textarea').each(function () {
+		  this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+		}).on('input', function () {
+		  this.style.height = 'auto';
+		  this.style.height = (this.scrollHeight) + 'px';
+		});
+		document.addEventListener("DOMContentLoaded", function () {
+			var input = document.getElementById("end_time");
+			if (input.value == null || input.value == "") {
+				input.placeholder = "설정한 유효기간이 없습니다.";
+			}
+		});
 
 		function deleteRow(row) {
 		    var form = document.getElementById("policyForm");
@@ -549,7 +574,9 @@
 				}
 			}
 		}
-
+		
+		
+		
 		function cancel() {
 			window.location.href = "/admin/menu/readPolicy";
 		}

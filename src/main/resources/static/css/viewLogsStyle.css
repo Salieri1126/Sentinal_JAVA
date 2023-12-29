@@ -80,20 +80,22 @@ h3 {
 	padding:5px;
 }
 .left_packetInfo{
-	width: 40%;
+	width: 50%;
 	height: 100%;
-	padding: 4px 10px;
+	padding: 4px 20px;
 	border-right: 1px solid #5e5e5e;
 }
 .right_packetInfo{
 	width: 50%;
 	height: 100%;
+	padding: 4px 10px;
 }
 .right_packetInfo span{
 	width: 100%;
 	height: 100%;
 	padding: 5px;
-	white-space: pre-wrap;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
 }
 /*********************************** 아래 attackInfo 공격정보 */
 .attackInfo{

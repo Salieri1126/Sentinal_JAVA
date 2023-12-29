@@ -15,6 +15,7 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/i18n/datepicker-ko.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<!-- 한국어 지역 설정 추가 -->
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
@@ -67,10 +68,12 @@
 					<span class="label">출발지Port[-도착지Port]</span>
 					<input type="text" id="src_port" name="src_port" value="any" style="border: 1px solid #ff0000;">
 					
-					<span>도착지IP</span>
-				    <input>
-				    <span>도착지Port</span>
-				    <input>
+					<span class="label">도착지 IP:</span>
+					<input type="text" id="dst_ip" name="dst_ip"
+							>
+					<span class="label">도착지 Port:</span>
+					<input type="text" id="dst_port" name="dst_port"
+							>
 				</div>
 			</div>
 			<div class="h25">
@@ -126,8 +129,7 @@
 					<h3>탐지 내용 설명</h3>
 				</div>
 				<div class="r_section">
-					<div class="detailbox"></div>
-					<div>
+					<div class="detailbox">
 						<textarea id="detail" name="detail" value="" placeholder="정책에 대한 설명을 입력하세요"
 							style="resize: none;"></textarea>
 					</div>
@@ -404,15 +406,15 @@
 
 					// 레이블 추가
 					var label = document.createElement("span");
-					label.innerText = "content" + (table.rows.length) + ": ";
+					label.innerText = "content" + (table.rows.length) + " ";
 					cell.appendChild(label);
 
 					// 값 추가
-					var input = document.createElement("input");
-					input.type = "text";
-					input.name = "content" + (table.rows.length);
-					input.value = content;
-					cell.appendChild(input);
+					var textarea = document.createElement("textarea");
+
+					textarea.name = "content" + (table.rows.length);
+					textarea.value = content;
+					cell.appendChild(textarea);
 
 					// 삭제 버튼 추가
 					var deleteButton = document.createElement("button");
@@ -423,11 +425,20 @@
 					cell.appendChild(deleteButton);
 
 					contentInput.value = ""; // 입력 창 초기화
+					
+					// 새로 생성된 textarea에 대해 높이를 동적으로 조절하는 코드 적용
+			      $(textarea).each(function () {
+			        this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+			      }).on('input', function () {
+			        this.style.height = 'auto';
+			        this.style.height = (this.scrollHeight) + 'px';
+			      });
 				}
 			} else {
 				alert("내용은 최대 3개까지 추가 가능합니다.");
 			}
 		}
+		//ContentT testarea높이를 글자줄바꿈에 따라서 설정
 
 		function deleteRow(row) {
 			var form = document.getElementById("policyForm");

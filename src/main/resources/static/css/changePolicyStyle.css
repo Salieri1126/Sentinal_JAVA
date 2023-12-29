@@ -40,23 +40,23 @@ h3 {
 	margin: 10px;
 	padding: 10px;
 	position: relative;
+	width: 100%;
 }
 
 .left {
 	float: left;
 	width: 50%;
 	height: 80%;
+	padding-right: 10px;
 }
 
 .right {
 	float: right;
 	width: 50%;
 	height: 80%;
+	padding-left: 10px;
 }
 /* 각영역 지율조정 */
-
-
-
 
 .section .label{
 	display: inline-block;
@@ -168,38 +168,48 @@ h8 {
 	padding: 10px;
 	border-radius: 5px;
 	overflow-y: auto;
+	width: 100%;
 }
 .contentT tr {
 	margin-bottom: 5px;
 }
+.contentT tr td {
+	display: flex;
+	align-items: baseline;
+}
 .contentT tr td span {
 	font-weight: 500;
-	font-size: 16px}
+	font-size: 16px;
+	margin-right: 20px;
+}
 
-.contentT tr td input {
-	outline: none;
-	border: 0;
+.contentT tr td textarea {
+	resize: none;
 	color: black;
-	padding:5px;
 	font-size: 16px;
 	font-weight: 600;
-	border: 1px solid #444;
-	white-space: pre-wrap;
-    word-wrap: break-word;
-	
+	width: 240px;
+	display: block;
+	border: none;
 }
+.contentT tr td .contentRead {
+	background-color: #f2f2f2;
+}
+
 .contentT tr td button{
-	margin-left: 5px;
+	margin-left: 15px;
 	border-radius: 5px;
 	color: #ffffff;
 	background-color: #5e5e5e;
+	width: 15%;
 }
 /* 디테일 박스 */
 .detailbox {
 	display: flex;
+	width: 100%;
 }
 
-textarea {
+.detailbox textarea {
 	width: 100%;
     height: 100px;
     padding: 10px;
