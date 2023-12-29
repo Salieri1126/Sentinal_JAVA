@@ -53,20 +53,24 @@
 				<h3>세션 정보</h3>
 			</div>
 			<div class="section" name="r_section">
-				<span class="label">출발지 IP:</span>
+				<span class="label">출발지 IP [-IP 범위]:</span>
 				<input type="text" id="src_ip" name="src_ip"
 					th:value="${viewPolicy.src_ip == 'any' ? 'any' : (viewPolicy.to_sip == '0' ? viewPolicy.src_ip : viewPolicy.src_ip + '-' + viewPolicy.to_sip)}"
 					readonly style="background-color: #f2f2f2;">
 
-				<span class="label">출발지 Port:</span>
+				<span class="label">출발지 Port [-Port 범위]:</span>
 				<input type="text" id="src_port" name="src_port"
 					th:value="${viewPolicy.src_port == 'any' ? 'any' : (viewPolicy.to_sp == '0' ? viewPolicy.src_port : viewPolicy.src_port + '-' + viewPolicy.to_sp)}"
 					readonly style="background-color: #f2f2f2;">
+					
 				<span class="label">도착지 IP:</span>
 				<input type="text" id="dst_ip" name="dst_ip"
+						th:value="${viewPolicy.dst_ip == 'any' ? 'any' : viewPolicy.dst_ip}"
 						readonly style="background-color: #f2f2f2;">
+						
 				<span class="label">도착지 Port:</span>
 				<input type="text" id="dst_port" name="dst_port"
+						th:value="${viewPolicy.dst_port == 'any' ? 'any' : viewPolicy.dst_port}"
 						readonly style="background-color: #f2f2f2;">
 			</div>
 

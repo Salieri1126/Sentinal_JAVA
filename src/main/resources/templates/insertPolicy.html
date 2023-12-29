@@ -62,18 +62,17 @@
 					<h3>세션 정보</h3>
 				</div>
 				<div class="section" name="r_section">
-					<span class="label">출발지IP[-도착지IP]</span>
+					<span class="label">출발지 IP [-IP 범위]:</span>
 					<input type="text" id="src_ip" name="src_ip" value="any" style="border: 1px solid #ff0000;">
 
-					<span class="label">출발지Port[-도착지Port]</span>
+					<span class="label">출발지 Port [-Port 범위]:</span>
 					<input type="text" id="src_port" name="src_port" value="any" style="border: 1px solid #ff0000;">
-					
+
 					<span class="label">도착지 IP:</span>
-					<input type="text" id="dst_ip" name="dst_ip"
-							>
+					<input type="text" id="dst_ip" name="dst_ip" value="any">
+
 					<span class="label">도착지 Port:</span>
-					<input type="text" id="dst_port" name="dst_port"
-							>
+					<input type="text" id="dst_port" name="dst_port" value="any">
 				</div>
 			</div>
 			<div class="h25">
@@ -257,6 +256,8 @@
 			var to_sip = 0;
 			var srcPort = document.getElementById("src_port").value;
 			var to_sp = 0;
+			var dstIP = document.getElementById("dst_ip").value;
+			var dstPort = document.getElementById("dst_port").value;
 			var baseTime = document.getElementById("base_time").value;
 			var baseLimit = document.getElementById("base_limit").value;
 			var contentInput = document.getElementById("contentInput");
@@ -274,7 +275,7 @@
 			if (srcIP.includes('-')) {
 				var ipParts = srcIP.split('-');
 				if (ipParts.length !== 2 || !isValidIp(ipParts[0]) || !isValidIp(ipParts[1])) {
-					alert("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
+					alert("입력하신 범위기반 IP가 유효한 IP 주소 형식이 아닙니다.");
 					return false;
 				}
 				var octets1 = ipParts[0].split(".");
@@ -302,13 +303,13 @@
 				srcIP = 'any';
 			}
 			else if (!isValidIp(srcIP)) {
-				alert("입력하신 IP가 유효한 IP 주소 형식이 아닙니다.");
+				alert("입력하신 출발지 IP가 유효한 IP 주소 형식이 아닙니다.");
 				return false;
 			}
 			if (srcPort.includes('-')) {
 				var portParts = srcPort.split('-');
 				if (portParts.length !== 2 || !isValidPort(portParts[0]) || !isValidPort(portParts[1])) {
-					alert("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
+					alert("입력하신 범위기반 Port가 유효한 Port 번호 형식이 아닙니다.");
 					return false;
 				}
 				if (parseInt(portParts[1]) < parseInt(portParts[0])) {
@@ -329,15 +330,31 @@
 				to_sport = 0;
 			}
 			else if (!isValidPort(srcPort)) {
-				alert("입력하신 Port가 유효한 Port 번호 형식이 아닙니다.");
+				alert("입력하신 출발지 Port가 유효한 Port 번호 형식이 아닙니다.");
+				return false;
+			}
+			if (!isValidIp(dstIP)) {
+				alert("입력하신 도착지 IP가 유효한 IP 주소 형식이 아닙니다.");
+				return false;
+			}
+			if (!isValidPort(dstPort)) {
+				alert("입력하신 도착지 Port가 유효한 Port 번호 형식이 아닙니다.");
 				return false;
 			}
 			if (!isPositiveNumber(baseTime)) {
 				alert("행동 탐지 기준 초는 양수만 입력 가능합니다. ");
 				return false;
 			}
+			if (parseFloat(baseTime) > 3600) {
+				alert("행동 탐지 기준 초 입력은 3600 이하여야 합니다.");
+				return false;
+			}
 			if (!isPositiveNumber(baseLimit)) {
 				alert("행동 탐지 기준 쿼리 개수는 양수만 입력 가능합니다.");
+				return false;
+			}
+			if (parseFloat(baseLimit) > 2147483647) {
+				alert("행동 탐지 기준 쿼리 개수 입력은 2,147,483,647 이하여야 합니다.");
 				return false;
 			}
 			if (contentInput.value.trim() !== "") {
@@ -425,14 +442,14 @@
 					cell.appendChild(deleteButton);
 
 					contentInput.value = ""; // 입력 창 초기화
-					
+
 					// 새로 생성된 textarea에 대해 높이를 동적으로 조절하는 코드 적용
-			      $(textarea).each(function () {
-			        this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
-			      }).on('input', function () {
-			        this.style.height = 'auto';
-			        this.style.height = (this.scrollHeight) + 'px';
-			      });
+					$(textarea).each(function () {
+						this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+					}).on('input', function () {
+						this.style.height = 'auto';
+						this.style.height = (this.scrollHeight) + 'px';
+					});
 				}
 			} else {
 				alert("내용은 최대 3개까지 추가 가능합니다.");
