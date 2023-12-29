@@ -17,6 +17,11 @@ header {
 	border-left: 5px solid #447294;
 	padding-left: 10px;
 }
+ .top_header {
+	 display: flex;
+	 justify-content: space-between;
+	 margin-bottom: 10px;
+ }
 
 h1 {
    margin-left: 10px;
@@ -99,7 +104,7 @@ h1 {
 }
 
 .rft .input-group {
-  justify-content: flex-end;
+  margin-left: 10%;
 }
 
 .rft .input-group label { 
@@ -117,11 +122,13 @@ h1 {
   width: 120px;
   margin-bottom: 5px;
 }
+.rft .input-group select{
+	width: 250px;
+}
 
 .custom-input-group {
    width: 180px;
    height: 30px;
-   margin-left: 10px;
    border-radius: 5px;
    border: 1px solid #ccc;
 }
