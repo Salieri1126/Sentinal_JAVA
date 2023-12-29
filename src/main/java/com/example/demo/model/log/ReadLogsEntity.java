@@ -24,6 +24,7 @@ public class ReadLogsEntity {
     private String src_ip;            // 출발지 IP
     private String src_port;          // 출발지 포트
     private String dst_ip;            // 목적지 IP
+    private String dst_port;          // 목적지 포트
     private byte[] packet_bin;        // 패킷 이진 데이터
     private Integer level;            // 레벨
 

@@ -22,8 +22,9 @@
 	        end_time = #{end_time},
 	        to_sip = #{to_sip},
 	        to_sp = #{to_sp},
-	        dst_ip = 0,
-	        base_size = 0
+	        dst_ip = #{dst_ip},
+	        base_size = 0,
+	        dst_port = #{dst_port}
 	    WHERE
 	        detected_no = #{detected_no}
 	</update>

@@ -38,7 +38,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class PolicyController {
-
+	
 	private final ReadPolicyMapper readPolicyMapper;
 	private final InsertPolicyMapper insertPolicyMapper;
 	private final UpdatePolicyMapper updatePolicyMapper;
@@ -62,6 +62,12 @@ public class PolicyController {
 				}
 				if ("0".equals(policyList.getSrc_port().trim())) {
 					policyList.setSrc_port("any");
+				}
+				if ("0".equals(policyList.getDst_ip().trim())) {
+					policyList.setDst_ip("any");
+				}
+				if ("0".equals(policyList.getDst_port().trim())) {
+					policyList.setDst_port("any");
 				}
 				if (policyList.getContent1() != null) {
 					policyList.setContent1(policyService.decodingContent(policyList.getContent1()));
@@ -129,6 +135,12 @@ public class PolicyController {
 			} else {
 				policy.setTo_sp("0");
 			}
+			if ("any".equalsIgnoreCase(policy.getDst_ip().trim()) || "".equals(policy.getDst_ip().trim()) || policy.getDst_ip() == null) {
+				policy.setDst_ip("0");
+			}
+			if ("any".equalsIgnoreCase(policy.getDst_port().trim()) || "".equals(policy.getDst_port().trim()) || policy.getDst_port() == null) {
+				policy.setDst_port("0");
+			}
 			if (policy.getContent1() != null) {
 				policy.setContent1(policyService.encodingContent(policy.getContent1()));
 			}
@@ -172,6 +184,12 @@ public class PolicyController {
 			}
 			if ("0".equals(policyDetails.getSrc_port().trim())) {
 				policyDetails.setSrc_port("any");
+			}
+			if ("0".equals(policyDetails.getDst_ip().trim())) {
+				policyDetails.setDst_ip("any");
+			}
+			if ("0".equals(policyDetails.getDst_port().trim())) {
+				policyDetails.setDst_port("any");
 			}
 			if (policyDetails.getContent1() != null) {
 				policyDetails.setContent1(policyService.decodingContent(policyDetails.getContent1()));
@@ -228,6 +246,12 @@ public class PolicyController {
 				policy.setTo_sp(ports[1]);
 			} else {
 				policy.setTo_sp("0");
+			}
+			if ("any".equalsIgnoreCase(policy.getDst_ip().trim()) || "".equals(policy.getDst_ip().trim()) || policy.getDst_ip() == null) {
+				policy.setDst_ip("0");
+			}
+			if ("any".equalsIgnoreCase(policy.getDst_port().trim()) || "".equals(policy.getDst_port().trim()) || policy.getDst_port() == null) {
+				policy.setDst_port("0");
 			}
 			if (policy.getContent1() != null) {
 				policy.setContent1(policyService.encodingContent(policy.getContent1()));
@@ -333,6 +357,12 @@ public class PolicyController {
 			}
 			if ("0".equals(viewPolicy.getSrc_port().trim())) {
 				viewPolicy.setSrc_port("any");
+			}
+			if ("0".equals(viewPolicy.getDst_ip().trim())) {
+				viewPolicy.setDst_ip("any");
+			}
+			if ("0".equals(viewPolicy.getDst_port().trim())) {
+				viewPolicy.setDst_port("any");
 			}
 			if (viewPolicy.getContent1() != null) {
 				viewPolicy.setContent1(policyService.decodingContent(viewPolicy.getContent1()));

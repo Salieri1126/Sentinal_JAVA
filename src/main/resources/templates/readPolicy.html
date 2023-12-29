@@ -87,13 +87,13 @@
 								th:text="${policy.src_port == 'any' ? 'any' : (policy.to_sp == '0' ? policy.src_port : policy.src_port + '-' + policy.to_sp)}"></span>
 						</th>
 						
-						<th><span></span>
+						<th><span
+								th:text="${policy.dst_ip == 'any' ? 'any' : policy.dst_ip}"></span>
 						</th>
-						<th><span></span>
+						<th><span
+								th:text="${policy.dst_port == 'any' ? 'any' : policy.dst_port}"></span>
 						</th>
 						
-
-
 						<th><span th:text="${policy.base_time}"></span></th>
 
 						<th><span th:text="${policy.base_limit}"></span></th>

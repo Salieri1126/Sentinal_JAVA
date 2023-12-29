@@ -80,6 +80,7 @@ public class LogController {
             @RequestParam(name = "src_ip", required = false) String src_ip,
             @RequestParam(name = "src_port", required = false) String src_port,
             @RequestParam(name = "dst_ip", required = false) String dst_ip,
+            @RequestParam(name = "dst_port", required = false) String dst_port,
             @RequestParam(name = "detected_name", required = false) String detected_name,
             @RequestParam(name = "level", required = false, defaultValue = "-1") Integer level,
             @RequestParam(name = "action", required = false, defaultValue = "-1") Integer action,
@@ -98,6 +99,7 @@ public class LogController {
         src_ip = logService.validateParam(src_ip);
         src_port = logService.validateParam(src_port);
         dst_ip = logService.validateParam(dst_ip);
+        dst_port = logService.validateParam(dst_port);
         level = logService.validateParam(level, -1);
         action = logService.validateParam(action, -1);
 
@@ -117,7 +119,7 @@ public class LogController {
         while (!tempDate.isAfter(endDate.toLocalDate())) {
             String tableName = "log_" + tempDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
             try {
-                allLogs.addAll(readLogsMapper.findFilteredLogs(tableName, src_ip, src_port, dst_ip, detected_name, level, action, startDate, endDate));
+                allLogs.addAll(readLogsMapper.findFilteredLogs(tableName, src_ip, src_port, dst_ip, dst_port, detected_name, level, action, startDate, endDate));
             } catch (DataAccessException e) {
                 if (e.getRootCause() instanceof SQLSyntaxErrorException) {
                     System.out.println("========== <" + tableName + "> 해당 로그 테이블이 존재하지 않습니다. ==========");
@@ -195,7 +197,7 @@ public class LogController {
         }
         
         Integer target = logDetail.getDetected_no();
-        ViewPolicyEntity policy = viewPolicyMapper.findByDetectedNo(target);
+        ViewPolicyEntity policy = viewPolicyMapper.getPolicyPrintAll(target);
         if (policy == null) {
             model.addAttribute("policyDetectedName", "");
             model.addAttribute("policyDetail", "");

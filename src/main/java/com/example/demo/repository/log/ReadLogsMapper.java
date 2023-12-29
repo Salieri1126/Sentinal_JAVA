@@ -33,6 +33,7 @@ public interface ReadLogsMapper {
             @Param("src_ip") String src_ip,
             @Param("src_port") String src_port,
             @Param("dst_ip") String dst_ip,
+            @Param("dst_port") String dst_port,
             @Param("detected_name") String detected_name,
             @Param("level") Integer level,
             @Param("action") Integer action,
