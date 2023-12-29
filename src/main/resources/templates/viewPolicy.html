@@ -11,6 +11,9 @@
 	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
 	<link rel="manifest" href="/json/manifest.json">
 
+	<!-- jQuery 라이브러리 로드 -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 	<title>Sentinel</title>
 </head>
 
@@ -59,10 +62,12 @@
 				<input type="text" id="src_port" name="src_port"
 					th:value="${viewPolicy.src_port == 'any' ? 'any' : (viewPolicy.to_sp == '0' ? viewPolicy.src_port : viewPolicy.src_port + '-' + viewPolicy.to_sp)}"
 					readonly style="background-color: #f2f2f2;">
-				<span>도착지IP</span>
-				    <input>
-				    <span>도착지Port</span>
-				    <input>
+				<span class="label">도착지 IP:</span>
+				<input type="text" id="dst_ip" name="dst_ip"
+						readonly style="background-color: #f2f2f2;">
+				<span class="label">도착지 Port:</span>
+				<input type="text" id="dst_port" name="dst_port"
+						readonly style="background-color: #f2f2f2;">
 			</div>
 
 			<div class="hline">
@@ -107,19 +112,22 @@
 							<div class="contentT" id='result' style="background-color: #f2f2f2;">
 								<table style="background-color: #f2f2f2;">
 									<tr id="content1" th:if="${viewPolicy.content1 != null}">
-										<td><span name="label_content1">content1 : </span><input type="text"
-												name="content1" th:value="${viewPolicy.content1}"
-												style="background-color: #f2f2f2;" readonly /></td>
+										<td><span name="label_content1">content1 : </span>
+										<textarea class="contentRead"
+												name="content1" th:text="${viewPolicy.content1}"
+												readonly /></td>
 									</tr>
 									<tr id="content2" th:if="${viewPolicy.content2 != null}">
-										<td><span name="label_content2">content2 : </span><input type="text"
-												name="content2" th:value="${viewPolicy.content2}"
-												style="background-color: #f2f2f2;" readonly /></td>
+										<td><span name="label_content2">content2 : </span>
+										<textarea class="contentRead"
+												name="content2" th:text="${viewPolicy.content2}"
+												readonly/></td>
 									</tr>
 									<tr id="content3" th:if="${viewPolicy.content3 != null}">
-										<td><span name="label_content3">content3 : </span><input type="text"
-												name="content3" th:value="${viewPolicy.content3}"
-												style="background-color: #f2f2f2;" readonly /></td>
+										<td><span name="label_content3">content3 : </span>
+										<textarea class="contentRead"
+												name="content3" th:text="${viewPolicy.content3}"
+												readonly/></td>
 									</tr>
 								</table>
 							</div>
@@ -129,10 +137,9 @@
 				<h3>탐지 내용 설명</h3>
 			</div>
 			<div class="r_section">
-				<div class="detailbox"></div>
-				<div>
-					<textarea id="detail" name="detail" th:text="${viewPolicy.detail}"
-						style="background-color: #f2f2f2; resize: none;" disabled></textarea>
+				<div class="detailbox">
+						<textarea id="detail" name="detail" th:text="${viewPolicy.detail}"
+							style="background-color: #f2f2f2; resize: none;" disabled></textarea>
 				</div>
 			</div>
 		</div>
@@ -144,6 +151,14 @@
 	</form>
 
 	<script>
+		//ContentT testarea높이를 글자줄바꿈에 따라서 설정
+		$('.contentT textarea').each(function () {
+		  this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+		}).on('input', function () {
+		  this.style.height = 'auto';
+		  this.style.height = (this.scrollHeight) + 'px';
+		});
+		
 		document.addEventListener("DOMContentLoaded", function () {
 			var input = document.getElementById("end_time");
 			if (input.value == null || input.value == "") {
@@ -165,7 +180,7 @@
 			const detected_no = document.getElementById('detected_no').value;
 			window.location.href = "/admin/menu/readPolicy/updatePolicy?id=" + detected_no;
 		}
-
+		
 		function cancel() {
 			window.location.href = "/admin/menu/readPolicy";
 		}
