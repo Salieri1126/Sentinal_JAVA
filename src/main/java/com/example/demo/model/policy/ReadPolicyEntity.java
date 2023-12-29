@@ -28,5 +28,6 @@ public class ReadPolicyEntity {
     private String to_sip;              // 도착지 IP
     private String to_sp;               // 도착지 포트
     private String dst_ip;              // 목적지 IP
+    private String dst_port;            // 목적지 포트
     private String base_size;           // 기준 크기
 }

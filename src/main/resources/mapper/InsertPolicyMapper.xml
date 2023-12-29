@@ -18,7 +18,8 @@
 		to_sip,
 		to_sp,
 		dst_ip,
-		base_size
+		base_size,
+		dst_port
 		)
 		VALUES(
 		#{detected_name},
@@ -35,8 +36,9 @@
 		#{detail},
 		#{to_sip},
 		#{to_sp},
+		#{dst_ip},
 		0,
-		0
+		#{dst_port}
 		)
 	</insert>
 </mapper>
