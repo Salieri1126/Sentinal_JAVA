@@ -52,6 +52,7 @@
 						<th style="width: 100px;">도착지Port</th>
 						<th style="width: 60px;">기준 초</th>
 						<th style="width: 60px;">쿼리 수</th>
+						<th style="width: 60px;">사이즈</th>
 						<th style="width: 160px;">탐지 문구 1</th>
 						<th style="width: 160px;">탐지 문구 2</th>
 						<th style="width: 160px;">탐지 문구 3</th>
@@ -59,8 +60,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="policy : ${readPolicies}">
-						<th>
+					<tr th:each="policy : ${readPolicies}" >
+						<th >
 							<input type="checkbox" class="selectedPolicy" name="selectedPolicy"
 								th:value="${policy.detected_no}" style="display:inline;">
 						</th>
@@ -97,6 +98,8 @@
 						<th><span th:text="${policy.base_time}"></span></th>
 
 						<th><span th:text="${policy.base_limit}"></span></th>
+						
+						<th><span th:text="${policy.base_size}"></span></th>
 
 						<th style="width: 100px;"><span th:text="${policy.content1}"></span></th>
 						<th><span th:text="${policy.content2}"></span></th>
