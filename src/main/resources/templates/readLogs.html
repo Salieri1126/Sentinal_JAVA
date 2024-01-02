@@ -318,15 +318,10 @@
 		</div>
 	</header>
 	<div class="log-list-filter">
-		<div class="top_header">
-			<div class="hline_filter">
-				<h2>필터</h2>
-			</div>
-			<div class="button-group">
-				<button class="button2 applyB" type="submit">조회</button>
-				<button class="button2 resetB" type="button" onclick="resetFilters()">초기화</button>
-			</div>
+		<div class="hline_filter">
+			<h3>필터</h3>
 		</div>
+		
 		<form th:action="@{/admin/menu/readLogs}" id="logForm" method="get">
 			<div class="lft">
 				<div class="input-group">
@@ -338,16 +333,7 @@
 					<label for="src_port">출발지 Port:</label>
 					<input type="text" id="src_port" name="src_port" th:value="${src_port!=null}?${src_port}:'any'">
 				</div>
-				
-				<div class="input-group">
-					<label for="detected_name">탐지명:</label>
-					<input class="custom-input-group" type="text" id="detected_name" name="detected_name"
-						th:value="${detected_name!=null}?${detected_name}:'any'">
-				</div>
 
-				
-			</div>
-			<div class="cen">
 				<div class="input-group">
 					<label for="dst_ip">도착지 IP:</label>
 					<input type="text" id="dst_ip" name="dst_ip" th:value="${dst_ip!=null}?${dst_ip}:'any'">
@@ -356,6 +342,13 @@
 				<div class="input-group">
 					<label for="dst_port">도착지 Port:</label>
 					<input type="text" id="dst_port" name="dst_port" th:value="${dst_ip!=null}?${dst_ip}:'any'">
+				</div>
+			</div>
+			<div class="cen">
+				<div class="input-group">
+					<label for="detected_name">탐지명:</label>
+					<input class="custom-input-group" type="text" id="detected_name" name="detected_name"
+						th:value="${detected_name!=null}?${detected_name}:'any'">
 				</div>
 
 				<div class="input-group">
@@ -369,24 +362,6 @@
 					</select>
 				</div>
 
-				
-			</div>
-			<div class="rft">
-				<div class="input-group datepicker">
-					<label for="startDate">시작지점:</label>
-					<input type="text" id="startDate" name="startDate" class="datepicker"
-						th:value="${startDate!=null}?${startDate}:${today}" readonly>
-					<input type="text" id="startTime" name="startTime" class="timepicker"
-						th:value="${startTime!=null}?${startTime}:'00:00:00'" readonly>
-				</div>
-
-				<div class="input-group datepicker">
-					<label for="endDate">종료지점:</label>
-					<input type="text" id="endDate" name="endDate" class="datepicker"
-						th:value="${endDate!=null}?${endDate}:${today}" readonly>
-					<input type="text" id="endTime" name="endTime" class="timepicker"
-						th:value="${endTime!=null}?${endTime}:'23:59:59'" readonly>
-				</div>
 				<div class="input-group">
 					<label for="action">동작:</label>
 					<select id="action" name="action" class="custom-input-group">
@@ -395,9 +370,28 @@
 						<option value="1" th:selected="${action == 1}">로그+차단</option>
 					</select>
 				</div>
+			</div>
+			<div class="rft">
+				<div class="input-group datepicker">
+					<label for="startDate">시작 지점 날짜:</label>
+					<input type="text" id="startDate" name="startDate" class="datepicker"
+						th:value="${startDate!=null}?${startDate}:${today}" readonly>
+					<input type="text" id="startTime" name="startTime" class="timepicker"
+						th:value="${startTime!=null}?${startTime}:'00:00:00'" readonly>
+				</div>
 
+				<div class="input-group datepicker">
+					<label for="endDate">종료 지점 날짜:</label>
+					<input type="text" id="endDate" name="endDate" class="datepicker"
+						th:value="${endDate!=null}?${endDate}:${today}" readonly>
+					<input type="text" id="endTime" name="endTime" class="timepicker"
+						th:value="${endTime!=null}?${endTime}:'23:59:59'" readonly>
+				</div>
 
-				
+				<div class="button-group">
+					<button class="button2 applyB" type="submit">조회</button>
+					<button class="button2 resetB" type="button" onclick="resetFilters()">초기화</button>
+				</div>
 			</div>
 		</form>
 	</div>
@@ -406,15 +400,15 @@
 			<thead>
 				<tr>
 					<th style="width: 50px;">No</th>
-					<th style="width: 160px;">시간</th>
+					<th style="width: 150px;">시간</th>
 					<th style="width: 120px;">내용</th>
-					<th style="width: 70px;">위험등급</th>
+					<th style="width: 80px;">위험등급</th>
 					<th style="width: 120px;">출발지 IP</th>
-					<th style="width: 90px;">출발지 Port</th>
+					<th style="width: 120px;">출발지 Port</th>
 					<th style="width: 120px;">도착지 IP</th>
 					<th style="width: 120px;">도착지 Port</th>
 					<th style="width: 100px;">동작</th>
-					<th style="width: 100px;"> </th>
+					<th style="width: 100px;">버튼 </th>
 				</tr>
 			</thead>
 			<tbody id="logTable">

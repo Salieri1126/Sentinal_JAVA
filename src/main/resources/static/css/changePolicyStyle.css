@@ -56,6 +56,8 @@ h3 {
 	height: 80%;
 	padding-left: 10px;
 }
+
+
 /* 각영역 지율조정 */
 
 .section .label{
@@ -163,7 +165,7 @@ h8 {
 
 .contentT {
 	width: 100%;
-	height: 100px;
+	height: 160px;
 	border: 1px solid #5e5e5e;
 	padding: 10px;
 	border-radius: 5px;
