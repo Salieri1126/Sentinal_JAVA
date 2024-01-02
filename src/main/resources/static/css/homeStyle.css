@@ -61,7 +61,6 @@ h2 {
 .logListBox table {
    border-collapse: collapse;
    text-align: center;
-   height: 100%;
 }
 
 thead th {
@@ -79,8 +78,10 @@ thead th {
    padding: 4px;
    text-align: center;
 }
-
-.lTable tr td{
+#lTable tr{
+	height: 35px;
+}
+#lTable tr td{
 	padding: 5px;
 }
 .logListBox tr:nth-child(even) {
