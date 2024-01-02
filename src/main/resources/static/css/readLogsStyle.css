@@ -38,7 +38,7 @@ h1 {
    border: 3px solid #e0e0e0;
    border-radius: 5px;
    padding: 15px;
-   height: 25%;
+   height: 28%;
    width: 100%;
    overflow : hidden;
    flex-direction: row;
@@ -53,17 +53,20 @@ h1 {
 
 .lft {   
     width: 28%;
-    box-sizing: border-box;   
+    box-sizing: border-box;
+    padding-top: 20px;
 }
 
 .cen {    
     width: 28%;   
     box-sizing: border-box;   
+    padding-top: 20px;
 }
 
 .rft {
     width: 40%;  
     box-sizing: border-box;  
+    padding-top: 20px;
 }
 
 .input-group {
